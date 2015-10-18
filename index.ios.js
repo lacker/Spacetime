@@ -7,14 +7,20 @@ let {
   Text,
   View,
 } = React;
+let ReactRedux = require('react-redux/native');
+let { connect } = ReactRedux;
+
 
 // userAgent should be set before importing socket.io
 window.navigator.userAgent = 'react-native';
 let io = require('socket.io-client/socket.io');
 
-let socket = io('http://localhost:7777', {jsonp: false});
+let Store = require('./Store');
 
 let guestName = 'guest' + Math.floor(Math.random() * 1000);
+
+let socket = io('http://localhost:7777', {jsonp: false});
+let store = Store();
 
 socket.on('connect', () => {
   let message = `hello from ${guestName} in iOS land`;
@@ -27,6 +33,7 @@ socket.on('disconnect', () => {
 });
 
 socket.on('message', message => {
+  store.dispatch({type: 'message', message});
   console.log('received:', message);
 });
 
