@@ -7,20 +7,22 @@ let {
   Text,
   View,
 } = React;
-let ReactRedux = require('react-redux/native');
-let { connect } = ReactRedux;
-
+let { connect } = require('react-redux');
+let { Provider } = require('react-redux/native')
 
 // userAgent should be set before importing socket.io
 window.navigator.userAgent = 'react-native';
 let io = require('socket.io-client/socket.io');
 
 let Store = require('./Store');
+let store = Store();
 
 let guestName = 'guest' + Math.floor(Math.random() * 1000);
 
+
+//// Set up websocket
+
 let socket = io('http://localhost:7777', {jsonp: false});
-let store = Store();
 
 socket.on('connect', () => {
   let message = `hello from ${guestName} in iOS land`;
@@ -37,7 +39,15 @@ socket.on('message', message => {
   console.log('received:', message);
 });
 
-let Spacetime = React.createClass({
+
+//// Set up the view
+
+// Just pipe all the redux state through as props
+function select(state) {
+  return state;
+}
+
+let App = connect(select)(React.createClass({
   render: function() {
     return (
       <View style={styles.container}>
@@ -45,7 +55,7 @@ let Spacetime = React.createClass({
           Welcome to Spacetime! You are {guestName}.
         </Text>
         <Text style={styles.instructions}>
-          To get started, edit index.ios.js
+          {this.props.log && this.props.log.join('\n')}
         </Text>
         <Text style={styles.instructions}>
           Press Cmd+R to reload,{'\n'}
@@ -54,7 +64,7 @@ let Spacetime = React.createClass({
       </View>
     );
   }
-});
+}));
 
 let styles = StyleSheet.create({
   container: {
@@ -73,6 +83,18 @@ let styles = StyleSheet.create({
     color: '#333333',
     marginBottom: 5,
   },
+});
+
+
+// This is redux boilerplate
+let Spacetime = React.createClass({
+  render() {
+    return (
+      <Provider store={store}>
+        {() => <App />}
+      </Provider>
+    );
+  }
 });
 
 AppRegistry.registerComponent('Spacetime', () => Spacetime);
