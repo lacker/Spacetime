@@ -8,14 +8,34 @@ let {
   View,
 } = React;
 
-let x = 3;
+// userAgent should be set before importing socket.io
+window.navigator.userAgent = 'react-native';
+let io = require('socket.io-client/socket.io');
+
+let socket = io('http://localhost:7777', {jsonp: false});
+
+let guestName = 'guest' + Math.floor(Math.random() * 1000);
+
+socket.on('connect', () => {
+  let message = `hello from ${guestName} in iOS land`;
+  console.log('connected. sending', message);
+  socket.send(message);
+});
+
+socket.on('disconnect', () => {
+  console.log('disconnected.');
+});
+
+socket.on('message', message => {
+  console.log('received:', message);
+});
 
 let Spacetime = React.createClass({
   render: function() {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Welcome to Spacetime!
+          Welcome to Spacetime! You are {guestName}.
         </Text>
         <Text style={styles.instructions}>
           To get started, edit index.ios.js

@@ -1,19 +1,20 @@
 'use strict';
 
-let WebSocketServer = require('ws').Server;
-let server = new WebSocketServer({ port: 7777 });
+let server = require('socket.io')(7777);
 
 let sockets = new Set();
 
 server.on('connection', socket => {
   sockets.add(socket);
+  console.log(`connected! now we have ${sockets.size} clients`);
 
-  socket.on('message', message => {
-    console.log('received: %s', message);
+  socket.on('disconnect', () => {
+    sockets.delete(socket);
+    console.log(`disconnected! now we have ${sockets.size} clients`);
   });
 
-  socket.on('close', () => {
-    sockets.delete(socket);
+  socket.on('message', message => {
+    console.log('received:', message);
   });
 });
 
@@ -21,7 +22,9 @@ let seconds = 0;
 setInterval(() => {
   seconds++;
   sockets.forEach(socket => {
-    socket.send(`this server has been alive for ${seconds} seconds`);
+    let message = `hello ${seconds}`;
+    console.log('sending:', message);
+    socket.send(message);
   });
 }, 1000);
 
