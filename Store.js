@@ -1,13 +1,18 @@
 // A Redux store for the local state of the mobile app.
 let redux = require('redux');
 
-function reducer(state = [], action) {
+function reducer(state, action) {
   switch (action.type) {
   case 'message':
-    return state.concat([action.message]);
+    let oldlog = state.log || [];
+    let log = oldlog.concat([action.message]);
+    if (log.length > 10) {
+      log = log.slice(1);
+    }
+    return {log};
   default:
     console.log('bad action:', action);
-    return [];
+    return {};
   }
 }
 

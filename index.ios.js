@@ -7,6 +7,7 @@ let {
   Text,
   View,
 } = React;
+let { connect } = require('react-redux');
 let { Provider } = require('react-redux/native')
 
 // userAgent should be set before importing socket.io
@@ -41,7 +42,12 @@ socket.on('message', message => {
 
 //// Set up the view
 
-let App = React.createClass({
+// Just pipe all the redux state through as props
+function select(state) {
+  return state;
+}
+
+let App = connect(select)(React.createClass({
   render: function() {
     return (
       <View style={styles.container}>
@@ -49,7 +55,7 @@ let App = React.createClass({
           Welcome to Spacetime! You are {guestName}.
         </Text>
         <Text style={styles.instructions}>
-          To get started, edit index.ios.js
+          {this.props.log && this.props.log.join('\n')}
         </Text>
         <Text style={styles.instructions}>
           Press Cmd+R to reload,{'\n'}
@@ -58,7 +64,7 @@ let App = React.createClass({
       </View>
     );
   }
-});
+}));
 
 let styles = StyleSheet.create({
   container: {
