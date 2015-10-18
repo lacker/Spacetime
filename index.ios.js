@@ -1,23 +1,21 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- */
 'use strict';
 
-var React = require('react-native');
-var {
+let React = require('react-native');
+let {
   AppRegistry,
   StyleSheet,
   Text,
   View,
 } = React;
 
-var Spacetime = React.createClass({
+let x = 3;
+
+let Spacetime = React.createClass({
   render: function() {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Welcome to React Native!
+          Welcome to Spacetime!
         </Text>
         <Text style={styles.instructions}>
           To get started, edit index.ios.js
@@ -31,7 +29,7 @@ var Spacetime = React.createClass({
   }
 });
 
-var styles = StyleSheet.create({
+let styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
