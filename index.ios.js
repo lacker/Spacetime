@@ -1,11 +1,11 @@
 'use strict';
 
+let Welcome = require('./js/components/welcome');
+
 let React = require('react-native');
 let {
   AppRegistry,
-  StyleSheet,
-  Text,
-  View,
+  View
 } = React;
 let { connect } = require('react-redux');
 let { Provider } = require('react-redux/native')
@@ -14,7 +14,7 @@ let { Provider } = require('react-redux/native')
 window.navigator.userAgent = 'react-native';
 let io = require('socket.io-client/socket.io');
 
-let Store = require('./Store');
+let Store = require('./js/Store');
 let store = Store();
 
 let guestName = 'guest' + Math.floor(Math.random() * 1000);
@@ -50,41 +50,11 @@ function select(state) {
 let App = connect(select)(React.createClass({
   render: function() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to Spacetime! You are {guestName}.
-        </Text>
-        <Text style={styles.instructions}>
-          {this.props.log && this.props.log.join('\n')}
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
-      </View>
+      <Welcome>
+      </Welcome>
     );
   }
 }));
-
-let styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
-
 
 // This is redux boilerplate
 let Spacetime = React.createClass({
