@@ -18,6 +18,10 @@ function reducer(state, action) {
     newState.log = log;
     return newState;
 
+  case 'toggleConsole':
+    newState.showingDevconsole = !newState.showingDevconsole;
+    return newState;
+
   case 'startGame':
     newState.players = action.players;
     return newState;

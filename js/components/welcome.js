@@ -7,9 +7,14 @@ let {
   View,
 } = React;
 
-let { connect } = require('react-redux');
+// this seemed like worth not rewriting
+// should do a PR to add Android I think
+// https://github.com/APSL/react-native-button
+let Button = require('apsl-react-native-button');
 
-let guestName = 'guest' + Math.floor(Math.random() * 1000);
+let DevConsole = require('./devconsole');
+
+let { connect } = require('react-redux');
 
 //// Set up the view
 
@@ -23,15 +28,19 @@ let Welcome = connect(select)(React.createClass({
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Welcome to Spacetime! You are {guestName}.
+          Welcome to Spacetime! You are {this.props.guestName}.
         </Text>
-        <Text style={styles.instructions}>
-          {this.props.log && this.props.log.join('\n')}
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
+        <Button style={{backgroundColor: 'green'}}>
+          Register
+        </Button>
+        <Button>
+          Login
+        </Button>
+        <Button onPress={() => {
+            this.props.store.dispatch({type:'toggleConsole'});
+          }}>
+          Dev Console
+        </Button>
       </View>
     );
   }

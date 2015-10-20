@@ -1,6 +1,7 @@
 'use strict';
 
 let Welcome = require('./js/components/welcome');
+let DevConsole = require('./js/components/devconsole');
 
 let React = require('react-native');
 let {
@@ -52,10 +53,15 @@ function select(state) {
 
 let App = connect(select)(React.createClass({
   render: function() {
-    return (
-      <Welcome>
-      </Welcome>
-    );
+    if (this.props.showingDevconsole) {
+      return (
+        <DevConsole></DevConsole>
+      );
+    } else {
+      return (
+        <Welcome store={store} guestName={guestName}></Welcome>
+      );
+    }
   }
 }));
 
