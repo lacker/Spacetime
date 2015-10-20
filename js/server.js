@@ -57,7 +57,7 @@ server.on('connection', socket => {
         seeking = message.username;
       } else {
         // Start a game
-        players = [seeking, message.username];
+        let players = [seeking, message.username];
         seeking = null;
         for (let player of players) {
           send(player, {type: 'startGame', players: players});
