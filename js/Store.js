@@ -3,19 +3,24 @@ let redux = require('redux');
 
 
 function reducer(state, action) {
+  let newState = {...state};
+
   switch (action.type) {
 
   case '@@redux/INIT':
     return {log: []};
 
-  case 'message':
-    let log = state.log.concat([action.message]);
+  case 'heartbeat':
+    let log = state.log.concat(['heartbeat ' + action.id]);
     if (log.length > 10) {
       log = log.slice(1);
     }
-    let answer = {...state};
-    answer.log = log;
-    return answer;
+    newState.log = log;
+    return newState;
+
+  case 'startGame':
+    newState.players = action.players;
+    return newState;
 
   default:
     console.log('bad action:', action);

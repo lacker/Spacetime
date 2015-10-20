@@ -25,9 +25,12 @@ let guestName = 'guest' + Math.floor(Math.random() * 1000);
 let socket = io('http://localhost:7777', {jsonp: false});
 
 socket.on('connect', () => {
-  let message = `hello from ${guestName} in iOS land`;
-  console.log('connected. sending', message);
-  socket.send(message);
+  console.log('connected.');
+
+  let hello = {type: 'hello', username: guestName};
+  let seeking = {type: 'seeking', username: guestName};
+  socket.send(hello);
+  socket.send(seeking);
 });
 
 socket.on('disconnect', () => {
@@ -35,7 +38,7 @@ socket.on('disconnect', () => {
 });
 
 socket.on('message', message => {
-  store.dispatch({type: 'message', message});
+  store.dispatch(message);
   console.log('received:', message);
 });
 
