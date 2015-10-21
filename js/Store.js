@@ -1,11 +1,12 @@
 // A Redux store for the local state of the mobile app.
 //
-// The state has these properties:
+// The root state object is not immutable because redux discourages
+// that, but each child is immutable. It has these properties:
 //   log: a list of strings. just log messages
 //   players: a list of two usernames, for the players in the game.
 //   turn: the username of whose turn it is
-//   life: a map from username to how much life they have. immutable
-//   hand: a map from username to a list of their cards. immutable
+//   life: a map from username to how much life they have.
+//   hand: a map from username to a list of their cards.
 
 let Immutable = require('immutable');
 let { List, Map } = Immutable;
@@ -43,11 +44,21 @@ function reducer(state, action) {
     return newState;
 
   case 'startGame':
-    newState.players = action.players;
-    newState.turn = newState.players[0];
-    newState.hand = Map(newState.players.map(p => { return [p, List()]; }));
-    newState.life = Map(newState.players.map(p => { return [p, 30]; }));
+    // action contains:
+    //   players: a list of the two players in this game
+    newState.players = List(action.players);
+    newState.turn = action.players[0];
+    newState.hand = Map(newState.players.map(p => [p, List()]));
+    newState.life = Map(newState.players.map(p => [p, 30]));
 
+    return newState;
+
+  case 'draw':
+    // action contains:
+    //   player: the player who's drawing a card
+    //   card: the card they're getting. chosen by the server.
+    newState.hand = state.hand.update(
+      action.player, hand => hand.push(action.card));
     return newState;
 
   default:
