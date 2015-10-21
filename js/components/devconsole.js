@@ -2,18 +2,21 @@
 
 let React = require('react-native');
 let {
-  StyleSheet,
   Text,
   View,
 } = React;
 
-let globalStyles = require('../styles');
-let Button = require('../styles').Button;
+let gStyles = require('../styles');
+let globalStyles = gStyles.styles;
+let Button = gStyles.Button;
 
 let DevConsole = React.createClass({
   render: function() {
     return (
       <View style={globalStyles.container}>
+        <Text style={globalStyles.header}>
+          Dev Console
+        </Text>
         <Text style={globalStyles.instructions}>
           Press Cmd+R to reload,{'\n'}
           Cmd+D or shake for dev menu

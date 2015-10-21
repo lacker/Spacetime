@@ -7,16 +7,15 @@ let {
   View,
 } = React;
 
-let globalStyles = require('../styles').styles;
-let Button = require('../styles').Button;
-
-let DevConsole = require('./devconsole');
+let gStyles = require('../styles');
+let globalStyles = gStyles.styles;
+let Button = gStyles.Button;
 
 let Welcome = React.createClass({
   render: function() {
     return (
       <View style={globalStyles.container}>
-        <Text style={welcomeStyles.welcome}>
+        <Text style={globalStyles.header}>
           Welcome to Spacetime
         </Text>
         <View style={welcomeStyles.buttonContainer}>
@@ -42,11 +41,6 @@ let Welcome = React.createClass({
 });
 
 let welcomeStyles = StyleSheet.create({
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
   buttonContainer: {
     flexDirection: 'row',
   }
