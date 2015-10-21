@@ -18,22 +18,17 @@ function select(state) {
   return state;
 }
 
-let DevConsole = connect(select)(React.createClass({
+let Login = connect(select)(React.createClass({
   render: function() {
+    let title = this.props.mode[0].toUpperCase() + this.props.mode.substr(1);
     return (
       <View style={styles.container}>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
+        <Text>{{title}}</Text>
         <Button onPress={() => {
           this.props.store.dispatch({type:'setView', view:'welcome'});
         }}>
           Exit
         </Button>
-        <Text style={styles.instructions}>
-          {this.props.log && this.props.log.join('\n')}
-        </Text>
       </View>
     );
   }
@@ -43,12 +38,7 @@ let styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+  }
 });
 
-module.exports = DevConsole;
+module.exports = Login;

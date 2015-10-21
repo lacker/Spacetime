@@ -2,6 +2,7 @@
 
 let Welcome = require('./js/components/welcome');
 let DevConsole = require('./js/components/devconsole');
+let Login = require('./js/components/login');
 
 let React = require('react-native');
 let {
@@ -53,15 +54,24 @@ function select(state) {
 
 let App = connect(select)(React.createClass({
   render: function() {
-    if (this.props.showingDevconsole) {
-      return (
-        <DevConsole></DevConsole>
-      );
-    } else {
-      return (
-        <Welcome store={store} guestName={guestName}></Welcome>
-      );
-    }
+    switch (this.props.currentView) {
+      case "register":
+        return (
+          <Login store={store} mode='register'></Login>
+        );
+      case "login":
+        return (
+          <Login store={store} mode='login'></Login>
+        );
+      case "console":
+        return (
+          <DevConsole store={store}></DevConsole>
+        );
+      default:
+        return (
+          <Welcome store={store}></Welcome>
+        );
+    } 
   }
 }));
 

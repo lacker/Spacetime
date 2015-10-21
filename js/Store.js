@@ -18,8 +18,8 @@ function reducer(state, action) {
     newState.log = log;
     return newState;
 
-  case 'toggleConsole':
-    newState.showingDevconsole = !newState.showingDevconsole;
+  case 'setView':
+    newState.currentView = action.view;
     return newState;
 
   case 'startGame':

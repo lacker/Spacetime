@@ -28,19 +28,25 @@ let Welcome = connect(select)(React.createClass({
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Welcome to Spacetime! You are {this.props.guestName}.
+          Welcome to Spacetime
         </Text>
-        <Button style={{backgroundColor: 'green'}}>
-          Register
-        </Button>
-        <Button>
-          Login
-        </Button>
-        <Button onPress={() => {
-            this.props.store.dispatch({type:'toggleConsole'});
-          }}>
-          Dev Console
-        </Button>
+        <View style={styles.buttonContainer}>
+          <Button onPress={() => {
+              this.props.store.dispatch({type:'setView', view:'register'});
+            }} style={{backgroundColor: 'green', marginRight:10}}>
+            Register
+          </Button>
+          <Button onPress={() => {
+              this.props.store.dispatch({type:'setView', view:'login'});
+            }} style={{marginRight:10}}>
+            Login
+          </Button>
+          <Button onPress={() => {
+              this.props.store.dispatch({type:'setView', view:'console'});
+            }}>
+            Console
+          </Button>
+        </View>
       </View>
     );
   }
@@ -63,6 +69,9 @@ let styles = StyleSheet.create({
     color: '#333333',
     marginBottom: 5,
   },
+  buttonContainer: {
+    flexDirection: 'row',
+  }
 });
 
 module.exports = Welcome;
