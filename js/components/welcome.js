@@ -16,16 +16,7 @@ let Button = require('apsl-react-native-button');
 
 let DevConsole = require('./devconsole');
 
-let { connect } = require('react-redux');
-
-//// Set up the view
-
-// Just pipe all the redux state through as props
-function select(state) {
-  return state;
-}
-
-let Welcome = connect(select)(React.createClass({
+let Welcome = React.createClass({
   render: function() {
     return (
       <View style={globalStyles.container}>
@@ -52,7 +43,7 @@ let Welcome = connect(select)(React.createClass({
       </View>
     );
   }
-}));
+});
 
 let welcomeStyles = StyleSheet.create({
   welcome: {
