@@ -33,14 +33,13 @@ function reducer(state, action) {
   switch (action.type) {
 
   case '@@redux/INIT':
-    return {log: []};
+    return {log: List()};
 
   case 'heartbeat':
-    let log = state.log.concat(['heartbeat ' + action.id]);
-    if (log.length > 10) {
-      log = log.slice(1);
+    newState.log = state.log.push('heartbeat ' + action.id);
+    if (newState.log.size > 10) {
+      newState.log = newState.log.shift();
     }
-    newState.log = log;
     return newState;
 
   case 'startGame':
