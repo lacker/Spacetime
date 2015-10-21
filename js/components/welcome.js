@@ -7,12 +7,8 @@ let {
   View,
 } = React;
 
-let globalStyles = require('../styles');
-
-// this seemed like worth not rewriting
-// should do a PR to add Android I think
-// https://github.com/APSL/react-native-button
-let Button = require('apsl-react-native-button');
+let globalStyles = require('../styles').styles;
+let Button = require('../styles').Button;
 
 let DevConsole = require('./devconsole');
 

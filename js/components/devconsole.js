@@ -8,8 +8,7 @@ let {
 } = React;
 
 let globalStyles = require('../styles');
-
-let Button = require('apsl-react-native-button');
+let Button = require('../styles').Button;
 
 let DevConsole = React.createClass({
   render: function() {

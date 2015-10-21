@@ -7,19 +7,9 @@ let {
 } = React;
 
 let globalStyles = require('../styles');
+let Button = require('../styles').Button;
 
-let Button = require('apsl-react-native-button');
-
-let { connect } = require('react-redux');
-
-//// Set up the view
-
-// Just pipe all the redux state through as props
-function select(state) {
-  return state;
-}
-
-let Login = connect(select)(React.createClass({
+let Login = React.createClass({
   render: function() {
     let title = this.props.mode[0].toUpperCase() + this.props.mode.substr(1);
     return (
@@ -33,6 +23,6 @@ let Login = connect(select)(React.createClass({
       </View>
     );
   }
-}));
+});
 
 module.exports = Login;
