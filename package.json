@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "server": "node ./js/server.js",
+    "server": "node --harmony_destructuring ./js/server.js",
     "start": "node_modules/react-native/packager/packager.sh"
   },
   "dependencies": {

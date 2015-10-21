@@ -1,3 +1,5 @@
+'use strict';
+
 // A Redux store for the local state of the mobile app.
 //
 // The root state object is not immutable because redux discourages
@@ -9,23 +11,10 @@
 //   hand: a map from username to a list of their cards.
 
 let Immutable = require('immutable');
-let { List, Map } = Immutable;
+let { fromJS, List, Map } = Immutable;
 let redux = require('redux');
 
-const CARDS = [
-  {
-    name: 'Monobot',
-    attack: 1,
-    defense: 1,
-  }, {
-    name: 'Bibot',
-    attack: 2,
-    defense: 2,
-  }, {
-    name: 'Tribot',
-    attack: 3,
-    defense: 3,
-  }];
+let Card = require('./Card');
 
 function reducer(state, action) {
   let newState = {...state};
@@ -52,7 +41,7 @@ function reducer(state, action) {
 
     return newState;
 
-  case 'draw':
+  case 'drawCard':
     // action contains:
     //   player: the player who's drawing a card
     //   card: the card they're getting. chosen by the server.

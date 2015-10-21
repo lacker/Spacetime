@@ -1,12 +1,19 @@
 'use strict';
 
-let server = require('socket.io')(7777);
+let SocketIO = require('socket.io');
+
+let Card = require('./Card');
+
+let server = SocketIO(7777);
 
 // Just a set of all open sockets
 let sockets = new Set();
 
 // A map from username to their socket.
 let socketForUser = new Map();
+
+// A map from username to a list of users in their game.
+let games = new Map();
 
 // Either null, or the username of someone who is looking for a game.
 // This is the simplest "queue" logic - we just match up the first
@@ -17,6 +24,13 @@ function send(username, message) {
   let socket = socketForUser.get(username);
   if (socket) {
     socket.send(message);
+  }
+}
+
+// Sends this message to everyone in this user's game.
+function sendToGame(username, message) {
+  for (let u of games.get(username)) {
+    send(u, message);
   }
 }
 
@@ -60,7 +74,19 @@ server.on('connection', socket => {
         let players = [seeking, message.username];
         seeking = null;
         for (let player of players) {
+          games.set(player, players);
           send(player, {type: 'startGame', players: players});
+        }
+
+        // Start the game off by having the players draw cards
+        for (let player of players) {
+          for (let i = 0; i < 3; i++) {
+            sendToGame(player, {
+              type: 'drawCard',
+              player,
+              card: Card.random(),
+            });
+          }
         }
       }
       break;
