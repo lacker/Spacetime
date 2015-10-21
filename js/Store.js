@@ -4,10 +4,27 @@
 //   log: a list of strings. just log messages
 //   players: a list of two usernames, for the players in the game.
 //   turn: the username of whose turn it is
+//   life: a map from username to how much life they have. immutable
 //   hand: a map from username to a list of their cards. immutable
 
 let Immutable = require('immutable');
+let { List, Map } = Immutable;
 let redux = require('redux');
+
+const CARDS = [
+  {
+    name: 'Monobot',
+    attack: 1,
+    defense: 1,
+  }, {
+    name: 'Bibot',
+    attack: 2,
+    defense: 2,
+  }, {
+    name: 'Tribot',
+    attack: 3,
+    defense: 3,
+  }];
 
 function reducer(state, action) {
   let newState = {...state};
@@ -28,11 +45,9 @@ function reducer(state, action) {
   case 'startGame':
     newState.players = action.players;
     newState.turn = newState.players[0];
-    var hand = {};
-    for (var player of newState.players) {
-      hand[player] = Immutable.List();
-    }
-    newState.hand = Immutable.Map(hand);
+    newState.hand = Map(newState.players.map(p => { return [p, List()]; }));
+    newState.life = Map(newState.players.map(p => { return [p, 30]; }));
+
     return newState;
 
   default:
