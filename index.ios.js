@@ -7,7 +7,6 @@ let Login = require('./js/components/login');
 let React = require('react-native');
 let {
   AppRegistry,
-  View
 } = React;
 let { connect } = require('react-redux');
 let { Provider } = require('react-redux/native')

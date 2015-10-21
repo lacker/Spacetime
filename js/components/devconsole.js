@@ -7,6 +7,8 @@ let {
   View,
 } = React;
 
+let globalStyles = require('../styles');
+
 let Button = require('apsl-react-native-button');
 
 let { connect } = require('react-redux');
@@ -21,8 +23,8 @@ function select(state) {
 let DevConsole = connect(select)(React.createClass({
   render: function() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.instructions}>
+      <View style={globalStyles.container}>
+        <Text style={globalStyles.instructions}>
           Press Cmd+R to reload,{'\n'}
           Cmd+D or shake for dev menu
         </Text>
@@ -31,24 +33,12 @@ let DevConsole = connect(select)(React.createClass({
         }}>
           Exit
         </Button>
-        <Text style={styles.instructions}>
+        <Text style={globalStyles.instructions}>
           {this.props.log && this.props.log.join('\n')}
         </Text>
       </View>
     );
   }
 }));
-
-let styles = StyleSheet.create({
-  container: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
 
 module.exports = DevConsole;

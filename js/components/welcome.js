@@ -7,6 +7,8 @@ let {
   View,
 } = React;
 
+let globalStyles = require('../styles');
+
 // this seemed like worth not rewriting
 // should do a PR to add Android I think
 // https://github.com/APSL/react-native-button
@@ -26,11 +28,11 @@ function select(state) {
 let Welcome = connect(select)(React.createClass({
   render: function() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
+      <View style={globalStyles.container}>
+        <Text style={welcomeStyles.welcome}>
           Welcome to Spacetime
         </Text>
-        <View style={styles.buttonContainer}>
+        <View style={welcomeStyles.buttonContainer}>
           <Button onPress={() => {
               this.props.store.dispatch({type:'setView', view:'register'});
             }} style={{backgroundColor: 'green', marginRight:10}}>
@@ -52,22 +54,11 @@ let Welcome = connect(select)(React.createClass({
   }
 }));
 
-let styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
+let welcomeStyles = StyleSheet.create({
   welcome: {
     fontSize: 20,
     textAlign: 'center',
     margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
   },
   buttonContainer: {
     flexDirection: 'row',
