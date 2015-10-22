@@ -20,6 +20,16 @@ let games = new Map();
 // people we get.
 let seeking = null;
 
+function opponent(username) {
+  for (let u of games.get(username)) {
+    if (u !== username) {
+      return u;
+    }
+  }
+
+  throw 'Control should never get here';
+}
+
 function send(username, message) {
   let socket = socketForUser.get(username);
   if (socket) {
@@ -89,6 +99,15 @@ server.on('connection', socket => {
           }
         }
       }
+      break;
+
+    case 'endTurn':
+      // After each turn, we give the other player a card.
+      let response = {
+        player: opponent(message.player),
+        card: Card.random(),
+      };
+      sendToGame(message.player, response);
       break;
 
     default:
