@@ -3,6 +3,7 @@
 let Welcome = require('./js/components/welcome');
 let DevConsole = require('./js/components/devconsole');
 let Login = require('./js/components/login');
+let GameRoom = require('./js/components/gameroom');
 
 let React = require('react-native');
 let {
@@ -61,6 +62,10 @@ let App = connect(select)(React.createClass({
       case "login":
         return (
           <Login store={store} mode='login'></Login>
+        );
+      case "play":
+        return (
+          <GameRoom store={store}></GameRoom>
         );
       case "console":
         return (

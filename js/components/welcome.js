@@ -13,22 +13,29 @@ let Button = gStyles.Button;
 
 let Welcome = React.createClass({
   render: function() {
+    let welcomeString = 'Welcome to Spacetime';
+    let actionButton =           
+          <Button onPress={() => {
+              this.props.store.dispatch({type:'setView', view:'register'});
+            }} style={{backgroundColor: 'green'}}>
+            Login
+          </Button>;
+    if (this.props.store.getState().username) {
+      welcomeString += ', ' +  this.props.store.getState().username;
+      actionButton = 
+          <Button onPress={() => {
+              this.props.store.dispatch({type:'setView', view:'play'});
+            }} style={{backgroundColor: 'green'}}>
+            Play
+          </Button>;      
+    } 
     return (
       <View style={globalStyles.container}>
         <Text style={globalStyles.header}>
-          Welcome to Spacetime
+          {welcomeString}
         </Text>
-        <View style={welcomeStyles.buttonContainer}>
-          <Button onPress={() => {
-              this.props.store.dispatch({type:'setView', view:'register'});
-            }} style={{backgroundColor: 'green', marginRight:10}}>
-            Register
-          </Button>
-          <Button onPress={() => {
-              this.props.store.dispatch({type:'setView', view:'login'});
-            }} style={{marginRight:10}}>
-            Login
-          </Button>
+        <View style={globalStyles.buttonContainer}>
+          {actionButton}
           <Button onPress={() => {
               this.props.store.dispatch({type:'setView', view:'console'});
             }}>
@@ -37,12 +44,6 @@ let Welcome = React.createClass({
         </View>
       </View>
     );
-  }
-});
-
-let welcomeStyles = StyleSheet.create({
-  buttonContainer: {
-    flexDirection: 'row',
   }
 });
 

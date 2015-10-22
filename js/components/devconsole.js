@@ -27,7 +27,7 @@ let DevConsole = React.createClass({
           Exit
         </Button>
         <Text style={globalStyles.instructions}>
-          {this.props.log && this.props.log.join('\n')}
+          {this.props.store.getState().log && this.props.store.getState().log.join('\n')}
         </Text>
       </View>
     );

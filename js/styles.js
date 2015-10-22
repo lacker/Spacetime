@@ -20,6 +20,9 @@ let styles = StyleSheet.create({
     textAlign: 'center',
     margin: 20,
   },
+  buttonContainer: {
+    flexDirection: 'row',
+  },
 
 });
 

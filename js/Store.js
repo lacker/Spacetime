@@ -22,6 +22,10 @@ function reducer(state, action) {
     newState.currentView = action.view;
     return newState;
 
+  case 'register':
+    newState.username = action.username;
+    return newState;
+
   case 'startGame':
     newState.players = action.players;
     return newState;
