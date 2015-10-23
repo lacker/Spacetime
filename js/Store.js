@@ -37,6 +37,7 @@ function reducer(state, action) {
     newState.players = List(action.players);
     newState.turn = action.players[0];
     newState.hand = Map(newState.players.map(p => [p, List()]));
+    newState.board = Map(newState.players.map(p => [p, List()]));
     newState.life = Map(newState.players.map(p => [p, 30]));
 
     return newState;
@@ -47,6 +48,19 @@ function reducer(state, action) {
     //   card: the card they're getting. chosen by the server.
     newState.hand = state.hand.update(
       action.player, hand => hand.push(action.card));
+    return newState;
+
+  case 'play':
+    // action contains:
+    //   player: the player who's playing a card
+    //   cardId: the id of the card they're playing
+    let hand = state.hand.get(action.player);
+    let [index, card] = state.hand.get(action.player).find(
+      c => c.id == action.cardId);
+    newState.hand = state.hand.update(
+      action.player, hand => hand.delete(index));
+    newState.board = state.board.update(
+      action.player, board => board.push(card));
     return newState;
 
   default:
