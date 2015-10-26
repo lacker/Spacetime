@@ -27,6 +27,9 @@ let socket = io('http://localhost:7777', {jsonp: false});
 
 socket.on('connect', () => {
   console.log('connected.');
+  store.dispatch({type:'register', username:guestName, anonymous:true});
+  let hello = {type: 'hello', username: guestName};
+  socket.send(hello);
 });
 
 socket.on('disconnect', () => {

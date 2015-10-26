@@ -29,6 +29,7 @@ function reducer(state, action) {
 
   case 'register':
     newState.username = action.username;
+    newState.anonymous = action.anonymous;
     return newState;
 
   case 'startGame':

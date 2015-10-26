@@ -20,7 +20,8 @@ let Welcome = React.createClass({
             }} style={{backgroundColor: 'green'}}>
             Login
           </Button>;
-    if (this.props.store.getState().username) {
+    let guestPlay = null;
+    if (!this.props.store.getState().anonymous) {
       welcomeString += ', ' +  this.props.store.getState().username;
       actionButton = 
           <Button onPress={() => {
@@ -31,6 +32,15 @@ let Welcome = React.createClass({
             style={{backgroundColor: 'green'}}>
             Play
           </Button>;      
+    } else {
+      guestPlay = <Button onPress={() => {
+              let seekAction = {type:'seeking', username:this.props.store.getState().username};
+              this.props.store.dispatch(seekAction);
+              this.props.socket.send(seekAction);
+            }} 
+            >
+            Play as Guest
+          </Button>;      
     } 
     return (
       <View style={globalStyles.container}>
@@ -39,6 +49,7 @@ let Welcome = React.createClass({
         </Text>
         <View style={globalStyles.buttonContainer}>
           {actionButton}
+          {guestPlay}
           <Button onPress={() => {
               this.props.store.dispatch({type:'setView', view:'console'});
             }}>

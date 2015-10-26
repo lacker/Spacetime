@@ -26,7 +26,7 @@ let Login = React.createClass({
         <TextInput
            style={loginStyles.textInput}
            autoFocus={true}
-           onChangeText={(text) => this.props.store.dispatch({type:'register', username:text})}
+           onChangeText={(text) => this.props.store.dispatch({type:'register', username:text, anonymous:false})}
            value={this.props.username}>
         </TextInput>
         <View style={globalStyles.buttonContainer}>
@@ -38,7 +38,6 @@ let Login = React.createClass({
               this.props.store.dispatch({type:'setView', view:'welcome'});
                 let hello = {type: 'hello', username: username};
                 this.props.socket.send(hello);
-
             }
           }}  style={{backgroundColor: 'green'}}>
             Login
