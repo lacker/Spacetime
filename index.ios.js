@@ -40,20 +40,7 @@ socket.on('message', message => {
   console.log('received:', message);
 });
 
-
-store.subscribe(() => {
-    let state = store.getState()
-    console.log("HAI")
-    console.log(state)
-    console.log("HAI2")
-    if (state.seeking) {
-    console.log("SENDING")
-      let seeking = {type: 'seeking', username: state.username};
-      socket.send(seeking);
-    }
-  }
-);
-
+store.socket = socket;
 
 //// Set up the view
 
@@ -83,7 +70,7 @@ let App = connect(select)(React.createClass({
         );
       default:
         return (
-          <Welcome store={store}></Welcome>
+          <Welcome store={store} socket={socket}></Welcome>
         );
     } 
   }

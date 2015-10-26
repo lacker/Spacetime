@@ -33,7 +33,6 @@ function reducer(state, action) {
 
   case 'startGame':
     newState.players = action.players;
-    console.log("GAME START")
     return newState;
 
   default:
