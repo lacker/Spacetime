@@ -11,7 +11,7 @@ npm run-script server
 
 ##Run the Client in XCode
 
-open ios/Spacetime.xcodeproj9
+open ios/Spacetime.xcodeproj
 
 In Xcode, press the run button (or cmd-R). 
 
