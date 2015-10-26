@@ -1,6 +1,20 @@
+'use strict';
+
 // A Redux store for the local state of the mobile app.
+//
+// The root state object is not immutable because redux discourages
+// that, but each child is immutable. It has these properties:
+//   log: a list of strings. just log messages
+//   players: a list of two usernames, for the players in the game.
+//   turn: the username of whose turn it is
+//   life: a map from username to how much life they have.
+//   hand: a map from username to a list of their cards.
+
+let Immutable = require('immutable');
+let { fromJS, List, Map } = Immutable;
 let redux = require('redux');
 
+let Card = require('./Card');
 
 function reducer(state, action) {
   let newState = {...state};
@@ -8,14 +22,13 @@ function reducer(state, action) {
   switch (action.type) {
 
   case '@@redux/INIT':
-    return {log: []};
+    return {log: List()};
 
   case 'heartbeat':
-    let log = state.log.concat(['heartbeat ' + action.id]);
-    if (log.length > 10) {
-      log = log.slice(1);
+    newState.log = state.log.push('heartbeat ' + action.id);
+    if (newState.log.size > 10) {
+      newState.log = newState.log.shift();
     }
-    newState.log = log;
     return newState;
 
   case 'setView':
@@ -33,7 +46,35 @@ function reducer(state, action) {
     return newState;
 
   case 'startGame':
-    newState.players = action.players;
+    // action contains:
+    //   players: a list of the two players in this game
+    newState.players = List(action.players);
+    newState.turn = action.players[0];
+    newState.hand = Map(newState.players.map(p => [p, List()]));
+    newState.board = Map(newState.players.map(p => [p, List()]));
+    newState.life = Map(newState.players.map(p => [p, 30]));
+
+    return newState;
+
+  case 'drawCard':
+    // action contains:
+    //   player: the player who's drawing a card
+    //   card: the card they're getting. chosen by the server.
+    newState.hand = state.hand.update(
+      action.player, hand => hand.push(action.card));
+    return newState;
+
+  case 'play':
+    // action contains:
+    //   player: the player who's playing a card
+    //   cardId: the id of the card they're playing
+    let hand = state.hand.get(action.player);
+    let [index, card] = state.hand.get(action.player).find(
+      c => c.id == action.cardId);
+    newState.hand = state.hand.update(
+      action.player, hand => hand.delete(index));
+    newState.board = state.board.update(
+      action.player, board => board.push(card));
     return newState;
 
   default:
