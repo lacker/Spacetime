@@ -31,10 +31,14 @@ let Login = React.createClass({
         </TextInput>
         <View style={globalStyles.buttonContainer}>
           <Button onPress={() => {
-            if (!this.props.store.getState().username) {
+            let username = this.props.store.getState().username;
+            if (!username) {
               alert("You need to choose a username in order to register.");
             } else {
               this.props.store.dispatch({type:'setView', view:'welcome'});
+                let hello = {type: 'hello', username: username};
+                this.props.socket.send(hello);
+
             }
           }}  style={{backgroundColor: 'green'}}>
             Login

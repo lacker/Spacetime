@@ -27,8 +27,6 @@ let socket = io('http://localhost:7777', {jsonp: false});
 
 socket.on('connect', () => {
   console.log('connected.');
-  let hello = {type: 'hello', username: guestName};
-  socket.send(hello);
 });
 
 socket.on('disconnect', () => {
@@ -39,8 +37,6 @@ socket.on('message', message => {
   store.dispatch(message);
   console.log('received:', message);
 });
-
-store.socket = socket;
 
 //// Set up the view
 
@@ -54,7 +50,7 @@ let App = connect(select)(React.createClass({
     switch (this.props.currentView) {
       case "register":
         return (
-          <Login store={store} mode='register'></Login>
+          <Login store={store} socket={socket} mode='register'></Login>
         );
       case "login":
         return (
