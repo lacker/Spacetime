@@ -21,18 +21,14 @@ let store = Store();
 
 let guestName = 'guest' + Math.floor(Math.random() * 1000);
 
-
 //// Set up websocket
 
 let socket = io('http://localhost:7777', {jsonp: false});
 
 socket.on('connect', () => {
   console.log('connected.');
-
   let hello = {type: 'hello', username: guestName};
-  let seeking = {type: 'seeking', username: guestName};
   socket.send(hello);
-  socket.send(seeking);
 });
 
 socket.on('disconnect', () => {
@@ -43,6 +39,20 @@ socket.on('message', message => {
   store.dispatch(message);
   console.log('received:', message);
 });
+
+
+store.subscribe(() => {
+    let state = store.getState()
+    console.log("HAI")
+    console.log(state)
+    console.log("HAI2")
+    if (state.seeking) {
+    console.log("SENDING")
+      let seeking = {type: 'seeking', username: state.username};
+      socket.send(seeking);
+    }
+  }
+);
 
 
 //// Set up the view

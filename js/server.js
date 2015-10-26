@@ -38,8 +38,9 @@ server.on('connection', socket => {
   });
 
   socket.on('message', message => {
-    console.log('received:', message);
-
+    if (message.type != 'heartbeat') {
+      console.log('received:', message);
+    }
     switch(message.type) {
 
     case 'hello':
@@ -52,10 +53,12 @@ server.on('connection', socket => {
 
     case 'seeking':
       if (seeking === null) {
+        console.log('first seeker')
         // Nobody else is seeking a game, so you have to go into the
         // queue.
         seeking = message.username;
       } else {
+        console.log('start 2nd seeker')
         // Start a game
         let players = [seeking, message.username];
         seeking = null;
@@ -76,7 +79,7 @@ setInterval(() => {
   seconds++;
   sockets.forEach(socket => {
     let message = {type: 'heartbeat', id: seconds};
-    console.log('sending:', message);
+    // console.log('sending:', message);
     socket.send(message);
   });
 }, 1000);

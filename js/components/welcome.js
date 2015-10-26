@@ -24,7 +24,7 @@ let Welcome = React.createClass({
       welcomeString += ', ' +  this.props.store.getState().username;
       actionButton = 
           <Button onPress={() => {
-              this.props.store.dispatch({type:'setView', view:'play'});
+              this.props.store.dispatch({type:'seeking', username:this.props.store.getState().username});
             }} style={{backgroundColor: 'green'}}>
             Play
           </Button>;      

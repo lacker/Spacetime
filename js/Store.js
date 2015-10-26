@@ -22,12 +22,18 @@ function reducer(state, action) {
     newState.currentView = action.view;
     return newState;
 
+  case 'seeking':
+    newState.seeking = true;
+    newState.currentView = 'play';
+    return newState;
+
   case 'register':
     newState.username = action.username;
     return newState;
 
   case 'startGame':
     newState.players = action.players;
+    console.log("GAME START")
     return newState;
 
   default:
