@@ -29,17 +29,17 @@ let Login = connect()(React.createClass({
         <TextInput
            style={loginStyles.textInput}
            autoFocus={true}
-           onChangeText={(text) => this.props.dispatch({type:'register', username:text, anonymous:false})}
-           value={this.props.anonymous ? '' : this.props.username}>
+           onChangeText={(text) => this.tempUsername = text}
+           value={this.tempUsername}>
         </TextInput>
         <View style={globalStyles.buttonContainer}>
           <Button onPress={() => {
-            let username = this.props.username;
-            if (!username) {
+            if (!this.tempUsername) {
               alert("You need to choose a username in order to register.");
             } else {
+              this.props.dispatch({type:'register', username:this.tempUsername, anonymous:false});
               this.props.dispatch({type:'setView', view:'welcome'});
-              let hello = {type: 'hello', username: username};
+              let hello = {type: 'hello', username: this.tempUsername};
               this.props.socket.send(hello);
             }
           }}  style={{backgroundColor: 'green'}}>
