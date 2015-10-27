@@ -65,7 +65,7 @@ let App = connect(select)(React.createClass({
         );
       case "console":
         return (
-          <DevConsole></DevConsole>
+          <DevConsole log={this.props.log}></DevConsole>
         );
       default:
         return (
