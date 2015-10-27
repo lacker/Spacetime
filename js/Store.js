@@ -55,7 +55,7 @@ function reducer(state, action) {
     //   player: the player who's playing a card
     //   cardId: the id of the card they're playing
     let hand = state.hand.get(action.player);
-    let [index, card] = state.hand.get(action.player).find(
+    let [index, card] = state.hand.get(action.player).findEntry(
       c => c.id == action.cardId);
     newState.hand = state.hand.update(
       action.player, hand => hand.delete(index));

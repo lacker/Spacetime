@@ -10,21 +10,25 @@ function run(actions) {
   for (let action of actions) {
     s.dispatch(action);
   }
-  return s.getState();
+  return s;
 }
 
-let bot = {
-  name: 'Bot',
-  attack: 1,
-  defense: 1,
-};
+function bot(id) {
+  return {
+    name: 'Bot',
+    attack: 1,
+    defense: 1,
+    id
+  };
+}
 
 describe('Store', () => {
   it('can start a game', () => {
-    let s = run([{
+    let state = run([{
       type: 'startGame',
       players: ['alice', 'bob'],
     }]);
+    let s = state.getState();
     expect(s.turn).toEqual('alice');
     expect(s.hand.size).toEqual(2);
     expect(s.board.size).toEqual(2);
@@ -39,21 +43,29 @@ describe('Store', () => {
     }, {
       type: 'drawCard',
       player: 'alice',
-      card: bot,
+      card: bot(1),
     }, {
       type: 'drawCard',
       player: 'alice',
-      card: bot,
+      card: bot(2),
     }, {
       type: 'drawCard',
       player: 'bob',
-      card: bot,
+      card: bot(3),
     }, {
       type: 'drawCard',
       player: 'bob',
-      card: bot,
+      card: bot(4),
     }]);
-    expect(s.hand.get('alice').size).toEqual(2);
-    expect(s.hand.get('bob').size).toEqual(2);
+    expect(s.getState().hand.get('alice').size).toEqual(2);
+    expect(s.getState().hand.get('bob').size).toEqual(2);
+    
+    s.dispatch({
+      type: 'play',
+      player: 'alice',
+      cardId: 1
+    });
+    expect(s.getState().hand.get('alice').size).toEqual(1);
+    expect(s.getState().hand.get('bob').size).toEqual(2);
   });
 });
