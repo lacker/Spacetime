@@ -53,7 +53,7 @@ server.on('connection', socket => {
       // When you disconnect you are assumed to be no longer looking
       // for a game.
       if (seeking === socket.username) {
-        seeking = null;
+        seeking = false;
       }
       socketForUser.delete(socket.username);
     }
@@ -76,14 +76,14 @@ server.on('connection', socket => {
       break;
 
     case 'seeking':
-      if (seeking === null) {
+      if (!seeking) {
         // Nobody else is seeking a game, so you have to go into the
         // queue.
         seeking = message.username;
       } else {
         // Start a game
         let players = [seeking, message.username];
-        seeking = null;
+        seeking = false;
         for (let player of players) {
           games.set(player, players);
           send(player, {type: 'startGame', players: players});
