@@ -1,9 +1,9 @@
 'use strict';
 
-let Welcome = require('./js/components/welcome');
-let DevConsole = require('./js/components/devconsole');
-let Login = require('./js/components/login');
-let GameRoom = require('./js/components/gameroom');
+let Welcome = require('./js/components/Welcome');
+let DevConsole = require('./js/components/DevConsole');
+let Login = require('./js/components/Login');
+let GameRoom = require('./js/components/GameRoom');
 
 let React = require('react-native');
 let {
