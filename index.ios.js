@@ -53,7 +53,7 @@ let App = connect(select)(React.createClass({
     switch (this.props.currentView) {
       case "register":
         return (
-          <Login anonymous={this.props.anonymous} username={this.props.username} store={store} socket={socket} mode='register'></Login>
+          <Login anonymous={this.props.anonymous} username={this.props.username} socket={socket} mode='register'></Login>
         );
       case "login":
         return (
