@@ -16,13 +16,12 @@ let redux = require('redux');
 
 let Card = require('./Card');
 
-function reducer(state, action) {
+let initialState = {log: List()};
+
+function reducer(state = initialState, action) {
   let newState = {...state};
 
   switch (action.type) {
-
-  case '@@redux/INIT':
-    return {log: List()};
 
   case 'heartbeat':
     newState.log = state.log.push('heartbeat ' + action.id);
@@ -64,8 +63,7 @@ function reducer(state, action) {
     return newState;
 
   default:
-    console.log('bad action:', action);
-    throw 'bad action type: ' + action.type;
+    return state;
   }
 }
 
