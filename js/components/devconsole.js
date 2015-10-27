@@ -8,15 +8,11 @@ let {
 
 let { connect } = require('react-redux');
 
-function select(state) {
-  return state;
-}
-
 let gStyles = require('../styles');
 let globalStyles = gStyles.styles;
 let Button = gStyles.Button;
 
-let DevConsole = connect(select)(React.createClass({
+let DevConsole = connect()(React.createClass({
   render: function() {
     return (
       <View style={globalStyles.container}>
