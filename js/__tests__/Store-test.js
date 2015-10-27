@@ -23,6 +23,15 @@ function bot(id) {
 }
 
 describe('Store', () => {
+  it('can register', () => {
+    let state = run([{
+      type: 'register',
+      username: 'bob',
+      anonymous: false,
+    }]);
+    let s = state.getState();
+    expect(s.username).toEqual('bob');
+  });
   it('can start a game', () => {
     let state = run([{
       type: 'startGame',
