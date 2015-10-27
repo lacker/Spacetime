@@ -39,8 +39,8 @@ let Login = connect()(React.createClass({
               alert("You need to choose a username in order to register.");
             } else {
               this.props.dispatch({type:'setView', view:'welcome'});
-                let hello = {type: 'hello', username: username};
-                this.props.socket.send(hello);
+              let hello = {type: 'hello', username: username};
+              this.props.socket.send(hello);
             }
           }}  style={{backgroundColor: 'green'}}>
             Login
