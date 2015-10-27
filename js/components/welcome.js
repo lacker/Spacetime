@@ -7,26 +7,28 @@ let {
   View,
 } = React;
 
+let { connect } = require('react-redux');
+
 let gStyles = require('../styles');
 let globalStyles = gStyles.styles;
 let Button = gStyles.Button;
 
-let Welcome = React.createClass({
+let Welcome = connect()(React.createClass({
   render: function() {
     let welcomeString = 'Welcome to Spacetime';
     let actionButton =           
           <Button onPress={() => {
-              this.props.store.dispatch({type:'setView', view:'register'});
+              this.props.dispatch({type:'setView', view:'register'});
             }} style={{backgroundColor: 'green'}}>
             Login
           </Button>;
     let guestPlay = null;
-    if (!this.props.store.getState().anonymous) {
-      welcomeString += ', ' +  this.props.store.getState().username;
+    if (!this.props.anonymous) {
+      welcomeString += ', ' +  this.props.username;
       actionButton = 
           <Button onPress={() => {
-              let seekAction = {type:'seeking', username:this.props.store.getState().username};
-              this.props.store.dispatch(seekAction);
+              let seekAction = {type:'seeking', username:this.props.username};
+              this.props.dispatch(seekAction);
               this.props.socket.send(seekAction);
             }} 
             style={{backgroundColor: 'green'}}>
@@ -34,8 +36,8 @@ let Welcome = React.createClass({
           </Button>;      
     } else {
       guestPlay = <Button onPress={() => {
-              let seekAction = {type:'seeking', username:this.props.store.getState().username};
-              this.props.store.dispatch(seekAction);
+              let seekAction = {type:'seeking', username:this.props.username};
+              this.props.dispatch(seekAction);
               this.props.socket.send(seekAction);
             }} 
             >
@@ -51,7 +53,7 @@ let Welcome = React.createClass({
           {actionButton}
           {guestPlay}
           <Button onPress={() => {
-              this.props.store.dispatch({type:'setView', view:'console'});
+              this.props.dispatch({type:'setView', view:'console'});
             }}>
             Console
           </Button>
@@ -59,6 +61,6 @@ let Welcome = React.createClass({
       </View>
     );
   }
-});
+}));
 
 module.exports = Welcome;

@@ -7,15 +7,17 @@ let {
   View,
 } = React;
 
+let { connect } = require('react-redux');
+
 let gStyles = require('../styles');
 let globalStyles = gStyles.styles;
 let Button = gStyles.Button;
 
-let GameRoom = React.createClass({
+let GameRoom = connect()(React.createClass({
   render: function() {
     let welcomeString = 'Fight!';
-    if (!this.props.store.getState().players || 
-        this.props.store.getState().players.length < 2) {
+    if (!this.props.players || 
+        this.props.players.length < 2) {
       welcomeString = 'Waiting for Opponent';
     }
     return (
@@ -25,7 +27,7 @@ let GameRoom = React.createClass({
         </Text>
         <View style={globalStyles.buttonContainer}>
           <Button onPress={() => {
-              this.props.store.dispatch({type:'setView', view:'welcome'});
+              this.props.dispatch({type:'setView', view:'welcome'});
             }}>
             Resign
           </Button>
@@ -33,6 +35,6 @@ let GameRoom = React.createClass({
       </View>
     );
   }
-});
+}));
 
 module.exports = GameRoom;

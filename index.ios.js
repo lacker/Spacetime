@@ -53,15 +53,15 @@ let App = connect(select)(React.createClass({
     switch (this.props.currentView) {
       case "register":
         return (
-          <Login store={store} socket={socket} mode='register'></Login>
+          <Login anonymous={this.props.anonymous} username={this.props.username} store={store} socket={socket} mode='register'></Login>
         );
       case "login":
         return (
-          <Login store={store} mode='login'></Login>
+          <Login mode='login'></Login>
         );
       case "play":
         return (
-          <GameRoom store={store}></GameRoom>
+          <GameRoom players={this.props.players}></GameRoom>
         );
       case "console":
         return (
@@ -69,7 +69,7 @@ let App = connect(select)(React.createClass({
         );
       default:
         return (
-          <Welcome store={store} socket={socket}></Welcome>
+          <Welcome anonymous={this.props.anonymous} username={this.props.username} socket={socket}></Welcome>
         );
     } 
   }

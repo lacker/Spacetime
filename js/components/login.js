@@ -8,11 +8,14 @@ let {
   View,
 } = React;
 
+let { connect } = require('react-redux');
+
+
 let gStyles = require('../styles');
 let globalStyles = gStyles.styles;
 let Button = gStyles.Button;
 
-let Login = React.createClass({
+let Login = connect()(React.createClass({
   render: function() {
     let title = this.props.mode[0].toUpperCase() + this.props.mode.substr(1);
     return (
@@ -26,16 +29,16 @@ let Login = React.createClass({
         <TextInput
            style={loginStyles.textInput}
            autoFocus={true}
-           onChangeText={(text) => this.props.store.dispatch({type:'register', username:text, anonymous:false})}
-           value={this.props.username}>
+           onChangeText={(text) => this.props.dispatch({type:'register', username:text, anonymous:false})}
+           value={this.props.anonymous ? '' : this.props.username}>
         </TextInput>
         <View style={globalStyles.buttonContainer}>
           <Button onPress={() => {
-            let username = this.props.store.getState().username;
+            let username = this.props.username;
             if (!username) {
               alert("You need to choose a username in order to register.");
             } else {
-              this.props.store.dispatch({type:'setView', view:'welcome'});
+              this.props.dispatch({type:'setView', view:'welcome'});
                 let hello = {type: 'hello', username: username};
                 this.props.socket.send(hello);
             }
@@ -43,7 +46,7 @@ let Login = React.createClass({
             Login
           </Button>
           <Button onPress={() => {
-            this.props.store.dispatch({type:'setView', view:'welcome'});
+            this.props.dispatch({type:'setView', view:'welcome'});
           }}>
             Cancel
           </Button>
@@ -51,7 +54,7 @@ let Login = React.createClass({
       </View>
     );
   }
-});
+}));
 
 
 let loginStyles = StyleSheet.create({
