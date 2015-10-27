@@ -65,7 +65,7 @@ let App = connect(select)(React.createClass({
         );
       case "console":
         return (
-          <DevConsole store={store}></DevConsole>
+          <DevConsole></DevConsole>
         );
       default:
         return (

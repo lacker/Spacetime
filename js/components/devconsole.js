@@ -6,11 +6,17 @@ let {
   View,
 } = React;
 
+let { connect } = require('react-redux');
+
+function select(state) {
+  return state;
+}
+
 let gStyles = require('../styles');
 let globalStyles = gStyles.styles;
 let Button = gStyles.Button;
 
-let DevConsole = React.createClass({
+let DevConsole = connect(select)(React.createClass({
   render: function() {
     return (
       <View style={globalStyles.container}>
@@ -22,16 +28,16 @@ let DevConsole = React.createClass({
           Cmd+D or shake for dev menu
         </Text>
         <Button onPress={() => {
-          this.props.store.dispatch({type:'setView', view:'welcome'});
+          this.props.dispatch({type:'setView', view:'welcome'});
         }}>
           Exit
         </Button>
         <Text style={globalStyles.instructions}>
-          {this.props.store.getState().log && this.props.store.getState().log.join('\n')}
+          {this.props.log && this.props.log.join('\n')}
         </Text>
       </View>
     );
   }
-});
+}));
 
 module.exports = DevConsole;
