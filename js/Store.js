@@ -32,6 +32,9 @@ function reducer(state, action) {
     return newState;
 
   case 'setView':
+    // action contains:
+    //  view: a string to use for routing the view
+    //  TODO: maybe replace with a better router class
     newState.currentView = action.view;
     return newState;
 
@@ -41,6 +44,9 @@ function reducer(state, action) {
     return newState;
 
   case 'register':
+    // action contains:
+    //  username: a string for the name of the local player
+    //  anonymous: a boolean, this is set to true for a guest login
     newState.username = action.username;
     newState.anonymous = action.anonymous;
     return newState;
