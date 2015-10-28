@@ -24,30 +24,34 @@ function reducer(state = initialState, action) {
   switch (action.type) {
 
   case 'heartbeat':
-    newState.log = state.log.push('heartbeat ' + action.id);
-    if (newState.log.size > 10) {
-      newState.log = newState.log.shift();
+    let log = state.log.push('heartbeat ' + action.id);
+    if (log.size > 10) {
+      log = log.shift();
     }
-    return newState;
+    return {...state, log};
 
   case 'startGame':
     // action contains:
     //   players: a list of the two players in this game
-    newState.players = List(action.players);
-    newState.turn = action.players[0];
-    newState.hand = Map(newState.players.map(p => [p, List()]));
-    newState.board = Map(newState.players.map(p => [p, List()]));
-    newState.life = Map(newState.players.map(p => [p, 30]));
-
-    return newState;
+    let players = List(action.players);
+    return {
+      ...state,
+      players,
+      turn: action.players[0],
+      hand: Map(players.map(p => [p, List()])),
+      board: Map(players.map(p => [p, List()])),
+      life: Map(players.map(p => [p, 30])),
+    };
 
   case 'drawCard':
     // action contains:
     //   player: the player who's drawing a card
     //   card: the card they're getting. chosen by the server.
-    newState.hand = state.hand.update(
-      action.player, hand => hand.push(action.card));
-    return newState;
+    return {
+      ...state,
+      hand: state.hand.update(
+        action.player, hand => hand.push(action.card)),
+    };
 
   case 'play':
     // action contains:
@@ -56,11 +60,13 @@ function reducer(state = initialState, action) {
     let hand = state.hand.get(action.player);
     let [index, card] = state.hand.get(action.player).findEntry(
       c => c.id == action.cardId);
-    newState.hand = state.hand.update(
-      action.player, hand => hand.delete(index));
-    newState.board = state.board.update(
-      action.player, board => board.push(card));
-    return newState;
+    return {
+      ...state,
+      hand: state.hand.update(
+        action.player, hand => hand.delete(index)),
+      board: state.board.update(
+        action.player, board => board.push(card)),
+    };
 
   default:
     return state;
