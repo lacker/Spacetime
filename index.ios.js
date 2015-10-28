@@ -1,11 +1,13 @@
 'use strict';
 
-let Welcome = require('./js/components/welcome');
+let Welcome = require('./js/components/Welcome');
+let DevConsole = require('./js/components/DevConsole');
+let Login = require('./js/components/Login');
+let GameRoom = require('./js/components/GameRoom');
 
 let React = require('react-native');
 let {
   AppRegistry,
-  View
 } = React;
 let { connect } = require('react-redux');
 let { Provider } = require('react-redux/native')
@@ -19,18 +21,15 @@ let store = Store();
 
 let guestName = 'guest' + Math.floor(Math.random() * 1000);
 
-
 //// Set up websocket
 
 let socket = io('http://localhost:7777', {jsonp: false});
 
 socket.on('connect', () => {
   console.log('connected.');
-
+  store.dispatch({type:'register', username:guestName, anonymous:true});
   let hello = {type: 'hello', username: guestName};
-  let seeking = {type: 'seeking', username: guestName};
   socket.send(hello);
-  socket.send(seeking);
 });
 
 socket.on('disconnect', () => {
@@ -42,7 +41,6 @@ socket.on('message', message => {
   console.log('received:', message);
 });
 
-
 //// Set up the view
 
 // Just pipe all the redux state through as props
@@ -52,10 +50,28 @@ function select(state) {
 
 let App = connect(select)(React.createClass({
   render: function() {
-    return (
-      <Welcome>
-      </Welcome>
-    );
+    switch (this.props.currentView) {
+      case "register":
+        return (
+          <Login anonymous={this.props.anonymous} username={this.props.username} socket={socket} mode='register'></Login>
+        );
+      case "login":
+        return (
+          <Login mode='login'></Login>
+        );
+      case "play":
+        return (
+          <GameRoom players={this.props.players}></GameRoom>
+        );
+      case "console":
+        return (
+          <DevConsole log={this.props.log}></DevConsole>
+        );
+      default:
+        return (
+          <Welcome anonymous={this.props.anonymous} username={this.props.username} socket={socket}></Welcome>
+        );
+    } 
   }
 }));
 
