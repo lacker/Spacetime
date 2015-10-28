@@ -32,6 +32,7 @@ let styles = StyleSheet.create({
 // https://github.com/APSL/react-native-button
 let Button = require('apsl-react-native-button');
 
-module.exports = {styles:styles, 
+module.exports = {
+                  styles:styles, 
                   Button:Button
                  };
