@@ -9,6 +9,7 @@
 //   turn: the username of whose turn it is
 //   life: a map from username to how much life they have.
 //   hand: a map from username to a list of their cards.
+//   currentView: a string for what view to show (console, play, register, welcome)
 
 let Immutable = require('immutable');
 let { fromJS, List, Map } = Immutable;
