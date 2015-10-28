@@ -44,6 +44,11 @@ function sendToGame(username, message) {
   }
 }
 
+// Sends this message only to the opponent.
+function sendToOpponent(message) {
+  send(opponent(message.player), message);
+}
+
 server.on('connection', socket => {
   sockets.add(socket);
   console.log(`connected! now we have ${sockets.size} clients`);
@@ -103,6 +108,8 @@ server.on('connection', socket => {
       break;
 
     case 'endTurn':
+      sendToOpponent(message);
+
       // After each turn, we give the other player a card.
       let response = {
         player: opponent(message.player),
@@ -111,7 +118,12 @@ server.on('connection', socket => {
       sendToGame(message.player, response);
       break;
 
+    case 'play':
+      sendToOpponent(message);
+      break;
+
     default:
+      console.log('unhandled message', message);
       break;
     }
   });

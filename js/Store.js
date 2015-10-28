@@ -89,6 +89,10 @@ function reducer(state = initialState, action) {
         action.player, board => board.push(card)),
     };
 
+  case 'endTurn':
+    // action contains:
+    //   player: the player whose turn is ending
+
   default:
     return state;
   }
