@@ -13,6 +13,8 @@ let gStyles = require('../styles');
 let globalStyles = gStyles.styles;
 let Button = gStyles.Button;
 
+let GameBoard = require('./GameBoard');
+
 let GameRoom = connect()(React.createClass({
   render: function() {
     let welcomeString = 'Fight!';
@@ -25,6 +27,8 @@ let GameRoom = connect()(React.createClass({
         <Text style={globalStyles.header}>
           {welcomeString}
         </Text>
+        <GameBoard></GameBoard>
+
         <View style={globalStyles.buttonContainer}>
           <Button onPress={() => {
               this.props.dispatch({type:'setView', view:'welcome'});
