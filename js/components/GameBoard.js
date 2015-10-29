@@ -13,11 +13,23 @@ let globalStyles = require('../styles').styles;
 let GameBoard = connect()(React.createClass({
   render: function() {
     return (
-      <View style={globalStyles.container}>
-      
+      <View style={[gameBoardStyles.container]}>
       </View>
     );
   }
 }));
+
+let inPlayCardHeight = 60;
+let padding = 10
+
+let gameBoardStyles = StyleSheet.create({
+  container: {
+    borderColor: 'gray', 
+    borderWidth: 1,
+    alignItems: 'stretch',
+    flex: 1,
+    height: inPlayCardHeight * 2 + padding * 3
+  }
+});
 
 module.exports = GameBoard;

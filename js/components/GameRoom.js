@@ -14,6 +14,7 @@ let globalStyles = gStyles.styles;
 let Button = gStyles.Button;
 
 let GameBoard = require('./GameBoard');
+let PlayerAvatar = require('./PlayerAvatar');
 
 let GameRoom = connect()(React.createClass({
   render: function() {
@@ -22,12 +23,25 @@ let GameRoom = connect()(React.createClass({
         this.props.players.length < 2) {
       welcomeString = 'Waiting for Opponent';
     }
+
+    let localUsername = '';
+    let remoteUsername = '';
+    if (this.props.players) {
+      localUsername = this.props.username;
+      for (let username of this.props.players) {
+        if (username != localUsername) {
+          remoteUsername = username;
+        }
+      }
+    }
     return (
-      <View style={globalStyles.container}>
+      <View>
         <Text style={globalStyles.header}>
           {welcomeString}
         </Text>
+        <PlayerAvatar type='remotePlayer' username={remoteUsername}></PlayerAvatar>
         <GameBoard></GameBoard>
+        <PlayerAvatar type='localPlayer' username={localUsername}></PlayerAvatar>
 
         <View style={globalStyles.buttonContainer}>
           <Button onPress={() => {
