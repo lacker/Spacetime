@@ -45,7 +45,7 @@ describe('Store', () => {
     expect(s.players.size).toEqual(2);
   });
 
-  it('can draw and play cards', () => {
+  it('can draw, play cards, end turn', () => {
     let s = run([{
       type: 'startGame',
       players: ['alice', 'bob'],
@@ -76,5 +76,11 @@ describe('Store', () => {
     });
     expect(s.getState().hand.get('alice').size).toEqual(1);
     expect(s.getState().hand.get('bob').size).toEqual(2);
+
+    s.dispatch({
+      type: 'endTurn',
+      player: 'alice',
+    });
+    expect(s.getState().turn).toEqual('bob');
   });
 });

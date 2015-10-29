@@ -92,7 +92,11 @@ function reducer(state = initialState, action) {
   case 'endTurn':
     // action contains:
     //   player: the player whose turn is ending
-
+    return {
+      ...state,
+      turn: state.players.find(p => p !== state.turn),
+    };
+    
   default:
     return state;
   }
