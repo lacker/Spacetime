@@ -89,6 +89,19 @@ function reducer(state = initialState, action) {
         action.player, board => board.push(card)),
     };
 
+  case 'attackPlayer':
+    // action contains:
+    //   player: the player who's attacking
+    //   cardId: the id of the card that's attacking
+    let attack = state.hand.get(action.player).find(
+      c => c.id == action.cardId).attack;
+    let opponent = state.players.find(p => p !== action.player);
+    return {
+      ...state,
+      life: state.life.update(
+        opponent, val => val - attack),
+    };
+
   case 'endTurn':
     // action contains:
     //   player: the player whose turn is ending
