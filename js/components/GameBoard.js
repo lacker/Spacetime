@@ -24,10 +24,7 @@ let padding = 10
 
 let gameBoardStyles = StyleSheet.create({
   container: {
-    borderColor: 'gray', 
-    borderWidth: 1,
-    alignItems: 'stretch',
-    flex: 1,
+    backgroundColor: 'purple',
     height: inPlayCardHeight * 2 + padding * 3
   }
 });

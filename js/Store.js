@@ -41,6 +41,7 @@ function reducer(state = initialState, action) {
   case 'seeking':
     newState.seeking = true;
     newState.currentView = 'play';
+    newState.username = action.username;
     return newState;
 
   case 'register':

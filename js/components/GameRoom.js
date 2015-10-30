@@ -18,41 +18,69 @@ let PlayerAvatar = require('./PlayerAvatar');
 
 let GameRoom = connect()(React.createClass({
   render: function() {
-    let welcomeString = 'Fight!';
-    if (!this.props.players || 
-        this.props.players.length < 2) {
-      welcomeString = 'Waiting for Opponent';
-    }
+    this.seatPlayers();
+    return (
+      <View style={roomStyles.roomContainer}>
+        <View style={roomStyles.gameArea}>
+ 
+          <View style={roomStyles.playerArea}>
+            <PlayerAvatar type='remotePlayer' username={this.remoteUsername}></PlayerAvatar>
+          </View>
+ 
+          <GameBoard style={roomStyles.gameBoard}></GameBoard>
+ 
+          <View style={[roomStyles.playerArea, globalStyles.buttonContainer]}>
+            <PlayerAvatar type='localPlayer' username={this.localUsername}></PlayerAvatar>
+          </View>
+ 
+        </View>
 
-    let localUsername = '';
-    let remoteUsername = '';
+        <View style={roomStyles.rightButtonArea}>
+            <Button onPress={() => {
+              this.props.dispatch({type:'setView', view:'welcome'});
+              }}>
+              Resign
+            </Button>
+        </View>
+      </View>
+  );
+  },
+
+  seatPlayers: function () {
+    this.localUsername = this.props.username;
+    this.remoteUsername = 'Waiting for Opponent';
     if (this.props.players) {
-      localUsername = this.props.username;
       for (let username of this.props.players) {
-        if (username != localUsername) {
-          remoteUsername = username;
+        if (username != this.localUsername) {
+          this.remoteUsername = username;
         }
       }
     }
-    return (
-      <View>
-        <Text style={globalStyles.header}>
-          {welcomeString}
-        </Text>
-        <PlayerAvatar type='remotePlayer' username={remoteUsername}></PlayerAvatar>
-        <GameBoard></GameBoard>
-        <PlayerAvatar type='localPlayer' username={localUsername}></PlayerAvatar>
 
-        <View style={globalStyles.buttonContainer}>
-          <Button onPress={() => {
-              this.props.dispatch({type:'setView', view:'welcome'});
-            }}>
-            Resign
-          </Button>
-        </View>
-      </View>
-    );
   }
 }));
+
+let roomStyles = StyleSheet.create({
+  roomContainer: {
+    flex:1,
+    backgroundColor:'yellow',
+    flexDirection: 'row',
+  },
+  gameArea: {
+    flex:1,
+    backgroundColor:'red',
+  },
+  playerArea: {
+    flex:1,
+    backgroundColor:'blue',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  rightButtonArea : {
+    width: 80,
+    justifyContent: 'center',
+  }
+});
+
 
 module.exports = GameRoom;
