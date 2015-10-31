@@ -8,7 +8,7 @@ let {
 } = React;
 
 let { connect } = require('react-redux');
-let globalStyles = require('../styles').styles;
+let styles = require('../styles');
 
 let PlayerAvatar = connect()(React.createClass({
   render: function() {
@@ -25,7 +25,7 @@ let playerAvatarStyles = StyleSheet.create({
     borderColor: 'gray',
     borderWidth: 1,
     width: 120,
-    height: 60,
+    height: styles.cardHeight,
     textAlign: 'center',
 
   }

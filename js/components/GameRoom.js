@@ -15,6 +15,7 @@ let Button = gStyles.Button;
 
 let GameBoard = require('./GameBoard');
 let PlayerAvatar = require('./PlayerAvatar');
+let HandOfCards = require('./HandOfCards');
 
 let GameRoom = connect()(React.createClass({
   render: function() {
@@ -23,6 +24,8 @@ let GameRoom = connect()(React.createClass({
       <View style={roomStyles.roomContainer}>
         <View style={roomStyles.gameArea}>
  
+          <HandOfCards type='remotePlayer'></HandOfCards>
+
           <View style={roomStyles.playerArea}>
             <PlayerAvatar type='remotePlayer' username={this.remoteUsername}></PlayerAvatar>
           </View>
@@ -32,6 +35,9 @@ let GameRoom = connect()(React.createClass({
           <View style={[roomStyles.playerArea, globalStyles.buttonContainer]}>
             <PlayerAvatar type='localPlayer' username={this.localUsername}></PlayerAvatar>
           </View>
+
+          <HandOfCards type='localPlayer'></HandOfCards>
+
  
         </View>
 
@@ -71,7 +77,7 @@ let roomStyles = StyleSheet.create({
     backgroundColor:'red',
   },
   playerArea: {
-    flex:1,
+    flex:0,
     backgroundColor:'blue',
     justifyContent: 'center',
     alignItems: 'center',

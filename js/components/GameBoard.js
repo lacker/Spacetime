@@ -8,7 +8,7 @@ let {
 } = React;
 
 let { connect } = require('react-redux');
-let globalStyles = require('../styles').styles;
+let styles = require('../styles');
 
 let GameBoard = connect()(React.createClass({
   render: function() {
@@ -19,13 +19,10 @@ let GameBoard = connect()(React.createClass({
   }
 }));
 
-let inPlayCardHeight = 60;
-let padding = 10
-
 let gameBoardStyles = StyleSheet.create({
   container: {
     backgroundColor: 'purple',
-    height: inPlayCardHeight * 2 + padding * 3
+    height: styles.inPlayCardHeight * 2 + styles.padding * 3
   }
 });
 

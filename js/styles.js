@@ -34,5 +34,8 @@ let Button = require('apsl-react-native-button');
 
 module.exports = {
                   styles:styles, 
-                  Button:Button
+                  Button:Button,
+                  inPlayCardHeight: 40,
+                  cardHeight: 50,
+                  padding: 5
                  };
