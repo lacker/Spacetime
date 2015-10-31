@@ -27,9 +27,28 @@ function clearDeadCards(state) {
   };    
 }
 
+// action contains:
+//   player: the player who's attacking
+//   cardId: the id of the card that's attacking
+//   targetId: the id of the card that's getting attacked
+function attackCard(state, action) {
+  let attack = state.board.get(action.player).find(
+    c => c.id == action.cardId).attack;
+  let opponent = state.players.find(p => p !== action.player);
+  let [index, target] = state.board.get(opponent).findEntry(
+    c => c.id == action.targetId);
+  return clearDeadCards({
+      ...state,
+    board: state.board.updateIn(
+      [opponent, index, 'health'],
+      h => h - attack),
+  });
+}
+
 function reducer(state = initialState, action) {
   let newState = {...state};
 
+  // TODO: move off switch statement
   switch (action.type) {
 
   case 'heartbeat':
@@ -109,6 +128,9 @@ function reducer(state = initialState, action) {
       life: state.life.update(
         opponent, val => val - attack),
     };
+
+  case 'attackCard':
+    return attackCard(state, action);
 
   case 'endTurn':
     // action contains:
