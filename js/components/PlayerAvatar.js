@@ -22,8 +22,6 @@ let PlayerAvatar = connect()(React.createClass({
 
 let playerAvatarStyles = StyleSheet.create({
   avatarContainer: {
-    borderColor: 'gray',
-    borderWidth: 1,
     width: 120,
     height: styles.cardHeight,
     textAlign: 'center',

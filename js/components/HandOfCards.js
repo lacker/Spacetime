@@ -21,9 +21,7 @@ let HandOfCards = connect()(React.createClass({
 let handStyles = StyleSheet.create({
   container: {
     backgroundColor: 'pink',
-    borderColor: 'purple',
-    borderWidth: 1,
-    height: styles.cardHeight + styles.padding,
+    height: styles.cardHeight,
   }
 });
 
