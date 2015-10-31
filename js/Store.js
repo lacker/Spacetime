@@ -9,6 +9,7 @@
 //   turn: the username of whose turn it is
 //   life: a map from username to how much life they have.
 //   hand: a map from username to a list of their cards.
+//   board: a map from username to a list of cards on the board
 //   currentView: a string for what view to show (console, play, register, welcome)
 
 let Immutable = require('immutable');
@@ -18,6 +19,13 @@ let redux = require('redux');
 let Card = require('./Card');
 
 let initialState = {log: List()};
+
+function clearDeadCards(state) {
+  return {
+    ...state,
+    board: state.board.map(cards => cards.filter(c => c.get('health') > 0)),
+  };    
+}
 
 function reducer(state = initialState, action) {
   let newState = {...state};
@@ -90,6 +98,27 @@ function reducer(state = initialState, action) {
         action.player, board => board.push(card)),
     };
 
+  case 'attackPlayer':
+    // action contains:
+    //   player: the player who's attacking
+    //   cardId: the id of the card that's attacking
+    let attack = state.board.get(action.player).find(
+      c => c.id == action.cardId).attack;
+    let opponent = state.players.find(p => p !== action.player);
+    return {
+      ...state,
+      life: state.life.update(
+        opponent, val => val - attack),
+    };
+
+  case 'endTurn':
+    // action contains:
+    //   player: the player whose turn is ending
+    return {
+      ...state,
+      turn: state.players.find(p => p !== state.turn),
+    };
+    
   default:
     return state;
   }

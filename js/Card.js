@@ -21,7 +21,9 @@ let CARDS = fromJS([
 // Return a random card. Puts an id on it.
 let nextId = 1;
 function random() {
-  return CARDS.get(Math.floor(Math.random() * CARDS.size)).set('id', nextId++);
+  let card = CARDS.get(Math.floor(Math.random() * CARDS.size))
+  card = card.set('id', nextId++).set('health', card.get('defense'));
+  return CARDS.get(Math.floor(Math.random() * CARDS.size))
 }
 
 module.exports = {
