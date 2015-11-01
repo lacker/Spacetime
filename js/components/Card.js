@@ -17,6 +17,8 @@ let { connect } = require('react-redux');
 let clamp = require('clamp');
 let styles = require('../styles');
 
+var SWIPE_THRESHOLD = 120;
+
 let Card = connect()(React.createClass({
 
   componentWillMount: function() {
