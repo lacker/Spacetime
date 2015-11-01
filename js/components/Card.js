@@ -10,6 +10,7 @@ let {
 } = React;
 
 let { connect } = require('react-redux');
+let clamp = require('clamp');
 let styles = require('../styles');
 
 let Card = connect()(React.createClass({
