@@ -56,15 +56,18 @@ let GameRoom = connect()(React.createClass({
     this.localUsername = this.props.username;
     this.remoteUsername = 'Waiting for Opponent';
     if (this.props.players) {
-      for (let username of this.props.players) {
+      this.props.players.forEach(this.updateUsername);
+    }
+  },
+
+  updateUsername: function(username) { 
         if (username != this.localUsername) {
           this.remoteUsername = username;
-        }
+        } 
       }
-    }
 
-  }
 }));
+
 
 let roomStyles = StyleSheet.create({
   roomContainer: {
