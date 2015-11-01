@@ -22,7 +22,7 @@ let GameBoard = connect()(React.createClass({
 let gameBoardStyles = StyleSheet.create({
   container: {
     backgroundColor: 'purple',
-    height: styles.inPlayCardHeight * 2 + styles.padding * 3
+    height: styles.inPlayCardHeight * 2
   }
 });
 

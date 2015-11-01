@@ -33,7 +33,7 @@ let styles = StyleSheet.create({
 // should do a PR to add Android I think
 // https://github.com/APSL/react-native-button
 let Button = require('apsl-react-native-button');
-let baseHeight = (Device.height-5*3)/6;
+let baseHeight = (Device.height)/6;
 let baseWidth = (Device.width-80)/7;
 module.exports = {
                   styles:styles, 

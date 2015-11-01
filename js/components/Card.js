@@ -12,17 +12,52 @@ let styles = require('../styles');
 
 let Card = connect()(React.createClass({
   render: function() {
+    let name = '';
+    let attack = '';
+    let defense = '';
+    
+    if(this.props.info) {
+      name = this.props.info['name'];
+      attack = this.props.info['attack'];
+      defense = this.props.info['defense'];
+    }
     return (
       <View style={[cardStyles.container]}>
         <Text>
-           {this.props.info}
+           {name}
         </Text>
+        <View style={[cardStyles.flexFill]}></View>
+        <View style={[cardStyles.cardStatsContainer]}>
+          <View style={[cardStyles.attackBackground]}>
+            <Text>
+               {attack}
+            </Text>
+          </View>
+          <View style={[cardStyles.flexFill]}></View>
+          <View style={[cardStyles.defenseBackground]}>
+            <Text>
+             {defense}
+            </Text>
+          </View>
+        </View>
       </View>
     );
   }
 }));
 
 let cardStyles = StyleSheet.create({
+  cardStatsContainer: {
+    flexDirection: 'row',
+  },  
+  attackBackground: {
+    backgroundColor: 'gray',
+  },
+  defenseBackground: {
+    backgroundColor: 'red',
+  },
+  flexFill: {
+    flex: 1,
+  },  
   container: {
     height: styles.cardHeight,
     width: styles.cardWidth,
