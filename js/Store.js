@@ -27,60 +27,65 @@ function clearDeadCards(state) {
   };    
 }
 
-// action contains:
-//   player: the player who's attacking
-//   cardId: the id of the card that's attacking
-//   targetId: the id of the card that's getting attacked
-function attackCard(state, action) {
-  let attack = state.board.get(action.player).find(
-    c => c.id == action.cardId).attack;
-  let opponent = state.players.find(p => p !== action.player);
-  let [index, target] = state.board.get(opponent).findEntry(
-    c => c.id == action.targetId);
-  return clearDeadCards({
-      ...state,
-    board: state.board.updateIn(
-      [opponent, index, 'health'],
-      h => h - attack),
-  });
-}
+let reducers = {
+  // action contains:
+  //   player: the player who's attacking
+  //   cardId: the id of the card that's attacking
+  //   targetId: the id of the card that's getting attacked
+  attackCard: (state, action) => {
+    let attack = state.board.get(action.player).find(
+      c => c.id == action.cardId).attack;
+    let opponent = state.players.find(p => p !== action.player);
+    let [index, target] = state.board.get(opponent).findEntry(
+      c => c.id == action.targetId);
+    return clearDeadCards({
+        ...state,
+      board: state.board.updateIn(
+        [opponent, index, 'health'],
+        h => h - attack),
+    });
+  },
 
-function reducer(state = initialState, action) {
-  let newState = {...state};
-
-  // TODO: move off switch statement
-  switch (action.type) {
-
-  case 'heartbeat':
+  // action contains:
+  //   id: a numerical id sent out as a heartbeat
+  heartbeat: (state, action) => {
     let log = state.log.push('heartbeat ' + action.id);
     if (log.size > 10) {
       log = log.shift();
     }
     return {...state, log};
+  },
 
-  case 'setView':
-    // action contains:
-    //  view: a string to use for routing the view
-    //  TODO: maybe replace with a better router class
-    newState.currentView = action.view;
-    return newState;
+  // action contains:
+  //   view: a string to use for routing the view
+  //   TODO: maybe replace with a better router class
+  setView: (state, action) => {
+    return {...state, currentView: action.view};
+  },
 
-  case 'seeking':
-    newState.seeking = true;
-    newState.currentView = 'play';
-    return newState;
+  // action doesn't have to contain anything.
+  seeking: (state, action) => {
+    return {
+      ...state,
+      seeking: true,
+      currentView: 'play',
+    };
+  },
 
-  case 'register':
-    // action contains:
-    //  username: a string for the name of the local player
-    //  anonymous: a boolean, this is set to true for a guest login
-    newState.username = action.username;
-    newState.anonymous = action.anonymous;
-    return newState;
+  // action contains:
+  //  username: a string for the name of the local player
+  //  anonymous: a boolean, this is set to true for a guest login
+  register: (state, action) => {
+    return {
+      ...state,
+      username: action.username,
+      anonymous: action.anonymous,
+    };
+  },
 
-  case 'startGame':
-    // action contains:
-    //   players: a list of the two players in this game
+  // action contains:
+  //   players: a list of the two players in this game
+  startGame: (state, action) => {
     let players = List(action.players);
     return {
       ...state,
@@ -90,21 +95,23 @@ function reducer(state = initialState, action) {
       board: Map(players.map(p => [p, List()])),
       life: Map(players.map(p => [p, 30])),
     };
+  },
 
-  case 'drawCard':
-    // action contains:
-    //   player: the player who's drawing a card
-    //   card: the card they're getting. chosen by the server.
+  // action contains:
+  //   player: the player who's drawing a card
+  //   card: the card they're getting. chosen by the server.
+  drawCard: (state, action) => {
     return {
       ...state,
       hand: state.hand.update(
         action.player, hand => hand.push(action.card)),
     };
+  },
 
-  case 'play':
-    // action contains:
-    //   player: the player who's playing a card
-    //   cardId: the id of the card they're playing
+  // action contains:
+  //   player: the player who's playing a card
+  //   cardId: the id of the card they're playing
+  play: (state, action) => {
     let hand = state.hand.get(action.player);
     let [index, card] = state.hand.get(action.player).findEntry(
       c => c.id == action.cardId);
@@ -115,11 +122,12 @@ function reducer(state = initialState, action) {
       board: state.board.update(
         action.player, board => board.push(card)),
     };
+  },
 
-  case 'attackPlayer':
-    // action contains:
-    //   player: the player who's attacking
-    //   cardId: the id of the card that's attacking
+  // action contains:
+  //   player: the player who's attacking
+  //   cardId: the id of the card that's attacking
+  attackPlayer: (state, action) => {
     let attack = state.board.get(action.player).find(
       c => c.id == action.cardId).attack;
     let opponent = state.players.find(p => p !== action.player);
@@ -128,19 +136,24 @@ function reducer(state = initialState, action) {
       life: state.life.update(
         opponent, val => val - attack),
     };
+  },
 
-  case 'attackCard':
-    return attackCard(state, action);
-
-  case 'endTurn':
-    // action contains:
-    //   player: the player whose turn is ending
+  // action contains:
+  //   player: the player whose turn is ending
+  endTurn: (state, action) => {
     return {
       ...state,
       turn: state.players.find(p => p !== state.turn),
     };
-    
-  default:
+  },
+
+};
+
+function reducer(state = initialState, action) {
+  let f = reducers[action.type];
+  if (f) {
+    return f(state, action);
+  } else {
     return state;
   }
 }
