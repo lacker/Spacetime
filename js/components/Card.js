@@ -1,5 +1,9 @@
 'use strict';
 
+// A draggable card
+// drag drop code example used: https://github.com/brentvatne/react-native-animated-demo-tinder
+// panresponder docs: https://facebook.github.io/react-native/docs/panresponder.html
+
 let React = require('react-native');
 let {
   Animated, 
