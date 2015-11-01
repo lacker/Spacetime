@@ -50,6 +50,10 @@ function select(state) {
 
 let App = connect(select)(React.createClass({
   render: function() {
+    let localHand;
+    if (this.props.hand) {
+      localHand = this.props.hand.get(this.props.username);
+    }
     switch (this.props.currentView) {
       case "register":
         return (
@@ -61,7 +65,7 @@ let App = connect(select)(React.createClass({
         );
       case "play":
         return (
-          <GameRoom username={this.props.username} players={this.props.players} hand={this.props.hand}></GameRoom>
+          <GameRoom username={this.props.username} players={this.props.players} hand={localHand}></GameRoom>
         );
       case "console":
         return (
