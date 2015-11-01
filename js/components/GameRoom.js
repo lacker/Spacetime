@@ -36,7 +36,7 @@ let GameRoom = connect()(React.createClass({
             <PlayerAvatar type='localPlayer' username={this.localUsername}></PlayerAvatar>
           </View>
 
-          <HandOfCards type='localPlayer'></HandOfCards>
+          <HandOfCards type='localPlayer' cards={this.props.hand}></HandOfCards>
 
  
         </View>
@@ -61,10 +61,10 @@ let GameRoom = connect()(React.createClass({
   },
 
   updateUsername: function(username) { 
-        if (username != this.localUsername) {
-          this.remoteUsername = username;
-        } 
-      }
+    if (username != this.localUsername) {
+      this.remoteUsername = username;
+    } 
+  }
 
 }));
 

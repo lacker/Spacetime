@@ -3,6 +3,7 @@
 let React = require('react-native');
 let {
   StyleSheet,
+  Text,
   View,
 } = React;
 
@@ -13,6 +14,9 @@ let HandOfCards = connect()(React.createClass({
   render: function() {
     return (
       <View style={[handStyles.container]}>
+        <Text>
+          {this.props.cards}
+        </Text>
       </View>
     );
   }

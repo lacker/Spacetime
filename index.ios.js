@@ -61,7 +61,7 @@ let App = connect(select)(React.createClass({
         );
       case "play":
         return (
-          <GameRoom username={this.props.username} players={this.props.players}></GameRoom>
+          <GameRoom username={this.props.username} players={this.props.players} hand={this.props.hand}></GameRoom>
         );
       case "console":
         return (
