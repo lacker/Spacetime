@@ -9,14 +9,19 @@ let {
 
 let { connect } = require('react-redux');
 let styles = require('../styles');
+let Card = require('./Card');
 
 let HandOfCards = connect()(React.createClass({
   render: function() {
+    let handCards;
+    if (this.props.cards) {
+      handCards = this.props.cards.map((cardInfo, i) =>
+        <Card info={cardInfo} />
+      );
+    }
     return (
       <View style={[handStyles.container]}>
-        <Text>
-          {this.props.cards}
-        </Text>
+          {handCards}
       </View>
     );
   }
@@ -24,6 +29,8 @@ let HandOfCards = connect()(React.createClass({
 
 let handStyles = StyleSheet.create({
   container: {
+    flexDirection: 'row',
+    justifyContent: 'center',
     backgroundColor: 'pink',
     height: styles.cardHeight,
   }

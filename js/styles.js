@@ -34,10 +34,12 @@ let styles = StyleSheet.create({
 // https://github.com/APSL/react-native-button
 let Button = require('apsl-react-native-button');
 let baseHeight = (Device.height-5*3)/6;
+let baseWidth = (Device.width-80)/7;
 module.exports = {
                   styles:styles, 
                   Button:Button,
                   inPlayCardHeight: baseHeight,
                   cardHeight: baseHeight,
+                  cardWidth: baseWidth,
                   padding: 5
                  };
