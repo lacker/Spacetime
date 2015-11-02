@@ -10,6 +10,7 @@
 //   life: a map from username to how much life they have.
 //   hand: a map from username to a list of their cards.
 //   board: a map from username to a list of cards on the board
+//   winner: the username of the winner, if there is one
 //   currentView: a string for what view to show (console, play, register, welcome)
 
 let Immutable = require('immutable');
@@ -24,7 +25,18 @@ function clearDeadCards(state) {
   return {
     ...state,
     board: state.board.map(cards => cards.filter(c => c.get('health') > 0)),
-  };    
+  };
+}
+
+function checkForWinner(state) {
+  let [deadPlayer, _] = state.life.findEntry(total => total <= 0);
+  if (!deadPlayer) {
+    return state;
+  }
+  return {
+    ...state,
+    winner: state.players.find(p => p !== deadPlayer),
+  };
 }
 
 let reducers = {
