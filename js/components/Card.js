@@ -46,6 +46,13 @@ let Card = connect()(React.createClass({
       ]),
 
       onPanResponderRelease: (e, {vx, vy}) => {
+         
+         let toValue = 0;         
+         let distanceToBoard = styles.cardHeight + styles.cardHeight;
+         if(Math.abs(this.state.pan.y._value) >= distanceToBoard) {
+           toValue = -distanceToBoard;
+           this.props.dispatch({type:'play', id:this.props.id, player:this.props.username});
+         }
 
          Animated.spring(this.state.enter, {
             toValue: 1,
@@ -67,7 +74,7 @@ let Card = connect()(React.createClass({
           }).start(this._resetState)
         } else {
           Animated.spring(this.state.pan, {
-            toValue: {x: 0, y: 0},
+            toValue: {x: 0, y: toValue},
             friction: 4
           }).start()
         }

@@ -36,7 +36,7 @@ let GameRoom = connect()(React.createClass({
             <PlayerAvatar type='localPlayer' username={this.localUsername}></PlayerAvatar>
           </View>
 
-          <HandOfCards type='localPlayer' cards={this.props.hand}></HandOfCards>
+          <HandOfCards type='localPlayer' cards={this.props.hand} username={this.props.username}></HandOfCards>
 
  
         </View>

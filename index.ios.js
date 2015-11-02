@@ -54,6 +54,10 @@ let App = connect(select)(React.createClass({
     if (this.props.hand) {
       localHand = this.props.hand.get(this.props.username);
     }
+    let player;
+    if (this.props.players) {
+      player = this.props.players.get(this.props.username);
+    }
     switch (this.props.currentView) {
       case "register":
         return (
