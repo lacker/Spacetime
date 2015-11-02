@@ -25,7 +25,7 @@ let Card = connect()(React.createClass({
 
     this.state = {
       pan: new Animated.ValueXY(),
-      enter: new Animated.Value(0.5),
+      enter: new Animated.Value(1),
     }
 
     this._panResponder = PanResponder.create({
@@ -33,6 +33,10 @@ let Card = connect()(React.createClass({
       onMoveShouldSetPanResponderCapture: () => true,
 
       onPanResponderGrant: (e, gestureState) => {
+                 Animated.spring(this.state.enter, {
+            toValue: .75,
+          }).start()
+
         this.state.pan.setOffset({x: this.state.pan.x._value, y: this.state.pan.y._value});
         this.state.pan.setValue({x: 0, y: 0});
       },
@@ -42,6 +46,11 @@ let Card = connect()(React.createClass({
       ]),
 
       onPanResponderRelease: (e, {vx, vy}) => {
+
+         Animated.spring(this.state.enter, {
+            toValue: 1,
+          }).start()
+
         this.state.pan.flattenOffset();
         var velocity;
 
@@ -67,10 +76,10 @@ let Card = connect()(React.createClass({
   },
 
   render: function() {
+
     let name = '';
     let attack = '';
     let defense = '';
-    
     if(this.props.info) {
       name = this.props.info['name'];
       attack = this.props.info['attack'];
@@ -78,14 +87,9 @@ let Card = connect()(React.createClass({
     }
 
     let { pan, enter, } = this.state;
-
     let [translateX, translateY] = [pan.x, pan.y];
-
-    let rotate = pan.x.interpolate({inputRange: [-200, 0, 200], outputRange: ["-30deg", "0deg", "30deg"]});
-    let opacity = pan.x.interpolate({inputRange: [-200, 0, 200], outputRange: [0.5, 1, 0.5]})
     let scale = enter;
-
-    let animatedCardStyles = {transform: [{translateX}, {translateY}, {rotate}, {scale}], opacity};
+    let animatedCardStyles = {transform: [{translateX}, {translateY}, {scale}]};
  
     return (
       <Animated.View style={[cardStyles.container, animatedCardStyles]} {...this._panResponder.panHandlers}>
