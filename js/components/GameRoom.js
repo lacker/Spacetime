@@ -16,10 +16,10 @@ let Button = gStyles.Button;
 let GameBoard = require('./GameBoard');
 let PlayerAvatar = require('./PlayerAvatar');
 let HandOfCards = require('./HandOfCards');
+let BoardOfCards = require('./BoardOfCards');
 
 let GameRoom = connect()(React.createClass({
   render: function() {
-    this.seatPlayers();
     return (
       <View style={roomStyles.roomContainer}>
         <View style={roomStyles.gameArea}>
@@ -27,16 +27,19 @@ let GameRoom = connect()(React.createClass({
           <HandOfCards type='remotePlayer'></HandOfCards>
 
           <View style={roomStyles.playerArea}>
-            <PlayerAvatar type='remotePlayer' username={this.remoteUsername}></PlayerAvatar>
+            <PlayerAvatar type='remotePlayer' player={this.props.remotePlayer}></PlayerAvatar>
           </View>
  
-          <GameBoard style={roomStyles.gameBoard}></GameBoard>
+          <GameBoard style={roomStyles.gameBoard}>
+            <BoardOfCards type='remotePlayer' cards={this.props.remoteBoard} player={this.props.remotePlayer}></BoardOfCards>
+            <BoardOfCards type='localPlayer' cards={this.props.localBoard} player={this.props.localPlayer}></BoardOfCards>
+          </GameBoard>
  
           <View style={[roomStyles.playerArea, globalStyles.buttonContainer]}>
-            <PlayerAvatar type='localPlayer' username={this.localUsername}></PlayerAvatar>
+            <PlayerAvatar type='localPlayer' player={this.props.localPlayer}></PlayerAvatar>
           </View>
 
-          <HandOfCards type='localPlayer' cards={this.props.hand} username={this.props.username}></HandOfCards>
+          <HandOfCards type='localPlayer' cards={this.props.hand} player={this.props.localPlayer}></HandOfCards>
 
  
         </View>
@@ -51,20 +54,6 @@ let GameRoom = connect()(React.createClass({
       </View>
   );
   },
-
-  seatPlayers: function () {
-    this.localUsername = this.props.username;
-    this.remoteUsername = 'Waiting for Opponent';
-    if (this.props.players) {
-      this.props.players.forEach(this.updateUsername);
-    }
-  },
-
-  updateUsername: function(username) { 
-    if (username != this.localUsername) {
-      this.remoteUsername = username;
-    } 
-  }
 
 }));
 

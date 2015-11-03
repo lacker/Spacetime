@@ -69,17 +69,17 @@ let reducers = {
       ...state,
       seeking: true,
       currentView: 'play',
-      username: action.username
+      player: action.player
     };
   },
 
   // action contains:
-  //  username: a string for the name of the local player
+  //  player: a string for the name of the local player
   //  anonymous: a boolean, this is set to true for a guest login
   register: (state, action) => {
     return {
       ...state,
-      username: action.username,
+      player: action.player,
       anonymous: action.anonymous,
     };
   },

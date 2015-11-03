@@ -20,9 +20,9 @@ let games = new Map();
 // people we get.
 let seeking = null;
 
-function opponent(username) {
-  for (let u of games.get(username)) {
-    if (u !== username) {
+function opponent(player) {
+  for (let u of games.get(player)) {
+    if (u !== player) {
       return u;
     }
   }
@@ -30,16 +30,16 @@ function opponent(username) {
   throw 'Control should never get here';
 }
 
-function send(username, message) {
-  let socket = socketForUser.get(username);
+function send(player, message) {
+  let socket = socketForUser.get(player);
   if (socket) {
     socket.send(message);
   }
 }
 
 // Sends this message to everyone in this user's game.
-function sendToGame(username, message) {
-  for (let u of games.get(username)) {
+function sendToGame(player, message) {
+  for (let u of games.get(player)) {
     send(u, message);
   }
 }
@@ -54,13 +54,13 @@ server.on('connection', socket => {
   console.log(`connected! now we have ${sockets.size} clients`);
 
   socket.on('disconnect', () => {
-    if (socket.username) {
+    if (socket.player) {
       // When you disconnect you are assumed to be no longer looking
       // for a game.
-      if (seeking === socket.username) {
+      if (seeking === socket.player) {
         seeking = false;
       }
-      socketForUser.delete(socket.username);
+      socketForUser.delete(socket.player);
     }
     sockets.delete(socket);
     console.log(`disconnected! now we have ${sockets.size} clients`);
@@ -76,18 +76,18 @@ server.on('connection', socket => {
       // A 'hello' just identifies who a socket is.
       // Since it might happen on reconnect-type problems, it doesn't
       // get any game-specific meaning.
-      socket.username = message.username;
-      socketForUser.set(message.username, socket);
+      socket.player = message.player;
+      socketForUser.set(message.player, socket);
       break;
 
     case 'seeking':
       if (!seeking) {
         // Nobody else is seeking a game, so you have to go into the
         // queue.
-        seeking = message.username;
+        seeking = message.player;
       } else {
         // Start a game
-        let players = [seeking, message.username];
+        let players = [seeking, message.player];
         seeking = false;
         for (let player of players) {
           games.set(player, players);

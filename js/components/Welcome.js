@@ -24,10 +24,10 @@ let Welcome = connect()(React.createClass({
           </Button>;
     let guestPlay = null;
     if (!this.props.anonymous) {
-      welcomeString += ', ' +  this.props.username;
+      welcomeString += ', ' +  this.props.player;
       actionButton = 
           <Button onPress={() => {
-              let seekAction = {type:'seeking', username:this.props.username};
+              let seekAction = {type:'seeking', player:this.props.player};
               this.props.dispatch(seekAction);
               this.props.socket.send(seekAction);
             }} 
@@ -36,7 +36,7 @@ let Welcome = connect()(React.createClass({
           </Button>;      
     } else {
       guestPlay = <Button onPress={() => {
-              let seekAction = {type:'seeking', username:this.props.username};
+              let seekAction = {type:'seeking', player:this.props.player};
               this.props.dispatch(seekAction);
               this.props.socket.send(seekAction);
             }} 

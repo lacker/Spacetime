@@ -13,15 +13,15 @@ let Card = require('./Card');
 
 let HandOfCards = connect()(React.createClass({
   render: function() {
-    let handCards;
+    let boardCards;
     if (this.props.cards) {
-      handCards = this.props.cards.map((cardInfo, i) =>
+      boardCards = this.props.cards.map((cardInfo, i) =>
         <Card info={cardInfo} player={this.props.player} />
       );
     }
     return (
       <View style={[handStyles.container]}>
-          {handCards}
+          {boardCards}
       </View>
     );
   }
@@ -31,7 +31,6 @@ let handStyles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     justifyContent: 'center',
-    backgroundColor: 'pink',
     height: styles.cardHeight,
   }
 });

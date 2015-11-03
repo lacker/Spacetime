@@ -51,7 +51,7 @@ let Card = connect()(React.createClass({
          let distanceToBoard = styles.cardHeight + styles.cardHeight;
          if(Math.abs(this.state.pan.y._value) >= distanceToBoard) {
            toValue = -distanceToBoard;
-           this.props.dispatch({type:'play', id:this.props.id, player:this.props.username});
+           this.props.dispatch({type:'play', id:this.props.id, player:this.props.player});
          }
 
          Animated.spring(this.state.enter, {

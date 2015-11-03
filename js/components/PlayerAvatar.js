@@ -14,7 +14,7 @@ let PlayerAvatar = connect()(React.createClass({
   render: function() {
     return (
       <Text style={playerAvatarStyles.avatarContainer}>
-       {this.props.username}
+       {this.props.player}
       </Text>
     );
   }
