@@ -16,6 +16,12 @@ let CARDS = fromJS([
     name: 'Tribot',
     attack: 3,
     defense: 3,
+  }, {
+    name: 'Bolt',
+    effect: {
+      type: 'damage',
+      amount: 3,
+    },
   }]);
 
 // Return a random card. Puts an id on it.
