@@ -32,6 +32,7 @@ function opponent(player) {
 
 function send(player, message) {
   let socket = socketForUser.get(player);
+  console.log("send to " + socket)
   if (socket) {
     socket.send(message);
   }
@@ -46,6 +47,8 @@ function sendToGame(player, message) {
 
 // Sends this message only to the opponent.
 function sendToOpponent(message) {
+  console.log("sending to " + opponent(message.player))
+  console.log(message)
   send(opponent(message.player), message);
 }
 

@@ -55,9 +55,9 @@ let App = connect(select)(React.createClass({
       localHand = this.props.hand.get(this.props.localPlayer);
     }
     let localBoard, remoteBoard;
-    if (this.props.bord) {
+    if (this.props.board) {
       localBoard = this.props.board.get(this.props.localPlayer); 
-      rmoteBoard = this.props.board.get(this.props.remotePlayer);
+      remoteBoard = this.props.board.get(this.props.remotePlayer);
     }
     switch (this.props.currentView) {
       case "register":
@@ -70,7 +70,7 @@ let App = connect(select)(React.createClass({
         );
       case "play":
         return (
-          <GameRoom localPlayer={this.props.localPlayer} remotePlayer={this.props.remotePlayer} hand={localHand} remoteBoard={remoteBoard} localBoard={localBoard}></GameRoom>
+          <GameRoom localPlayer={this.props.localPlayer} remotePlayer={this.props.remotePlayer} hand={localHand} remoteBoard={remoteBoard} localBoard={localBoard} socket={socket}></GameRoom>
         );
       case "console":
         return (

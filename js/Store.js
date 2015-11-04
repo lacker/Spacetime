@@ -126,15 +126,20 @@ let reducers = {
   //   cardId: the id of the card they're playing
   play: (state, action) => {
     let hand = state.hand.get(action.player);
-    let {index, card} = hand.find(
-      c => c.id == action.id);
-    return {
+    let card = hand.find(
+      c => c.id == action.cardId);
+    let index = hand.indexOf(card)
+    console.log(index)
+    console.log(card)
+    let newState = {
       ...state,
       hand: state.hand.update(
         action.player, hand => hand.delete(index)),
       board: state.board.update(
         action.player, board => board.push(card)),
     };
+    console.log(newState)
+    return newState;
   },
 
   // action contains:

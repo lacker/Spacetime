@@ -16,7 +16,7 @@ let HandOfCards = connect()(React.createClass({
     let handCards;
     if (this.props.cards) {
       handCards = this.props.cards.map((cardInfo, i) =>
-        <Card info={cardInfo} player={this.props.player} />
+        <Card info={cardInfo} player={this.props.player} socket={this.props.socket} />
       );
     }
     return (
