@@ -39,20 +39,6 @@ function checkForWinner(state) {
   };
 }
 
-// Updates one card on the board
-function updateCard(cardId, updater) {
-  return {
-    ...state,
-    board: board.map(cards => cards.map(card => {
-      if (card.id === cardId) {
-        return updater(card);
-      } else {
-        return card;
-      }
-    })),
-  };
-}
-
 let reducers = {
   // action contains:
   //   player: the player who's attacking
@@ -95,7 +81,6 @@ let reducers = {
       ...state,
       seeking: true,
       currentView: 'play',
-      player: action.player
     };
   },
 
@@ -105,7 +90,7 @@ let reducers = {
   register: (state, action) => {
     return {
       ...state,
-      player: action.player,
+      localPlayer: action.player,
       anonymous: action.anonymous,
     };
   },
@@ -117,6 +102,7 @@ let reducers = {
     return {
       ...state,
       players,
+      remotePlayer: players.find(p => p !== state.localPlayer),
       turn: action.players[0],
       hand: Map(players.map(p => [p, List()])),
       board: Map(players.map(p => [p, List()])),
@@ -136,14 +122,14 @@ let reducers = {
   },
 
   // action contains:
-  //   player:   the player who's playing a card
-  //   cardId:   the id of the card they're playing
+  //   player: the player who's playing a card
+  //   cardId: the id of the card they're playing
   play: (state, action) => {
     let hand = state.hand.get(action.player);
     let [index, card] = state.hand.get(action.player).findEntry(
       c => c.id == action.cardId);
     return {
-        ...state,
+      ...state,
       hand: state.hand.update(
         action.player, hand => hand.delete(index)),
       board: state.board.update(

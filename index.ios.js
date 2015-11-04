@@ -52,16 +52,17 @@ let App = connect(select)(React.createClass({
   render: function() {
     let localHand;
     if (this.props.hand) {
-      localHand = this.props.hand.get(this.props.player);
+      localHand = this.props.hand.get(this.props.localPlayer);
     }
-    let player;
-    if (this.props.players) {
-      player = this.props.players.get(this.props.player);
+    let localBoard, remoteBoard;
+    if (this.props.bord) {
+      localBoard = this.props.board.get(this.props.localPlayer); 
+      rmoteBoard = this.props.board.get(this.props.remotePlayer);
     }
     switch (this.props.currentView) {
       case "register":
         return (
-          <Login anonymous={this.props.anonymous} player={this.props.player} socket={socket} mode='register'></Login>
+          <Login anonymous={this.props.anonymous} player={this.props.localPlayer} socket={socket} mode='register'></Login>
         );
       case "login":
         return (
@@ -69,7 +70,7 @@ let App = connect(select)(React.createClass({
         );
       case "play":
         return (
-          <GameRoom localPlayer={this.props.player} remotePlayer={this.props.remotePlayer} hand={localHand}></GameRoom>
+          <GameRoom localPlayer={this.props.localPlayer} remotePlayer={this.props.remotePlayer} hand={localHand} remoteBoard={remoteBoard} localBoard={localBoard}></GameRoom>
         );
       case "console":
         return (
@@ -77,7 +78,7 @@ let App = connect(select)(React.createClass({
         );
       default:
         return (
-          <Welcome anonymous={this.props.anonymous} player={this.props.player} socket={socket}></Welcome>
+          <Welcome anonymous={this.props.anonymous} player={this.props.localPlayer} socket={socket}></Welcome>
         );
     } 
   }

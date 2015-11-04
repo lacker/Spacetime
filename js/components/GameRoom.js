@@ -22,6 +22,7 @@ let GameRoom = connect()(React.createClass({
   render: function() {
     return (
       <View style={roomStyles.roomContainer}>
+        
         <View style={roomStyles.gameArea}>
  
           <HandOfCards type='remotePlayer'></HandOfCards>
@@ -41,7 +42,6 @@ let GameRoom = connect()(React.createClass({
 
           <HandOfCards type='localPlayer' cards={this.props.hand} player={this.props.localPlayer}></HandOfCards>
 
- 
         </View>
 
         <View style={roomStyles.rightButtonArea}>
@@ -51,6 +51,7 @@ let GameRoom = connect()(React.createClass({
               Resign
             </Button>
         </View>
+      
       </View>
   );
   },
