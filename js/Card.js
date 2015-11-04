@@ -23,7 +23,7 @@ let nextId = 1;
 function random() {
   let card = CARDS.get(Math.floor(Math.random() * CARDS.size))
   card = card.set('id', nextId++).set('health', card.get('defense'));
-  return CARDS.get(Math.floor(Math.random() * CARDS.size))
+  return card
 }
 
 module.exports = {

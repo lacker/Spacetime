@@ -126,8 +126,8 @@ let reducers = {
   //   cardId: the id of the card they're playing
   play: (state, action) => {
     let hand = state.hand.get(action.player);
-    let [index, card] = state.hand.get(action.player).findEntry(
-      c => c.id == action.cardId);
+    let {index, card} = hand.find(
+      c => c.id == action.id);
     return {
       ...state,
       hand: state.hand.update(
