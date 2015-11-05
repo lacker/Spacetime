@@ -13,10 +13,11 @@ let Card = require('./Card');
 
 let HandOfCards = connect()(React.createClass({
   render: function() {
+    console.log("113")
     let handCards;
     if (this.props.cards) {
       handCards = this.props.cards.map((cardInfo, i) =>
-        <Card info={cardInfo} player={this.props.player} socket={this.props.socket} />
+        <Card key={i} info={cardInfo} player={this.props.player} socket={this.props.socket} />
       );
     }
     return (

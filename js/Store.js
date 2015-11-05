@@ -129,8 +129,6 @@ let reducers = {
     let card = hand.find(
       c => c.id == action.cardId);
     let index = hand.indexOf(card)
-    console.log(index)
-    console.log(card)
     let newState = {
       ...state,
       hand: state.hand.update(
@@ -138,7 +136,6 @@ let reducers = {
       board: state.board.update(
         action.player, board => board.push(card)),
     };
-    console.log(newState)
     return newState;
   },
 
