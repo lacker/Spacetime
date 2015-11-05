@@ -13,15 +13,12 @@ let Card = require('./Card');
 
 let BoardOfCards = connect()(React.createClass({
   render: function() {
-    console.log("112")
     let boardCards;
     if (this.props.cards) {
       boardCards = this.props.cards.map((cardInfo, i) =>
         <Card key={i} info={cardInfo} player={this.props.player} />
       );
     }
-    console.log("1234")
-    console.log(boardCards)
     return (
       <View style={[boardStyles.container]}>
           {boardCards}

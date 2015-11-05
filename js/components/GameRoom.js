@@ -19,9 +19,6 @@ let BoardOfCards = require('./BoardOfCards');
 
 let GameRoom = connect()(React.createClass({
   render: function() {
-
-    console.log(this.props.localBoard)
-
     return (
       <View style={roomStyles.roomContainer}>
         
