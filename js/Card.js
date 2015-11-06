@@ -41,9 +41,12 @@ function random() {
   return makeCard(data);
 }
 
+// The tests work with this returning JSON but it may not be ideal.
+// TODO: figure out whether this should really return JSON, or whether
+// it should return an immutable map.
 function withName(name) {
   let data = CARDS.find(c => c.get('name') === name);
-  return makeCard(data);
+  return makeCard(data).toJSON();
 }
 
 module.exports = {
