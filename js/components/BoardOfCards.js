@@ -16,7 +16,7 @@ let BoardOfCards = connect()(React.createClass({
     let boardCards;
     if (this.props.cards) {
       boardCards = this.props.cards.map((cardInfo, i) =>
-        <Card key={i} info={cardInfo} player={this.props.player} />
+        <Card key={i} info={cardInfo} player={this.props.player} inHand={false} />
       );
     }
     return (

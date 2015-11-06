@@ -17,8 +17,6 @@ let { connect } = require('react-redux');
 let clamp = require('clamp');
 let styles = require('../styles');
 
-var SWIPE_THRESHOLD = 120;
-
 let Card = connect()(React.createClass({
 
   componentWillMount: function() {
@@ -46,10 +44,10 @@ let Card = connect()(React.createClass({
       ]),
 
       onPanResponderRelease: (e, {vx, vy}) => {
-         
          let toValue = 0;         
          let distanceToBoard = styles.cardHeight + styles.cardHeight;
-         if(Math.abs(this.state.pan.y._value) >= distanceToBoard) {
+         if(Math.abs(this.state.pan.y._value) >= distanceToBoard &&
+            this.props.inHand) {
            toValue = -distanceToBoard;
            let playAction = {type:'play', cardId:this.props.info.id, player:this.props.player};
            this.props.socket.send(playAction);
@@ -68,17 +66,10 @@ let Card = connect()(React.createClass({
           velocity = clamp(vx * -1, 3, 5) * -1;
         }
 
-        if (Math.abs(this.state.pan.x._value) > SWIPE_THRESHOLD) {
-          Animated.decay(this.state.pan, {
-            velocity: {x: velocity, y: vy},
-            deceleration: 0.98
-          }).start(this._resetState)
-        } else {
-          Animated.spring(this.state.pan, {
+        Animated.spring(this.state.pan, {
             toValue: {x: 0, y: toValue},
             friction: 4
-          }).start()
-        }
+        }).start()
       }
     })
   },
