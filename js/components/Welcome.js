@@ -9,9 +9,9 @@ let {
 
 let { connect } = require('react-redux');
 
-let gStyles = require('../styles');
-let globalStyles = gStyles.styles;
-let Button = gStyles.Button;
+let styles = require('../styles');
+let globalStyles = styles.styles;
+let Button = styles.Button;
 
 class Welcome extends React.Component {
   render() {

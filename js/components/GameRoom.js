@@ -9,9 +9,9 @@ let {
 
 let { connect } = require('react-redux');
 
-let gStyles = require('../styles');
-let globalStyles = gStyles.styles;
-let Button = gStyles.Button;
+let styles = require('../styles');
+let globalStyles = styles.styles;
+let Button = styles.Button;
 
 let PlayerAvatar = require('./PlayerAvatar');
 let HandOfCards = require('./HandOfCards');
@@ -57,7 +57,6 @@ class GameRoom extends React.Component {
   }
 }
 
-
 let roomStyles = StyleSheet.create({
   roomContainer: {
     flex:1,
@@ -66,7 +65,7 @@ let roomStyles = StyleSheet.create({
   },
   gameBoard: {
     backgroundColor: 'purple',
-    height: gStyles.inPlayCardHeight * 2
+    height: styles.inPlayCardHeight * 2
   },
   gameArea: {
     flex:1,
@@ -83,6 +82,5 @@ let roomStyles = StyleSheet.create({
     justifyContent: 'center',
   }
 });
-
 
 module.exports = connect()(GameRoom);
