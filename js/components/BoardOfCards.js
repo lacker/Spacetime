@@ -16,18 +16,18 @@ let BoardOfCards = React.createClass({
     let boardCards;
     if (this.props.cards) {
       boardCards = this.props.cards.map((cardInfo, i) =>
-        <Card info={cardInfo} player={this.props.player} />
+        <Card key={i} info={cardInfo} player={this.props.player} inPlay={{on:true}} />
       );
     }
     return (
-      <View style={[handStyles.container]}>
+      <View style={[boardStyles.container]}>
           {boardCards}
       </View>
     );
   }
 });
 
-let handStyles = StyleSheet.create({
+let boardStyles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     justifyContent: 'center',

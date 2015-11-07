@@ -13,7 +13,6 @@ let gStyles = require('../styles');
 let globalStyles = gStyles.styles;
 let Button = gStyles.Button;
 
-let GameBoard = require('./GameBoard');
 let PlayerAvatar = require('./PlayerAvatar');
 let HandOfCards = require('./HandOfCards');
 let BoardOfCards = require('./BoardOfCards');
@@ -32,10 +31,10 @@ let GameRoom = connect()(React.createClass({
             <PlayerAvatar type='remotePlayer' player={this.props.remotePlayer}></PlayerAvatar>
           </View>
  
-          <GameBoard style={roomStyles.gameBoard}>
+          <View style={[roomStyles.gameBoard]}>
             <BoardOfCards type='remotePlayer' cards={this.props.remoteBoard} player={this.props.remotePlayer}></BoardOfCards>
             <BoardOfCards type='localPlayer' cards={this.props.localBoard} player={this.props.localPlayer}></BoardOfCards>
-          </GameBoard>
+          </View>
  
           <View style={[roomStyles.playerArea, globalStyles.buttonContainer]}>
             <PlayerAvatar type='localPlayer' player={this.props.localPlayer}></PlayerAvatar>
@@ -65,6 +64,10 @@ let roomStyles = StyleSheet.create({
     flex:1,
     backgroundColor:'yellow',
     flexDirection: 'row',
+  },
+  gameBoard: {
+    backgroundColor: 'purple',
+    height: gStyles.inPlayCardHeight * 2
   },
   gameArea: {
     flex:1,
