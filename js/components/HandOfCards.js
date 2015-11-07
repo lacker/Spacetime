@@ -7,7 +7,6 @@ let {
   View,
 } = React;
 
-let { connect } = require('react-redux');
 let styles = require('../styles');
 let Card = require('./Card');
 
