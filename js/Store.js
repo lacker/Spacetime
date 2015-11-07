@@ -133,10 +133,10 @@ let reducers = {
     console.log(card)
     let newState = {
       ...state,
-      hand: state.hand.update(
-        action.player, hand => hand.delete(index)),
       board: state.board.update(
         action.player, board => board.push(card)),
+      hand: state.hand.update(
+        action.player, hand => hand.delete(index)),
     };
     console.log(newState)
     return newState;

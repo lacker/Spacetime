@@ -20,6 +20,7 @@ let BoardOfCards = require('./BoardOfCards');
 
 let GameRoom = connect()(React.createClass({
   render: function() {
+    
     return (
       <View style={roomStyles.roomContainer}>
         

@@ -11,7 +11,7 @@ let { connect } = require('react-redux');
 let styles = require('../styles');
 let Card = require('./Card');
 
-let HandOfCards = connect()(React.createClass({
+let HandOfCards = React.createClass({
   render: function() {
     let handCards;
     if (this.props.cards) {
@@ -25,7 +25,7 @@ let HandOfCards = connect()(React.createClass({
       </View>
     );
   }
-}));
+});
 
 let handStyles = StyleSheet.create({
   container: {
