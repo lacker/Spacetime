@@ -13,8 +13,8 @@ let gStyles = require('../styles');
 let globalStyles = gStyles.styles;
 let Button = gStyles.Button;
 
-let Welcome = connect()(React.createClass({
-  render: function() {
+class Welcome extends React.Component {
+  render() {
     let welcomeString = 'Welcome to Spacetime';
     let actionButton =           
           <Button onPress={() => {
@@ -61,6 +61,6 @@ let Welcome = connect()(React.createClass({
       </View>
     );
   }
-}));
+}
 
-module.exports = Welcome;
+module.exports = connect()(Welcome);

@@ -13,13 +13,12 @@ let {
   View,
 } = React;
 
-let { connect } = require('react-redux');
 let clamp = require('clamp');
 let styles = require('../styles');
 
-let Card = connect()(React.createClass({
+class Card extends React.Component {
 
-  componentWillMount: function() {
+  componentWillMount() {
 
     this.state = {
       pan: new Animated.ValueXY(),
@@ -73,9 +72,9 @@ let Card = connect()(React.createClass({
         }).start()
       }
     })
-  },
+  }
 
-  render: function() {
+  render() {
 
     let name = '';
     let attack = '';
@@ -113,7 +112,7 @@ let Card = connect()(React.createClass({
       </Animated.View>
     );
   }
-}));
+}
 
 let cardStyles = StyleSheet.create({
   cardStatsContainer: {

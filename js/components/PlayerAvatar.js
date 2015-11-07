@@ -7,18 +7,17 @@ let {
   View,
 } = React;
 
-let { connect } = require('react-redux');
 let styles = require('../styles');
 
-let PlayerAvatar = connect()(React.createClass({
-  render: function() {
+class PlayerAvatar extends React.Component {
+  render() {
     return (
       <Text style={playerAvatarStyles.avatarContainer}>
        {this.props.player}
       </Text>
     );
   }
-}));
+}
 
 let playerAvatarStyles = StyleSheet.create({
   avatarContainer: {

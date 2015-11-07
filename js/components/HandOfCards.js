@@ -10,8 +10,8 @@ let {
 let styles = require('../styles');
 let Card = require('./Card');
 
-let HandOfCards = React.createClass({
-  render: function() {
+class HandOfCards extends React.Component {
+  render() {
     let handCards;
     if (this.props.cards) {
       handCards = this.props.cards.map((cardInfo, i) =>
@@ -24,7 +24,7 @@ let HandOfCards = React.createClass({
       </View>
     );
   }
-});
+};
 
 let handStyles = StyleSheet.create({
   container: {

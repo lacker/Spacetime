@@ -10,8 +10,8 @@ let {
 let styles = require('../styles');
 let Card = require('./Card');
 
-let BoardOfCards = React.createClass({
-  render: function() {
+class BoardOfCards extends React.Component {
+  render() {
     let boardCards;
     if (this.props.cards) {
       boardCards = this.props.cards.map((cardInfo, i) =>
@@ -24,7 +24,7 @@ let BoardOfCards = React.createClass({
       </View>
     );
   }
-});
+}
 
 let boardStyles = StyleSheet.create({
   container: {

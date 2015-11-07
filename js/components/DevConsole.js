@@ -12,8 +12,8 @@ let gStyles = require('../styles');
 let globalStyles = gStyles.styles;
 let Button = gStyles.Button;
 
-let DevConsole = connect()(React.createClass({
-  render: function() {
+class DevConsole extends React.Component {
+  render() {
     return (
       <View style={globalStyles.container}>
         <Text style={globalStyles.header}>
@@ -34,6 +34,6 @@ let DevConsole = connect()(React.createClass({
       </View>
     );
   }
-}));
+};
 
-module.exports = DevConsole;
+module.exports = connect()(DevConsole);

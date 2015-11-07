@@ -15,8 +15,9 @@ let gStyles = require('../styles');
 let globalStyles = gStyles.styles;
 let Button = gStyles.Button;
 
-let Login = connect()(React.createClass({
-  render: function() {
+
+class Login extends React.Component {
+  render() {
     let title = this.props.mode[0].toUpperCase() + this.props.mode.substr(1);
     return (
       <View style={globalStyles.container}>
@@ -54,7 +55,7 @@ let Login = connect()(React.createClass({
       </View>
     );
   }
-}));
+}
 
 
 let loginStyles = StyleSheet.create({
@@ -73,4 +74,4 @@ let loginStyles = StyleSheet.create({
   }
 });
 
-module.exports = Login;
+module.exports = connect()(Login);

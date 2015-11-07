@@ -17,8 +17,8 @@ let PlayerAvatar = require('./PlayerAvatar');
 let HandOfCards = require('./HandOfCards');
 let BoardOfCards = require('./BoardOfCards');
 
-let GameRoom = connect()(React.createClass({
-  render: function() {
+class GameRoom extends React.Component {
+  render() {
     
     return (
       <View style={roomStyles.roomContainer}>
@@ -54,9 +54,8 @@ let GameRoom = connect()(React.createClass({
       
       </View>
   );
-  },
-
-}));
+  }
+}
 
 
 let roomStyles = StyleSheet.create({
@@ -86,4 +85,4 @@ let roomStyles = StyleSheet.create({
 });
 
 
-module.exports = GameRoom;
+module.exports = connect()(GameRoom);
