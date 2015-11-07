@@ -21,6 +21,21 @@ let Card = require('./Card');
 
 let initialState = {log: List()};
 
+// Applies an effect, defined by a string.
+function reduceEffect(state, effect, targetId) {
+  switch(effect.type) {
+  case 'damage':
+    return damage(state, targetId, effect.amount);
+  default:
+    throw 'unknown effect type: ' + effect.type;
+  }
+}
+
+function damage(state, cardId, amount) {
+  return clearDeadCards(updateCard(
+    cardId, card => card.set('health', card.get('health' - amount))));
+}
+
 function clearDeadCards(state) {
   return {
     ...state,
@@ -48,14 +63,8 @@ let reducers = {
     let attack = state.board.get(action.player).find(
       c => c.id == action.cardId).attack;
     let opponent = state.players.find(p => p !== action.player);
-    let [index, target] = state.board.get(opponent).findEntry(
-      c => c.id == action.targetId);
-    return clearDeadCards({
-        ...state,
-      board: state.board.updateIn(
-        [opponent, index, 'health'],
-        h => h - attack),
-    });
+    // TODO: also damage the attacker
+    return damage(state, targetId, attack);
   },
 
   // action contains:
@@ -122,21 +131,28 @@ let reducers = {
   },
 
   // action contains:
-  //   player: the player who's playing a card
-  //   cardId: the id of the card they're playing
+  //   player:   the player who's playing a card
+  //   cardId:   the id of the card they're playing
+  //   targetId: optional. the id of the card this action is targeting.
   play: (state, action) => {
     let hand = state.hand.get(action.player);
-    let card = hand.find(
+    let [index, card] = state.hand.get(action.player).findEntry(
       c => c.id == action.cardId);
-    let index = hand.indexOf(card)
-    let newState = {
-      ...state,
-      board: state.board.update(
-        action.player, board => board.push(card)),
-      hand: state.hand.update(
-        action.player, hand => hand.delete(index)),
-    };
-    return newState;
+    let newHand = state.hand.update(
+      action.player, hand => hand.delete(index));
+    if (card.attack) {
+      // Put this card into play
+      return {
+          ...state,
+        hand: newHand,
+        board: state.board.update(
+          action.player, board => board.push(card)),
+      };
+    }
+    
+    // The card has an effect
+    return reduceEffect({...state, hand: newHand}, card.effect,
+                        action.targetId);
   },
 
   // action contains:

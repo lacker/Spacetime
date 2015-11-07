@@ -2,6 +2,7 @@
 
 jest.autoMockOff();
 
+let Card = require('../Card');
 let Store = require('../Store');
 
 // Applies actions to a new store
@@ -13,14 +14,6 @@ function run(actions) {
   return s;
 }
 
-function bot(id) {
-  return {
-    name: 'Bot',
-    attack: 1,
-    defense: 1,
-    id
-  };
-}
 
 describe('Store', () => {
   it('can register', () => {
@@ -52,19 +45,19 @@ describe('Store', () => {
     }, {
       type: 'drawCard',
       player: 'alice',
-      card: bot(1),
+      card: Card.withName('Monobot'),
     }, {
       type: 'drawCard',
       player: 'alice',
-      card: bot(2),
+      card: Card.withName('Monobot'),
     }, {
       type: 'drawCard',
       player: 'bob',
-      card: bot(3),
+      card: Card.withName('Monobot'),
     }, {
       type: 'drawCard',
       player: 'bob',
-      card: bot(4),
+      card: Card.withName('Monobot'),
     }]);
     expect(s.getState().hand.get('alice').size).toEqual(2);
     expect(s.getState().hand.get('bob').size).toEqual(2);
