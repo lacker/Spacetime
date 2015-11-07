@@ -44,13 +44,11 @@ let Card = connect()(React.createClass({
       ]),
 
       onPanResponderRelease: (e, {vx, vy}) => {
-         console.log(this.props)
          let toValue = 0;         
          let distanceToBoard = styles.cardHeight + styles.cardHeight;
          if(Math.abs(this.state.pan.y._value) >= distanceToBoard) {
            toValue = -distanceToBoard;
            if (this.props.inHand && !this.props.inPlay) {
-            console.log('PLAY IT')
              let playAction = {type:'play', cardId:this.props.info.id, player:this.props.player};
              this.props.socket.send(playAction);
            }
