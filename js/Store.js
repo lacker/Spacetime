@@ -33,13 +33,19 @@ function reduceEffect(state, effect, targetId) {
 
 function damage(state, cardId, amount) {
   return clearDeadCards(updateCard(
-    cardId, card => card.set('health', card.get('health' - amount))));
+    state, cardId,
+    card => {
+      return {
+        ...card,
+        health: card.health - amount,
+      };
+    }));
 }
 
 function clearDeadCards(state) {
   return {
     ...state,
-    board: state.board.map(cards => cards.filter(c => c.get('health') > 0)),
+    board: state.board.map(cards => cards.filter(c => c.health > 0)),
   };
 }
 
@@ -54,10 +60,11 @@ function checkForWinner(state) {
   };
 }
 
-function updateCard(cardId, updater) {    
+// Applies updater to the card defined by cardId
+function updateCard(state, cardId, updater) {    
   return {   
     ...state,    
-    board: board.map(cards => cards.map(card => {    
+    board: state.board.map(cards => cards.map(card => {    
       if (card.id === cardId) {    
         return updater(card);    
       } else {   

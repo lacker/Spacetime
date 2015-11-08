@@ -19,11 +19,11 @@ describe('Store', () => {
   it('can register', () => {
     let state = run([{
       type: 'register',
-      username: 'bob',
+      player: 'bob',
       anonymous: false,
     }]);
     let s = state.getState();
-    expect(s.username).toEqual('bob');
+    expect(s.localPlayer).toEqual('bob');
   });
   it('can start a game', () => {
     let state = run([{
@@ -95,5 +95,12 @@ describe('Store', () => {
       cardId: 1,
     });
     expect(s.getState().life.get('bob')).toEqual(29);
+
+    s.dispatch({
+      type: 'play',
+      player: 'alice',
+      cardId: 5, // the bolt
+      targetId: 1, // bolting her own creature
+    });
   });
 });
