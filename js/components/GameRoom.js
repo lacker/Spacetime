@@ -28,7 +28,7 @@ class GameRoom extends React.Component {
           <HandOfCards type='remotePlayer'></HandOfCards>
 
           <View style={roomStyles.playerArea}>
-            <PlayerAvatar type='remotePlayer' player={this.props.remotePlayer}></PlayerAvatar>
+            <PlayerAvatar type='remotePlayer' player={this.props.remotePlayer} life={this.props.remoteLife}></PlayerAvatar>
           </View>
  
           <View style={[roomStyles.gameBoard]}>
@@ -37,10 +37,10 @@ class GameRoom extends React.Component {
           </View>
  
           <View style={[roomStyles.playerArea, globalStyles.buttonContainer]}>
-            <PlayerAvatar type='localPlayer' player={this.props.localPlayer}></PlayerAvatar>
+            <PlayerAvatar type='localPlayer' player={this.props.localPlayer} life={this.props.localLife} ></PlayerAvatar>
           </View>
 
-          <HandOfCards type='localPlayer' cards={this.props.hand} player={this.props.localPlayer} socket={this.props.socket}></HandOfCards>
+          <HandOfCards type='localPlayer' cards={this.props.hand} player={this.props.localPlayer}socket={this.props.socket}></HandOfCards>
 
         </View>
 
