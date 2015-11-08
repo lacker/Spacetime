@@ -83,6 +83,13 @@ describe('Store', () => {
     expect(s.getState().turn).toEqual('alice');
 
     s.dispatch({
+      type: 'drawCard',
+      player: 'alice',
+      card: Card.withName('Bolt'),
+    });
+    expect(s.getState().hand.get('alice').size).toEqual(2);
+
+    s.dispatch({
       type: 'attackPlayer',
       player: 'alice',
       cardId: 1,
