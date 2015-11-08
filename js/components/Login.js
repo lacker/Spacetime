@@ -9,14 +9,12 @@ let {
 } = React;
 
 let { connect } = require('react-redux');
+let styles = require('../styles');
+let globalStyles = styles.styles;
+let Button = styles.Button;
 
-
-let gStyles = require('../styles');
-let globalStyles = gStyles.styles;
-let Button = gStyles.Button;
-
-let Login = connect()(React.createClass({
-  render: function() {
+class Login extends React.Component {
+  render() {
     let title = this.props.mode[0].toUpperCase() + this.props.mode.substr(1);
     return (
       <View style={globalStyles.container}>
@@ -37,9 +35,9 @@ let Login = connect()(React.createClass({
             if (!this.tempUsername) {
               alert("You need to choose a username in order to register.");
             } else {
-              this.props.dispatch({type:'register', username:this.tempUsername, anonymous:false});
+              this.props.dispatch({type:'register', player:this.tempUsername, anonymous:false});
               this.props.dispatch({type:'setView', view:'welcome'});
-              let hello = {type: 'hello', username: this.tempUsername};
+              let hello = {type: 'hello', player: this.tempUsername};
               this.props.socket.send(hello);
             }
           }}  style={{backgroundColor: 'green'}}>
@@ -54,7 +52,7 @@ let Login = connect()(React.createClass({
       </View>
     );
   }
-}));
+}
 
 
 let loginStyles = StyleSheet.create({
@@ -73,4 +71,4 @@ let loginStyles = StyleSheet.create({
   }
 });
 
-module.exports = Login;
+module.exports = connect()(Login);

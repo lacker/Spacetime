@@ -9,32 +9,78 @@ let {
 
 let { connect } = require('react-redux');
 
-let gStyles = require('../styles');
-let globalStyles = gStyles.styles;
-let Button = gStyles.Button;
+let styles = require('../styles');
+let globalStyles = styles.styles;
+let Button = styles.Button;
 
-let GameRoom = connect()(React.createClass({
-  render: function() {
-    let welcomeString = 'Fight!';
-    if (!this.props.players || 
-        this.props.players.length < 2) {
-      welcomeString = 'Waiting for Opponent';
-    }
+let PlayerAvatar = require('./PlayerAvatar');
+let HandOfCards = require('./HandOfCards');
+let BoardOfCards = require('./BoardOfCards');
+
+class GameRoom extends React.Component {
+  render() {
+    
     return (
-      <View style={globalStyles.container}>
-        <Text style={globalStyles.header}>
-          {welcomeString}
-        </Text>
-        <View style={globalStyles.buttonContainer}>
-          <Button onPress={() => {
-              this.props.dispatch({type:'setView', view:'welcome'});
-            }}>
-            Resign
-          </Button>
-        </View>
-      </View>
-    );
-  }
-}));
+      <View style={roomStyles.roomContainer}>
+        
+        <View style={roomStyles.gameArea}>
+ 
+          <HandOfCards type='remotePlayer'></HandOfCards>
 
-module.exports = GameRoom;
+          <View style={roomStyles.playerArea}>
+            <PlayerAvatar type='remotePlayer' player={this.props.remotePlayer}></PlayerAvatar>
+          </View>
+ 
+          <View style={[roomStyles.gameBoard]}>
+            <BoardOfCards type='remotePlayer' cards={this.props.remoteBoard} player={this.props.remotePlayer}></BoardOfCards>
+            <BoardOfCards type='localPlayer' cards={this.props.localBoard} player={this.props.localPlayer}></BoardOfCards>
+          </View>
+ 
+          <View style={[roomStyles.playerArea, globalStyles.buttonContainer]}>
+            <PlayerAvatar type='localPlayer' player={this.props.localPlayer}></PlayerAvatar>
+          </View>
+
+          <HandOfCards type='localPlayer' cards={this.props.hand} player={this.props.localPlayer} socket={this.props.socket}></HandOfCards>
+
+        </View>
+
+        <View style={roomStyles.rightButtonArea}>
+            <Button onPress={() => {
+              this.props.dispatch({type:'setView', view:'welcome'});
+              }}>
+              Resign
+            </Button>
+        </View>
+      
+      </View>
+  );
+  }
+}
+
+let roomStyles = StyleSheet.create({
+  roomContainer: {
+    flex:1,
+    backgroundColor:'yellow',
+    flexDirection: 'row',
+  },
+  gameBoard: {
+    backgroundColor: 'purple',
+    height: styles.inPlayCardHeight * 2
+  },
+  gameArea: {
+    flex:1,
+    backgroundColor:'red',
+  },
+  playerArea: {
+    flex:0,
+    backgroundColor:'blue',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  rightButtonArea : {
+    width: 80,
+    justifyContent: 'center',
+  }
+});
+
+module.exports = connect()(GameRoom);
