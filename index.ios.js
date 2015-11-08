@@ -50,18 +50,13 @@ function select(state) {
 
 let App = connect(select)(React.createClass({
   render: function() {
-    let localHand;
+    let localHand, localBoard, localLife, remoteBoard, remoteLife;
     if (this.props.hand) {
       localHand = this.props.hand.get(this.props.localPlayer);
-    }
-    let localBoard, remoteBoard;
-    if (this.props.board) {
       localBoard = this.props.board.get(this.props.localPlayer); 
-      remoteBoard = this.props.board.get(this.props.remotePlayer);
-    }
-    let localLife, remoteLife;
-    if (this.props.board) {
       localLife = this.props.life.get(this.props.localPlayer); 
+
+      remoteBoard = this.props.board.get(this.props.remotePlayer);
       remoteLife = this.props.life.get(this.props.remotePlayer);
     }
     switch (this.props.currentView) {

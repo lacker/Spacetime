@@ -98,7 +98,7 @@ class Card extends React.Component {
                {attack}
             </Text>
           </View>
-          <View style={{flex:1}}></View>
+          <View style={[cardStyles.flexFill]}></View>
           <View style={[cardStyles.defenseBackground]}>
             <Text>
              {defense}
@@ -120,6 +120,9 @@ let cardStyles = StyleSheet.create({
   defenseBackground: {
     backgroundColor: 'red',
   },
+  flexFill: {
+    flex: 1,
+  },  
   container: {
     height: styles.cardHeight,
     width: styles.cardWidth,
