@@ -54,6 +54,20 @@ function checkForWinner(state) {
   };
 }
 
+function updateCard(cardId, updater) {    
+  return {   
+    ...state,    
+    board: board.map(cards => cards.map(card => {    
+      if (card.id === cardId) {    
+        return updater(card);    
+      } else {   
+        return card;   
+      }    
+    })),   
+  };   
+}    
+
+
 let reducers = {
   // action contains:
   //   player: the player who's attacking
@@ -94,7 +108,7 @@ let reducers = {
   },
 
   // action contains:
-  //  player: a string for the name of the local player
+  //  localPlayer: a string for the name of the local player
   //  anonymous: a boolean, this is set to true for a guest login
   register: (state, action) => {
     return {

@@ -24,6 +24,9 @@ let playerAvatarStyles = StyleSheet.create({
     width: 120,
     height: styles.cardHeight,
     textAlign: 'center',
+    borderWidth: 1,
+    borderColor: 'black',
+    backgroundColor: 'white'
 
   }
 });

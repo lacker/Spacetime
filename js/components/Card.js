@@ -26,6 +26,7 @@ class Card extends React.Component {
     }
 
     this._panResponder = PanResponder.create({
+
       onMoveShouldSetResponderCapture: () => true,
       onMoveShouldSetPanResponderCapture: () => true,
 
@@ -48,7 +49,7 @@ class Card extends React.Component {
          if(Math.abs(this.state.pan.y._value) >= distanceToBoard) {
            toValue = -distanceToBoard;
            if (this.props.inHand && !this.props.inPlay) {
-             let playAction = {type:'play', cardId:this.props.info.id, player:this.props.player};
+             let playAction = {type:'play', cardId:this.props.id, player:this.props.player};
              this.props.socket.send(playAction);
            }
          }
@@ -76,14 +77,9 @@ class Card extends React.Component {
 
   render() {
 
-    let name = '';
-    let attack = '';
-    let defense = '';
-    if(this.props.info) {
-      name = this.props.info['name'];
-      attack = this.props.info['attack'];
-      defense = this.props.info['defense'];
-    }
+    let name = this.props.name;
+    let  attack = this.props.attack;
+    let defense = this.props.defense;
 
     let { pan, enter, } = this.state;
     let [translateX, translateY] = [pan.x, pan.y];
