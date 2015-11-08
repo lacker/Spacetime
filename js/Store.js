@@ -54,19 +54,19 @@ function checkForWinner(state) {
   };
 }
 
-// Updates one card on the board
-function updateCard(cardId, updater) {
-  return {
-    ...state,
-    board: board.map(cards => cards.map(card => {
-      if (card.id === cardId) {
-        return updater(card);
-      } else {
-        return card;
-      }
-    })),
-  };
-}
+function updateCard(cardId, updater) {    
+  return {   
+    ...state,    
+    board: board.map(cards => cards.map(card => {    
+      if (card.id === cardId) {    
+        return updater(card);    
+      } else {   
+        return card;   
+      }    
+    })),   
+  };   
+}    
+
 
 let reducers = {
   // action contains:
@@ -108,12 +108,12 @@ let reducers = {
   },
 
   // action contains:
-  //  username: a string for the name of the local player
+  //  localPlayer: a string for the name of the local player
   //  anonymous: a boolean, this is set to true for a guest login
   register: (state, action) => {
     return {
       ...state,
-      username: action.username,
+      localPlayer: action.player,
       anonymous: action.anonymous,
     };
   },
@@ -125,6 +125,7 @@ let reducers = {
     return {
       ...state,
       players,
+      remotePlayer: players.find(p => p !== state.localPlayer),
       turn: action.players[0],
       hand: Map(players.map(p => [p, List()])),
       board: Map(players.map(p => [p, List()])),

@@ -9,12 +9,12 @@ let {
 
 let { connect } = require('react-redux');
 
-let gStyles = require('../styles');
-let globalStyles = gStyles.styles;
-let Button = gStyles.Button;
+let styles = require('../styles');
+let globalStyles = styles.styles;
+let Button = styles.Button;
 
-let Welcome = connect()(React.createClass({
-  render: function() {
+class Welcome extends React.Component {
+  render() {
     let welcomeString = 'Welcome to Spacetime';
     let actionButton =           
           <Button onPress={() => {
@@ -24,10 +24,10 @@ let Welcome = connect()(React.createClass({
           </Button>;
     let guestPlay = null;
     if (!this.props.anonymous) {
-      welcomeString += ', ' +  this.props.username;
+      welcomeString += ', ' +  this.props.player;
       actionButton = 
           <Button onPress={() => {
-              let seekAction = {type:'seeking', username:this.props.username};
+              let seekAction = {type:'seeking', player:this.props.player};
               this.props.dispatch(seekAction);
               this.props.socket.send(seekAction);
             }} 
@@ -36,7 +36,7 @@ let Welcome = connect()(React.createClass({
           </Button>;      
     } else {
       guestPlay = <Button onPress={() => {
-              let seekAction = {type:'seeking', username:this.props.username};
+              let seekAction = {type:'seeking', player:this.props.player};
               this.props.dispatch(seekAction);
               this.props.socket.send(seekAction);
             }} 
@@ -61,6 +61,6 @@ let Welcome = connect()(React.createClass({
       </View>
     );
   }
-}));
+}
 
-module.exports = Welcome;
+module.exports = connect()(Welcome);

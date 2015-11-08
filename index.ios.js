@@ -27,8 +27,8 @@ let socket = io('http://localhost:7777', {jsonp: false});
 
 socket.on('connect', () => {
   console.log('connected.');
-  store.dispatch({type:'register', username:guestName, anonymous:true});
-  let hello = {type: 'hello', username: guestName};
+  store.dispatch({type:'register', player:guestName, anonymous:true});
+  let hello = {type: 'hello', player: guestName};
   socket.send(hello);
 });
 
@@ -50,10 +50,19 @@ function select(state) {
 
 let App = connect(select)(React.createClass({
   render: function() {
+    let localHand;
+    if (this.props.hand) {
+      localHand = this.props.hand.get(this.props.localPlayer);
+    }
+    let localBoard, remoteBoard;
+    if (this.props.board) {
+      localBoard = this.props.board.get(this.props.localPlayer); 
+      remoteBoard = this.props.board.get(this.props.remotePlayer);
+    }
     switch (this.props.currentView) {
       case "register":
         return (
-          <Login anonymous={this.props.anonymous} username={this.props.username} socket={socket} mode='register'></Login>
+          <Login anonymous={this.props.anonymous} player={this.props.localPlayer} socket={socket} mode='register'></Login>
         );
       case "login":
         return (
@@ -61,7 +70,7 @@ let App = connect(select)(React.createClass({
         );
       case "play":
         return (
-          <GameRoom players={this.props.players}></GameRoom>
+          <GameRoom localPlayer={this.props.localPlayer} remotePlayer={this.props.remotePlayer} hand={localHand} remoteBoard={remoteBoard} localBoard={localBoard} socket={socket}></GameRoom>
         );
       case "console":
         return (
@@ -69,7 +78,7 @@ let App = connect(select)(React.createClass({
         );
       default:
         return (
-          <Welcome anonymous={this.props.anonymous} username={this.props.username} socket={socket}></Welcome>
+          <Welcome anonymous={this.props.anonymous} player={this.props.localPlayer} socket={socket}></Welcome>
         );
     } 
   }
