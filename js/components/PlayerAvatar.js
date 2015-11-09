@@ -12,9 +12,17 @@ let styles = require('../styles');
 class PlayerAvatar extends React.Component {
   render() {
     return (
-      <Text style={playerAvatarStyles.avatarContainer}>
-       {this.props.player}
-      </Text>
+      <View style={playerAvatarStyles.avatarContainer}>
+        <Text>
+          {this.props.player}
+        </Text>
+        <View style={{flex:1}}></View>
+        <View>
+          <Text>
+            {this.props.life}
+          </Text>
+        </View>
+      </View>
     );
   }
 }

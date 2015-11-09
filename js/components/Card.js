@@ -78,7 +78,7 @@ class Card extends React.Component {
   render() {
 
     let name = this.props.name;
-    let  attack = this.props.attack;
+    let attack = this.props.attack;
     let defense = this.props.defense;
 
     let { pan, enter, } = this.state;
