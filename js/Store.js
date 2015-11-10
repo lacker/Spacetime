@@ -194,9 +194,11 @@ let reducers = {
   // action contains:
   //   player: the player whose turn is ending
   endTurn: (state, action) => {
+    let newPlayer = state.players.find(p => p !== state.turn);
     return {
       ...state,
-      turn: state.players.find(p => p !== state.turn),
+      turn: newPlayer,
+      mana: state.mana.update(newPlayer, m => m + 1),
     };
   },
 

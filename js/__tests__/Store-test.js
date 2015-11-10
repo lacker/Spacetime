@@ -69,12 +69,14 @@ describe('Store', () => {
     });
     expect(s.getState().hand.get('alice').size).toEqual(1);
     expect(s.getState().hand.get('bob').size).toEqual(2);
+    expect(s.getState().mana.get('bob')).toEqual(1);
 
     s.dispatch({
       type: 'endTurn',
       player: 'alice',
     });
     expect(s.getState().turn).toEqual('bob');
+    expect(s.getState().mana.get('bob')).toEqual(2);
 
     s.dispatch({
       type: 'endTurn',
