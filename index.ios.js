@@ -50,14 +50,16 @@ function select(state) {
 
 let App = connect(select)(React.createClass({
   render: function() {
-    let localHand, localBoard, localLife, remoteBoard, remoteLife;
+    let localHand, localBoard, localLife, localMana, remoteBoard, remoteLife, remoteMana;
     if (this.props.hand) {
       localHand = this.props.hand.get(this.props.localPlayer);
       localBoard = this.props.board.get(this.props.localPlayer); 
       localLife = this.props.life.get(this.props.localPlayer); 
+      localMana = this.props.mana.get(this.props.localPlayer); 
 
       remoteBoard = this.props.board.get(this.props.remotePlayer);
       remoteLife = this.props.life.get(this.props.remotePlayer);
+      remoteMana = this.props.mana.get(this.props.remotePlayer); 
     }
     switch (this.props.currentView) {
       case "register":
@@ -70,7 +72,7 @@ let App = connect(select)(React.createClass({
         );
       case "play":
         return (
-          <GameRoom localPlayer={this.props.localPlayer} remotePlayer={this.props.remotePlayer} hand={localHand} remoteBoard={remoteBoard} localBoard={localBoard} remoteLife={remoteLife} localLife={localLife} socket={socket}></GameRoom>
+          <GameRoom localPlayer={this.props.localPlayer} remotePlayer={this.props.remotePlayer} hand={localHand} remoteBoard={remoteBoard} localBoard={localBoard} remoteLife={remoteLife} localLife={localLife} remoteMana={remoteMana} localMana={localMana} socket={socket}></GameRoom>
         );
       case "console":
         return (

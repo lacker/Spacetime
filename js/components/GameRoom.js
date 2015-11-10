@@ -16,6 +16,7 @@ let Button = styles.Button;
 let PlayerAvatar = require('./PlayerAvatar');
 let HandOfCards = require('./HandOfCards');
 let BoardOfCards = require('./BoardOfCards');
+let ManaView = require('./ManaView');
 
 class GameRoom extends React.Component {
   render() {
@@ -29,6 +30,7 @@ class GameRoom extends React.Component {
 
           <View style={roomStyles.playerArea}>
             <PlayerAvatar type='remotePlayer' player={this.props.remotePlayer} life={this.props.remoteLife}></PlayerAvatar>
+            <ManaView mana={this.props.remoteMana}></ManaView>
           </View>
  
           <View style={[roomStyles.gameBoard]}>
@@ -38,6 +40,7 @@ class GameRoom extends React.Component {
  
           <View style={[roomStyles.playerArea, globalStyles.buttonContainer]}>
             <PlayerAvatar type='localPlayer' player={this.props.localPlayer} life={this.props.localLife} ></PlayerAvatar>
+            <ManaView mana={this.props.localMana}></ManaView>
           </View>
 
           <HandOfCards type='localPlayer' cards={this.props.hand} player={this.props.localPlayer}socket={this.props.socket}></HandOfCards>
@@ -75,7 +78,8 @@ let roomStyles = StyleSheet.create({
     flex:0,
     backgroundColor:'blue',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'stretch',
+    flexDirection: 'row',
   },
   rightButtonArea : {
     width: 80,

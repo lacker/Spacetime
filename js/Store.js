@@ -137,6 +137,7 @@ let reducers = {
       hand: Map(players.map(p => [p, List()])),
       board: Map(players.map(p => [p, List()])),
       life: Map(players.map(p => [p, 30])),
+      mana: Map(players.map(p => [p, 1])),
     };
   },
 
