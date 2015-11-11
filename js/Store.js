@@ -31,6 +31,15 @@ function reduceEffect(state, effect, targetId) {
   }
 }
 
+// Starts a new turn for the provided player
+function beginTurn(state, player) {
+  return {
+    ...state,
+    turn: player,
+    mana: state.mana.update(player, m => m + 1),
+  };
+}
+
 function damage(state, cardId, amount) {
   return clearDeadCards(updateCard(
     state, cardId,
@@ -129,16 +138,15 @@ let reducers = {
   //   players: a list of the two players in this game
   startGame: (state, action) => {
     let players = List(action.players);
-    return {
+    return beginTurn({
       ...state,
       players,
       remotePlayer: players.find(p => p !== state.localPlayer),
-      turn: action.players[0],
       hand: Map(players.map(p => [p, List()])),
       board: Map(players.map(p => [p, List()])),
       life: Map(players.map(p => [p, 30])),
-      mana: Map(players.map(p => [p, 1])),
-    };
+      mana: Map(players.map(p => [p, 0])),
+    }, action.players[0]);
   },
 
   // action contains:
@@ -195,11 +203,7 @@ let reducers = {
   //   player: the player whose turn is ending
   endTurn: (state, action) => {
     let newPlayer = state.players.find(p => p !== state.turn);
-    return {
-      ...state,
-      turn: newPlayer,
-      mana: state.mana.update(newPlayer, m => m + 1),
-    };
+    return beginTurn(state, newPlayer);
   },
 
 };
