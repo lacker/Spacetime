@@ -43,16 +43,27 @@ class GameRoom extends React.Component {
             <ManaView mana={this.props.localMana}></ManaView>
           </View>
 
-          <HandOfCards type='localPlayer' cards={this.props.hand} player={this.props.localPlayer}socket={this.props.socket}></HandOfCards>
+          <HandOfCards type='localPlayer' cards={this.props.hand} player={this.props.localPlayer} socket={this.props.socket}></HandOfCards>
 
         </View>
 
         <View style={roomStyles.rightButtonArea}>
             <Button onPress={() => {
+                if (this.props.turn == this.localPlayer) {
+                  console.log("HEY")
+                  let passAction = {type:'endTurn', player:this.props.localPlayer};
+                  console.log(passAction)
+                  this.props.socket.send(passAction);
+                }
+              }}>
+              End Turn
+            </Button>
+            <Button onPress={() => {
               this.props.dispatch({type:'setView', view:'welcome'});
               }}>
               Resign
             </Button>
+
         </View>
       
       </View>
