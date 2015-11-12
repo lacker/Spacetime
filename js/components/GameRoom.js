@@ -63,10 +63,8 @@ class GameRoom extends React.Component {
         <View style={roomStyles.rightButtonArea}>
             <Button onPress={() => {
                 if (this.props.turn == this.localPlayer) {
-                  console.log("HEY")
                   let passAction = {type:'endTurn', 
                                     player:this.props.localPlayer};
-                  console.log(passAction)
                   this.props.socket.send(passAction);
                 }
               }}>
