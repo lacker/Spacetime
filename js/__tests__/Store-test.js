@@ -77,6 +77,7 @@ describe('Store', () => {
     });
     expect(s.getState().turn).toEqual('bob');
     expect(s.getState().mana.get('bob')).toEqual(1);
+    expect(s.getState().maxMana.get('bob')).toEqual(1);
 
     s.dispatch({
       type: 'endTurn',

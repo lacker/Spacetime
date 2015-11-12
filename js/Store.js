@@ -33,10 +33,14 @@ function reduceEffect(state, effect, targetId) {
 
 // Starts a new turn for the provided player
 function beginTurn(state, player) {
-  return {
+  state = {
     ...state,
     turn: player,
-    mana: state.mana.update(player, m => m + 1),
+    maxMana: state.maxMana.update(player, m => m + 1),
+  };
+  return {
+    ...state,
+    mana: state.maxMana
   };
 }
 
@@ -146,6 +150,7 @@ let reducers = {
       board: Map(players.map(p => [p, List()])),
       life: Map(players.map(p => [p, 30])),
       mana: Map(players.map(p => [p, 0])),
+      maxMana: Map(players.map(p => [p, 0])),
     }, action.players[0]);
   },
 
