@@ -35,7 +35,8 @@ class Card extends React.Component {
             toValue: .75,
           }).start()
 
-        this.state.pan.setOffset({x: this.state.pan.x._value, y: this.state.pan.y._value});
+        this.state.pan.setOffset({x: this.state.pan.x._value, 
+                                  y: this.state.pan.y._value});
         this.state.pan.setValue({x: 0, y: 0});
       },
 
@@ -49,7 +50,9 @@ class Card extends React.Component {
          if(Math.abs(this.state.pan.y._value) >= distanceToBoard) {
            toValue = -distanceToBoard;
            if (this.props.inHand && !this.props.inPlay) {
-             let playAction = {type:'play', cardId:this.props.id, player:this.props.player};
+             let playAction = {type:'play', 
+                               cardId:this.props.id, 
+                               player:this.props.player};
              this.props.socket.send(playAction);
            }
          }
@@ -87,7 +90,8 @@ class Card extends React.Component {
     let animatedCardStyles = {transform: [{translateX}, {translateY}, {scale}]};
  
     return (
-      <Animated.View style={[cardStyles.container, animatedCardStyles]} {...this._panResponder.panHandlers}>
+      <Animated.View style={[cardStyles.container, animatedCardStyles]} 
+       {...this._panResponder.panHandlers}>
         <Text>
            {name}
         </Text>
