@@ -26,5 +26,4 @@ Then, open the other simulator too:
 
 * cd /Applications/Xcode.app/Contents/Developer/Applications
 * open -n Simulator.app
-* This will fail. But -
-* In the Simulator menu, Hardware -> Device, select the resolution that you ran originally but you are not currently running via XCode.
+* In the Simulator menu, Hardware -> Device, select the resolution that you ran before but you are not currently running via XCode.
