@@ -24,6 +24,7 @@ There's a good chance you'll want to run multiple clients at once. To do that
 
 Then, open the other simulator too:
 
-* cd /Applications/Xcode.app/Contents/Developer/Applications
-* open -n Simulator.app
-* In the Simulator menu, Hardware -> Device, select the resolution that you ran before but you are not currently running via XCode.
+    cd /Applications/Xcode.app/Contents/Developer/Applications
+    open -n Simulator.app		
+
+In the Simulator menu, Hardware -> Device, select the resolution that you ran before but you are not currently running via XCode.
