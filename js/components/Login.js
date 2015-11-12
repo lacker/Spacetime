@@ -35,7 +35,9 @@ class Login extends React.Component {
             if (!this.tempUsername) {
               alert("You need to choose a username in order to register.");
             } else {
-              this.props.dispatch({type:'register', player:this.tempUsername, anonymous:false});
+              this.props.dispatch({type:'register', 
+                                   player:this.tempUsername, 
+                                   anonymous:false});
               this.props.dispatch({type:'setView', view:'welcome'});
               let hello = {type: 'hello', player: this.tempUsername};
               this.props.socket.send(hello);

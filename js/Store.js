@@ -11,7 +11,8 @@
 //   hand: a map from username to a list of their cards.
 //   board: a map from username to a list of cards on the board
 //   winner: the username of the winner, if there is one
-//   currentView: a string for what view to show (console, play, register, welcome)
+//   currentView: a string for what view to show 
+//     (console, play, register, welcome)
 
 let Immutable = require('immutable');
 let { fromJS, List, Map } = Immutable;
