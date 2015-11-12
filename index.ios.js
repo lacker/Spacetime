@@ -64,7 +64,11 @@ let App = connect(select)(React.createClass({
     switch (this.props.currentView) {
       case "register":
         return (
-          <Login anonymous={this.props.anonymous} player={this.props.localPlayer} socket={socket} mode='register'></Login>
+          <Login anonymous={this.props.anonymous} 
+                    player={this.props.localPlayer} 
+                    socket={socket} 
+                      mode='register'>
+          </Login>
         );
       case "login":
         return (
@@ -72,7 +76,17 @@ let App = connect(select)(React.createClass({
         );
       case "play":
         return (
-          <GameRoom localPlayer={this.props.localPlayer} remotePlayer={this.props.remotePlayer} hand={localHand} remoteBoard={remoteBoard} localBoard={localBoard} remoteLife={remoteLife} localLife={localLife} remoteMana={remoteMana} localMana={localMana} socket={socket}></GameRoom>
+          <GameRoom localPlayer={this.props.localPlayer} 
+                   remotePlayer={this.props.remotePlayer} 
+                           hand={localHand} 
+                    remoteBoard={remoteBoard} 
+                     localBoard={localBoard} 
+                     remoteLife={remoteLife} 
+                      localLife={localLife} 
+                     remoteMana={remoteMana} 
+                      localMana={localMana} 
+                         socket={socket}>
+          </GameRoom>
         );
       case "console":
         return (
@@ -80,7 +94,10 @@ let App = connect(select)(React.createClass({
         );
       default:
         return (
-          <Welcome anonymous={this.props.anonymous} player={this.props.localPlayer} socket={socket}></Welcome>
+          <Welcome anonymous={this.props.anonymous} 
+                      player={this.props.localPlayer} 
+                      socket={socket}>
+          </Welcome>
         );
     } 
   }

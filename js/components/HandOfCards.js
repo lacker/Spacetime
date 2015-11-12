@@ -15,7 +15,13 @@ class HandOfCards extends React.Component {
     let handCards;
     if (this.props.cards) {
       handCards = this.props.cards.map((cardInfo, i) =>
-        <Card key={i} id={cardInfo.id} name={cardInfo.name} attack={cardInfo.attack} defense={cardInfo.defense} player={this.props.player} inPlay={{on:true}} />
+        <Card key={i} 
+               id={cardInfo.id} 
+             name={cardInfo.name} 
+           attack={cardInfo.attack} 
+          defense={cardInfo.defense} 
+           player={this.props.player} 
+           inPlay={{on:true}} />
       );
     }
     return (

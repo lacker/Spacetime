@@ -26,24 +26,37 @@ class GameRoom extends React.Component {
         
         <View style={roomStyles.gameArea}>
  
-          <HandOfCards type='remotePlayer'></HandOfCards>
+          <HandOfCards></HandOfCards>
 
           <View style={roomStyles.playerArea}>
-            <PlayerAvatar type='remotePlayer' player={this.props.remotePlayer} life={this.props.remoteLife}></PlayerAvatar>
-            <ManaView mana={this.props.remoteMana}></ManaView>
+            <PlayerAvatar player={this.props.remotePlayer} 
+                            life={this.props.remoteLife}>
+            </PlayerAvatar>
+            <ManaView mana={this.props.remoteMana}>
+            </ManaView>
           </View>
  
           <View style={[roomStyles.gameBoard]}>
-            <BoardOfCards type='remotePlayer' cards={this.props.remoteBoard} player={this.props.remotePlayer}></BoardOfCards>
-            <BoardOfCards type='localPlayer' cards={this.props.localBoard} player={this.props.localPlayer}></BoardOfCards>
+            <BoardOfCards cards={this.props.remoteBoard} 
+                         player={this.props.remotePlayer}>
+            </BoardOfCards>
+            <BoardOfCards cards={this.props.localBoard} 
+                         player={this.props.localPlayer}>
+            </BoardOfCards>
           </View>
  
           <View style={[roomStyles.playerArea, globalStyles.buttonContainer]}>
-            <PlayerAvatar type='localPlayer' player={this.props.localPlayer} life={this.props.localLife} ></PlayerAvatar>
-            <ManaView mana={this.props.localMana}></ManaView>
+            <PlayerAvatar player={this.props.localPlayer} 
+                            life={this.props.localLife}>
+            </PlayerAvatar>
+            <ManaView mana={this.props.localMana}>
+            </ManaView>
           </View>
 
-          <HandOfCards type='localPlayer' cards={this.props.hand} player={this.props.localPlayer} socket={this.props.socket}></HandOfCards>
+          <HandOfCards cards={this.props.hand} 
+                      player={this.props.localPlayer} 
+                      socket={this.props.socket}>
+          </HandOfCards>
 
         </View>
 
@@ -51,7 +64,8 @@ class GameRoom extends React.Component {
             <Button onPress={() => {
                 if (this.props.turn == this.localPlayer) {
                   console.log("HEY")
-                  let passAction = {type:'endTurn', player:this.props.localPlayer};
+                  let passAction = {type:'endTurn', 
+                                    player:this.props.localPlayer};
                   console.log(passAction)
                   this.props.socket.send(passAction);
                 }

@@ -15,7 +15,13 @@ class BoardOfCards extends React.Component {
     let boardCards;
     if (this.props.cards) {
       boardCards = this.props.cards.map((cardInfo, i) =>
-        <Card key={i} id={cardInfo.id} name={cardInfo.name} attack={cardInfo.attack} defense={cardInfo.defense} player={this.props.player} inPlay={{on:true}} />
+        <Card key={i} 
+               id={cardInfo.id} 
+             name={cardInfo.name} 
+           attack={cardInfo.attack} 
+          defense={cardInfo.defense} 
+           player={this.props.player} 
+           inPlay={{on:true}} />
       );
     }
     return (
