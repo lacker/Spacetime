@@ -37,6 +37,10 @@ socket.on('disconnect', () => {
 });
 
 socket.on('message', message => {
+  if (!message.type) {
+    console.log('ERROR: no type field in', message);
+    return;
+  }
   store.dispatch(message);
   console.log('received:', message);
 });

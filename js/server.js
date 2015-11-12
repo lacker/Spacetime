@@ -112,6 +112,7 @@ server.on('connection', socket => {
 
       // After each turn, we give the other player a card.
       let response = {
+        type: 'drawCard',
         player: opponent(message.player),
         card: Card.random(),
       };
