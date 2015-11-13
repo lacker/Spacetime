@@ -21,7 +21,7 @@ class BoardOfCards extends React.Component {
            attack={cardInfo.attack} 
           defense={cardInfo.defense} 
            player={this.props.player} 
-           inPlay={{on:true}} />
+           inPlay={true} />
       );
     }
     return (

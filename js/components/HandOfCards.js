@@ -21,7 +21,8 @@ class HandOfCards extends React.Component {
            attack={cardInfo.attack} 
           defense={cardInfo.defense} 
            player={this.props.player} 
-           inPlay={{on:true}} />
+           socket={this.props.socket} 
+           inPlay={false} />
       );
     }
     return (

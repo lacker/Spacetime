@@ -49,7 +49,7 @@ class Card extends React.Component {
          let distanceToBoard = styles.cardHeight + styles.cardHeight;
          if(Math.abs(this.state.pan.y._value) >= distanceToBoard) {
            toValue = -distanceToBoard;
-           if (this.props.inHand && !this.props.inPlay) {
+           if (!this.props.inPlay) {
              let playAction = {type:'play', 
                                cardId:this.props.id, 
                                player:this.props.player};
