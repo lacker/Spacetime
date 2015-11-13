@@ -183,21 +183,25 @@ let reducers = {
       throw Error(card.name + ' requires ' + card.cost + ' mana but ' +
                   action.player + ' only has ' + initialMana);
     }
+    let newMana = state.mana.update(
+      action.player, mana => mana - card.cost);
     let newHand = state.hand.update(
       action.player, hand => hand.delete(index));
+    state = {
+      ...state,
+      hand: newHand,
+      mana: newMana,
+    };
     if (card.attack) {
       // Put this card into play
       return {
           ...state,
-        hand: newHand,
-        board: state.board.update(
-          action.player, board => board.push(card)),
+        board: state.board.update(action.player, board => board.push(card)),
       };
     }
     
     // The card has an effect
-    return reduceEffect({...state, hand: newHand}, card.effect,
-                        action.targetId);
+    return reduceEffect(state, card.effect, action.targetId);
   },
 
   // action contains:
