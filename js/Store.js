@@ -172,8 +172,12 @@ let reducers = {
   //   targetId: optional. the id of the card this action is targeting.
   play: (state, action) => {
     let hand = state.hand.get(action.player);
-    let [index, card] = state.hand.get(action.player).findEntry(
-      c => c.id == action.cardId);
+    let entry = hand.findEntry(c => c.id == action.cardId);
+    if (!entry) {
+      throw Error(action.player + ' does not have cardId ' +
+                  action.cardId + ' in their hand');
+    }
+    let [index, card] = entry;
     let newHand = state.hand.update(
       action.player, hand => hand.delete(index));
     if (card.attack) {
