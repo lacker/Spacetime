@@ -178,6 +178,11 @@ let reducers = {
                   action.cardId + ' in their hand');
     }
     let [index, card] = entry;
+    let initialMana = state.mana.get(action.player);
+    if (card.cost > initialMana) {
+      throw Error(card.name + ' requires ' + card.cost + ' mana but ' +
+                  action.player + ' only has ' + initialMana);
+    }
     let newHand = state.hand.update(
       action.player, hand => hand.delete(index));
     if (card.attack) {

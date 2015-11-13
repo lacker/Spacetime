@@ -13,20 +13,24 @@ let CARDS = fromJS([
     name: 'Monobot',
     attack: 1,
     defense: 1,
+    cost: 1,
   }, {
     name: 'Bibot',
     attack: 2,
     defense: 2,
+    cost: 2,
   }, {
     name: 'Tribot',
     attack: 3,
     defense: 3,
+    cost: 3,
   }, {
     name: 'Bolt',
     effect: {
       type: 'damage',
       amount: 3,
     },
+    cost: 1,
   }]);
 
 // Turns the data for each card into a card object for a game.
