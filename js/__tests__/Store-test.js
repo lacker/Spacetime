@@ -98,6 +98,7 @@ describe('Store', () => {
       cardId: 1,
     });
     expect(s.getState().life.get('bob')).toEqual(29);
+    expect(s.getState().mana.get('alice')).toEqual(2);
 
     s.dispatch({
       type: 'play',
@@ -105,5 +106,6 @@ describe('Store', () => {
       cardId: 5, // the bolt
       targetId: 1, // bolting her own creature
     });
+    expect(s.getState().mana.get('alice')).toEqual(1);
   });
 });
