@@ -48,8 +48,10 @@ class Card extends React.Component {
          let toValue = 0;         
          let distanceToBoard = styles.cardHeight + styles.cardHeight;
          if(Math.abs(this.state.pan.y._value) >= distanceToBoard) {
-           toValue = -distanceToBoard;
-           if (!this.props.inPlay) {
+           console.log(this.props.playerMana + ' >= ' + this.props.cost);
+           if (!this.props.inPlay 
+               && this.props.playerMana >= this.props.cost) {
+             toValue = -distanceToBoard;
              let playAction = {type:'play', 
                                cardId:this.props.id, 
                                player:this.props.player};
@@ -92,11 +94,16 @@ class Card extends React.Component {
     return (
       <Animated.View style={[cardStyles.container, animatedCardStyles]} 
        {...this._panResponder.panHandlers}>
-        <Text>
-           {name}
-        </Text>
+        <View style={{flexDirection: 'row'}}>
+          <Text>
+             {name}
+          </Text>
+          <Text style={{textAlign: 'right', flex:1}}>
+           {this.props.cost}
+          </Text>
+        </View>
         <View style={[cardStyles.flexFill]}></View>
-        <View style={[cardStyles.cardStatsContainer]}>
+        <View style={{flexDirection: 'row'}}>
           <View style={[cardStyles.attackBackground]}>
             <Text>
                {attack}
@@ -115,9 +122,6 @@ class Card extends React.Component {
 }
 
 let cardStyles = StyleSheet.create({
-  cardStatsContainer: {
-    flexDirection: 'row',
-  },  
   attackBackground: {
     backgroundColor: 'gray',
   },
