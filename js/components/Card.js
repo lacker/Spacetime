@@ -95,10 +95,10 @@ class Card extends React.Component {
       <Animated.View style={[cardStyles.container, animatedCardStyles]} 
        {...this._panResponder.panHandlers}>
         <View style={{flexDirection: 'row'}}>
-          <Text>
+          <Text style={{flex:1}}>
              {name}
           </Text>
-          <Text style={{textAlign: 'right', flex:1}}>
+          <Text style={{textAlign: 'right', backgroundColor: 'black', color:'white'}}>
            {this.props.cost}
           </Text>
         </View>
