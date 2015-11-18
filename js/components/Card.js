@@ -31,35 +31,39 @@ class Card extends React.Component {
       onMoveShouldSetPanResponderCapture: () => true,
 
       onPanResponderGrant: (e, gestureState) => {
-                 Animated.spring(this.state.enter, {
-            toValue: .75,
-          }).start()
+        Animated.spring(this.state.enter, {
+          toValue: .75,
+        }).start();
 
         this.state.pan.setOffset({x: this.state.pan.x._value, 
                                   y: this.state.pan.y._value});
         this.state.pan.setValue({x: 0, y: 0});
       },
 
-      onPanResponderMove: Animated.event([
-        null, {dx: this.state.pan.x, dy: this.state.pan.y},
-      ]),
+      onPanResponderMove: (e, gestureState) => {
+        Animated.event([
+          null, {dx: this.state.pan.x, dy: this.state.pan.y},
+        ])(e, gestureState);
+      },
 
       onPanResponderRelease: (e, {vx, vy}) => {
-         let toValue = 0;         
-         let distanceToBoard = styles.cardHeight + styles.cardHeight;
-         if(Math.abs(this.state.pan.y._value) >= distanceToBoard) {
-           toValue = -distanceToBoard;
-           if (!this.props.inPlay) {
-             let playAction = {type:'play', 
-                               cardId:this.props.id, 
-                               player:this.props.player};
-             this.props.socket.send(playAction);
-           }
-         }
+        let toValue = 0;         
+        let distanceToBoard = styles.cardHeight + styles.cardHeight;
+        if (Math.abs(this.state.pan.y._value) >= distanceToBoard) {
+          toValue = -distanceToBoard;
+          if (!this.props.inPlay) {
+            let playAction = {
+              type: 'play', 
+              cardId: this.props.id, 
+              player: this.props.player,
+            };
+            this.props.socket.send(playAction);
+          }
+        }
 
-         Animated.spring(this.state.enter, {
-            toValue: 1,
-          }).start()
+        Animated.spring(this.state.enter, {
+          toValue: 1,
+        }).start();
 
         this.state.pan.flattenOffset();
         var velocity;
@@ -72,10 +76,10 @@ class Card extends React.Component {
 
         Animated.spring(this.state.pan, {
             toValue: {x: 0, y: toValue},
-            friction: 4
-        }).start()
+            friction: 4,
+        }).start();
       }
-    })
+    });
   }
 
   render() {
