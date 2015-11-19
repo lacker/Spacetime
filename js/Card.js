@@ -24,22 +24,22 @@ let TARGETS = {
 
 let CARDS = fromJS([
   {
-    name: 'Monobot',
+    name: 'Snake',
     attack: 1,
     defense: 1,
     cost: 1,
   }, {
-    name: 'Bibot',
+    name: 'Bear',
     attack: 2,
     defense: 2,
     cost: 2,
   }, {
-    name: 'Tribot',
+    name: 'Mammoth',
     attack: 3,
     defense: 3,
     cost: 3,
   }, {
-    name: 'Laser Blast',
+    name: 'Scorch',
     effect: {
       type: 'damage',
       amount: 3,
@@ -47,7 +47,7 @@ let CARDS = fromJS([
     },
     cost: 1,
   }, {
-    name: 'Vaporize',
+    name: 'Dissipate',
     effect: {
       type: 'destroy',
       target: TARGETS.ANY_PERMANENT,
@@ -80,6 +80,8 @@ function makeText(effect) {
   return text;
 }
 
+// return human readable text for part of a sentence
+// based on what the targets are for the effect of a card
 function makeTargetText(effect) {
   if (effect.get('target') == TARGETS.ANY_ANY) {
     return " any permanent or player.";
