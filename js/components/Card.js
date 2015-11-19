@@ -101,6 +101,11 @@ class Card extends React.Component {
            {this.props.cost}
           </Text>
         </View>
+        <View >
+          <Text numberOfLines={0}>
+             {this.props.text}
+          </Text>
+        </View>
         <View style={[cardStyles.flexFill]}></View>
         <View style={{flexDirection: 'row'}}>
           <View style={[cardStyles.attackBackground]}>
