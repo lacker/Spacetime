@@ -90,19 +90,24 @@ class Card extends React.Component {
     let scale = enter;
     let animatedCardStyles = {transform: [{translateX}, {translateY}, {scale}]};
  
+    // waiting for this PR to get merged to access adjustsFontSizeToFitWidth
+    // for card text
+    // card text can be cut off on iPhone 5 now
+    // https://github.com/facebook/react-native/pull/4026
+
     return (
       <Animated.View style={[cardStyles.container, animatedCardStyles]} 
        {...this._panResponder.panHandlers}>
         <View style={{flexDirection: 'row'}}>
-          <Text style={{flex:1}}>
+          <Text style={{fontSize: 12}} style={{flex:1}}>
              {name}
           </Text>
           <Text style={{textAlign: 'right', backgroundColor: 'black', color:'white'}}>
            {this.props.cost}
           </Text>
         </View>
-        <View >
-          <Text numberOfLines={0}>
+        <View>
+          <Text style={{fontSize: 8}} numberOfLines={0}>
              {this.props.text}
           </Text>
         </View>

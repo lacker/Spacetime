@@ -3,6 +3,20 @@
 let Immutable = require('immutable');
 let { fromJS, List, Map } = Immutable;
 
+// Possible values for target property
+let TARGETS = {
+    ALL_PERMANENTS      : -1,
+    ANY_PERMANENT       : 0,
+    ANY_PLAYER          : 1,
+    ANY_ANY             : 2,
+    OPPONENT_PLAYER     : 3,
+    OPPONENT_PERMANENT  : 4,
+    OPPONENT_ANY        : 5,
+    SELF_PLAYER         : 6,
+    SELF_PERMANENT      : 7,
+    SELF_ANY            : 8,
+}
+
 // TODO: is a card supposed to be immutable, or mutable? I forgot
 // initially that the serialization + deserialization will make the
 // card mutable, so some code expects things differently,
@@ -29,6 +43,7 @@ let CARDS = fromJS([
     effect: {
       type: 'damage',
       amount: 3,
+      target: TARGETS.ANY_ANY,
     },
     cost: 1,
   }]);
@@ -43,10 +58,14 @@ function makeCard(data) {
 
 // return human readable text for the effect of a card
 function makeText(effect) {
+  let text = ""
   if (effect && effect.get('type') == 'damage') {
-    return "Deal " + effect.get('amount') + " damage."
+    text = "Deal " + effect.get('amount') + " damage"
+    if (effect.get('target') == TARGETS.ANY_ANY) {
+      text += " to any permanent or player."
+    }
   }
-  return "";
+  return text;
 }
 
 function random() {
