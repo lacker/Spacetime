@@ -39,11 +39,18 @@ let CARDS = fromJS([
     defense: 3,
     cost: 3,
   }, {
-    name: 'Bolt',
+    name: 'Laser Blast',
     effect: {
       type: 'damage',
       amount: 3,
       target: TARGETS.ANY_ANY,
+    },
+    cost: 1,
+  }, {
+    name: 'Vaporize',
+    effect: {
+      type: 'destroy',
+      target: TARGETS.ANY_PERMANENT,
     },
     cost: 1,
   }]);
@@ -59,15 +66,28 @@ function makeCard(data) {
 // return human readable text for the effect of a card
 function makeText(effect) {
   let text = ""
-  if (effect && effect.get('type') == 'damage') {
-    text = "Deal " + effect.get('amount') + " damage"
-    if (effect.get('target') == TARGETS.ANY_ANY) {
-      text += " to any permanent or player."
-    }
+  if (!effect) {
+    return text;
+  }
+  if (effect.get('type') == 'damage') {
+    text = "Deal " + effect.get('amount') + " damage to";
+    text += makeTargetText(effect);
+  }
+  if (effect.get('type') == 'destroy') {
+    text = "Destroy";
+    text += makeTargetText(effect);
   }
   return text;
 }
 
+function makeTargetText(effect) {
+  if (effect.get('target') == TARGETS.ANY_ANY) {
+    return " any permanent or player.";
+  }
+  if (effect.get('target') == TARGETS.ANY_PERMANENT) {
+    return " any permanent.";
+  }
+}
 function random() {
   let data = CARDS.get(Math.floor(Math.random() * CARDS.size));
   return makeCard(data);
