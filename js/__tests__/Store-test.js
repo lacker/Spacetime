@@ -3,7 +3,7 @@
 jest.autoMockOff();
 
 let Card = require('../Card');
-let Store = require('../Store');
+let {Store} = require('../Store');
 
 // Applies actions to a new store
 function run(actions) {

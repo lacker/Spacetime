@@ -16,7 +16,7 @@ let { Provider } = require('react-redux/native')
 window.navigator.userAgent = 'react-native';
 let io = require('socket.io-client/socket.io');
 
-let Store = require('./js/Store');
+let {Store, reducer} = require('./js/Store');
 let store = Store();
 
 let guestName = 'guest' + Math.floor(Math.random() * 1000);
