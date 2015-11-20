@@ -41,6 +41,6 @@ module.exports = {
                   inPlayCardHeight: baseHeight,
                   cardHeight: baseHeight,
                   cardWidth: baseWidth,
-                  manaJewelSize: {width:25, height:25},
+                  manaJewelSize: {width:18, height:18},
                   padding: 5
                  };

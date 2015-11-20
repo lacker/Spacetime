@@ -84,7 +84,7 @@ function makeText(effect) {
 // based on what the targets are for the effect of a card
 function makeTargetText(effect) {
   if (effect.get('target') == TARGETS.ANY_ANY) {
-    return " any permanent or player.";
+    return " any target.";
   }
   if (effect.get('target') == TARGETS.ANY_PERMANENT) {
     return " any permanent.";
