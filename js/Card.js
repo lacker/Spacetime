@@ -37,7 +37,16 @@ let CARDS = fromJS([
 // Specifically, this puts an id on it, and sets health.
 let nextId = 1;
 function makeCard(data) {
-  return data.set('id', nextId++).set('health', data.get('defense'));
+  let cardText = makeText(data.get('effect'));
+  return data.set('text', cardText).set('id', nextId++).set('health', data.get('defense'));
+}
+
+// return human readable text for the effect of a card
+function makeText(effect) {
+  if (effect && effect.get('type') == 'damage') {
+    return "Deal " + effect.get('amount') + " damage."
+  }
+  return "";
 }
 
 function random() {
