@@ -34,12 +34,12 @@ let CARDS = fromJS([
     defense: 2,
     cost: 2,
   }, {
-    name: 'Mammoth',
+    name: 'Tiger',
     attack: 3,
     defense: 3,
     cost: 3,
   }, {
-    name: 'Scorch',
+    name: 'Zap',
     effect: {
       type: 'damage',
       amount: 3,
@@ -47,7 +47,7 @@ let CARDS = fromJS([
     },
     cost: 1,
   }, {
-    name: 'Dissipate',
+    name: 'Banish',
     effect: {
       type: 'destroy',
       target: TARGETS.ANY_PERMANENT,
