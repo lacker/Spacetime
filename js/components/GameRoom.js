@@ -62,7 +62,7 @@ class GameRoom extends React.Component {
         </View>
 
         <View style={roomStyles.rightButtonArea}>
-            <Button onPress={() => {
+            <Button style={roomStyles.button} onPress={() => {
                 if (this.props.turn == this.localPlayer) {
                   let passAction = {type:'endTurn', 
                                     player:this.props.localPlayer};
@@ -71,7 +71,7 @@ class GameRoom extends React.Component {
               }}>
               End Turn
             </Button>
-            <Button onPress={() => {
+            <Button style={roomStyles.button} onPress={() => {
               this.props.dispatch({type:'setView', view:'welcome'});
               }}>
               Resign
@@ -84,19 +84,23 @@ class GameRoom extends React.Component {
   }
 }
 
+
+let Device = require('react-native-device');
+
 let roomStyles = StyleSheet.create({
   roomContainer: {
     flex:1,
     backgroundColor:'yellow',
     flexDirection: 'row',
+    width: Device.width
   },
   gameBoard: {
     backgroundColor: 'purple',
-    height: styles.inPlayCardHeight * 2
+    height: styles.inPlayCardHeight * 2,
   },
   gameArea: {
-    flex:1,
     backgroundColor:'red',
+    width: Device.width - styles.buttonWidth - styles.padding*4
   },
   playerArea: {
     flex:0,
@@ -106,8 +110,10 @@ let roomStyles = StyleSheet.create({
     flexDirection: 'row',
   },
   rightButtonArea : {
-    width: 80,
     justifyContent: 'center',
+  },
+  button: {
+    width:styles.buttonWidth
   }
 });
 
