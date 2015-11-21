@@ -62,16 +62,18 @@ class GameRoom extends React.Component {
         </View>
 
         <View style={roomStyles.rightButtonArea}>
-            <Button style={roomStyles.button} onPress={() => {
-                if (this.props.turn == this.localPlayer) {
-                  let passAction = {type:'endTurn', 
-                                    player:this.props.localPlayer};
-                  this.props.socket.send(passAction);
-                }
-              }}>
+            <Button style={globalStyles.button} 
+            styleDisabled={{color: 'lightgray'}} 
+                 disabled={this.props.turn != this.props.localPlayer} 
+                  onPress={() => {
+                let passAction = {type:'endTurn', 
+                                  player:this.props.localPlayer};
+                this.props.dispatch(passAction);
+                this.props.socket.send(passAction);
+            }}>
               End Turn
             </Button>
-            <Button style={roomStyles.button} onPress={() => {
+            <Button style={globalStyles.button} onPress={() => {
               this.props.dispatch({type:'setView', view:'welcome'});
               }}>
               Resign
@@ -111,9 +113,6 @@ let roomStyles = StyleSheet.create({
   },
   rightButtonArea : {
     justifyContent: 'center',
-  },
-  button: {
-    width:styles.buttonWidth
   }
 });
 

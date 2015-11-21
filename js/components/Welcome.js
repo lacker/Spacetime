@@ -17,25 +17,24 @@ class Welcome extends React.Component {
   render() {
     let welcomeString = 'Welcome to Spacetime';
     let actionButton =           
-          <Button onPress={() => {
+          <Button style={[globalStyles.button,{backgroundColor: 'green'}]} onPress={() => {
               this.props.dispatch({type:'setView', view:'register'});
-            }} style={{backgroundColor: 'green'}}>
+            }}>
             Login
           </Button>;
     let guestPlay = null;
     if (!this.props.anonymous) {
       welcomeString += ', ' +  this.props.player;
       actionButton = 
-          <Button onPress={() => {
+          <Button style={[globalStyles.button,{backgroundColor: 'green', color: 'white'}]} onPress={() => {
               let seekAction = {type:'seeking', player:this.props.player};
               this.props.dispatch(seekAction);
               this.props.socket.send(seekAction);
-            }} 
-            style={{backgroundColor: 'green'}}>
+            }}>
             Play
           </Button>;      
     } else {
-      guestPlay = <Button onPress={() => {
+      guestPlay = <Button style={globalStyles.button} onPress={() => {
               let seekAction = {type:'seeking', player:this.props.player};
               this.props.dispatch(seekAction);
               this.props.socket.send(seekAction);
@@ -52,7 +51,7 @@ class Welcome extends React.Component {
         <View style={globalStyles.buttonContainer}>
           {actionButton}
           {guestPlay}
-          <Button onPress={() => {
+          <Button style={globalStyles.button} onPress={() => {
               this.props.dispatch({type:'setView', view:'console'});
             }}>
             Console
