@@ -17,8 +17,6 @@ let clamp = require('clamp');
 let styles = require('../styles');
 
 
-let MoveDispatcher = require('../MoveDispatcher');
-
 class Card extends React.Component {
 
   componentWillMount() {
@@ -62,8 +60,6 @@ class Card extends React.Component {
               cardId:this.props.id, 
               player:this.props.player,
             };
-            let dispatcher = new MoveDispatcher(store, reducer, socket);
-
             this.props.socket.send(playAction);
           }
         }
