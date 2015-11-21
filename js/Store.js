@@ -240,4 +240,4 @@ let Store = () => {
   return redux.createStore(reducer);
 };
 
-module.exports = Store;
+module.exports = {Store, reducer};
