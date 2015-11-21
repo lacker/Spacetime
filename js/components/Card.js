@@ -16,6 +16,9 @@ let {
 let clamp = require('clamp');
 let styles = require('../styles');
 
+
+let MoveDispatcher = require('../MoveDispatcher');
+
 class Card extends React.Component {
 
   componentWillMount() {
@@ -50,7 +53,8 @@ class Card extends React.Component {
         let toValue = 0;         
         let distanceToBoard = styles.cardHeight + styles.cardHeight;
         if (Math.abs(this.state.pan.y._value) >= distanceToBoard) {
-          if (!this.props.inPlay && 
+          if (this.props.type == 'permanent' &&
+              !this.props.inPlay && 
               this.props.playerMana >= this.props.cost) {
             toValue = -distanceToBoard;
             let playAction = {
@@ -58,6 +62,8 @@ class Card extends React.Component {
               cardId:this.props.id, 
               player:this.props.player,
             };
+            let dispatcher = new MoveDispatcher(store, reducer, socket);
+
             this.props.socket.send(playAction);
           }
         }

@@ -22,6 +22,7 @@ class HandOfCards extends React.Component {
           defense={cardInfo.defense} 
              text={cardInfo.text} 
              cost={cardInfo.cost} 
+             type={cardInfo.type} 
            player={this.props.player} 
        playerMana={this.props.playerMana} 
            socket={this.props.socket} 
