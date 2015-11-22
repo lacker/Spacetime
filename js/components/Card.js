@@ -15,7 +15,7 @@ let {
 
 let clamp = require('clamp');
 let styles = require('../styles');
-
+let { connect } = require('react-redux');
 
 class Card extends React.Component {
 
@@ -51,10 +51,7 @@ class Card extends React.Component {
         let toValue = 0;         
         let distanceToBoard = styles.cardHeight + styles.cardHeight;
         if (Math.abs(this.state.pan.y._value) >= distanceToBoard) {
-          if (this.props.type == 'permanent' &&
-              !this.props.inPlay && 
-              this.props.player == this.props.turn &&
-              this.props.playerMana >= this.props.cost) {
+          if (this.canPlay() && this.props.type == 'permanent') {
             toValue = -distanceToBoard;
             let playAction = {
               type:'play', 
@@ -62,6 +59,7 @@ class Card extends React.Component {
               player:this.props.player,
             };
             this.props.socket.send(playAction);
+            this.props.dispatch(playAction);
           }
         }
 
@@ -86,6 +84,12 @@ class Card extends React.Component {
     });
   }
 
+  canPlay() {
+    return !this.props.inPlay && 
+           this.props.player == this.props.turn &&
+           this.props.playerMana >= this.props.cost;
+  }
+
   render() {
 
     let name = this.props.name;
@@ -96,7 +100,11 @@ class Card extends React.Component {
     let [translateX, translateY] = [pan.x, pan.y];
     let scale = enter;
     let animatedCardStyles = {transform: [{translateX}, {translateY}, {scale}]};
- 
+     
+    let activeStyle = {};
+    if (!this.canPlay()) {
+      activeStyle = {color:'gray'}
+    }
     // waiting for this PR to get merged to access adjustsFontSizeToFitWidth
     // for card text
     // card text can be cut off on iPhone 5 now
@@ -106,7 +114,7 @@ class Card extends React.Component {
       <Animated.View style={[cardStyles.container, animatedCardStyles]} 
        {...this._panResponder.panHandlers}>
         <View style={{flexDirection: 'row'}}>
-          <Text style={{fontSize: 11, flex:1}} numberOfLines={1}>
+          <Text style={[{fontSize: 11, flex:1}, activeStyle]} numberOfLines={1}>
              {name}
           </Text>
           <Text style={{textAlign: 'right', backgroundColor: 'black', color:'white'}}>
@@ -114,7 +122,7 @@ class Card extends React.Component {
           </Text>
         </View>
         <View>
-          <Text style={{fontSize: 10, flex:1}} numberOfLines={4}>
+          <Text style={[{fontSize: 10, flex:1}, activeStyle]} numberOfLines={4}>
              {this.props.text}
           </Text>
         </View>
@@ -156,4 +164,4 @@ let cardStyles = StyleSheet.create({
   }
 });
 
-module.exports = Card;
+module.exports = connect()(Card);
