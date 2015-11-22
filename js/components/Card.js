@@ -53,6 +53,7 @@ class Card extends React.Component {
         if (Math.abs(this.state.pan.y._value) >= distanceToBoard) {
           if (this.props.type == 'permanent' &&
               !this.props.inPlay && 
+              this.props.player == this.props.turn &&
               this.props.playerMana >= this.props.cost) {
             toValue = -distanceToBoard;
             let playAction = {

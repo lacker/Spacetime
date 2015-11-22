@@ -56,6 +56,7 @@ class GameRoom extends React.Component {
           <HandOfCards cards={this.props.hand} 
                       playerMana={this.props.localMana}
                       player={this.props.localPlayer} 
+                        turn={this.props.turn}
                       socket={this.props.socket}>
           </HandOfCards>
 
