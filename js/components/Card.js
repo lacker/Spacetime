@@ -24,24 +24,40 @@ class Card extends React.Component {
     this.state = {
       pan: new Animated.ValueXY(),
       enter: new Animated.Value(1),
+      selected: false,
     }
 
     this._panResponder = PanResponder.create({
 
+      onStartShouldSetPanResponder: () => true,
       onMoveShouldSetResponderCapture: () => true,
       onMoveShouldSetPanResponderCapture: () => true,
 
       onPanResponderGrant: (e, gestureState) => {
-        Animated.spring(this.state.enter, {
-          toValue: .75,
-        }).start();
-
-        this.state.pan.setOffset({x: this.state.pan.x._value, 
-                                  y: this.state.pan.y._value});
-        this.state.pan.setValue({x: 0, y: 0});
+        if (this.state.selected &&
+            this.canPlay()) {
+          let playAction = {
+            type:'play', 
+            cardId:this.props.id, 
+            player:this.props.player,
+          };
+          this.props.dispatch(playAction);
+          this.props.socket.send(playAction);
+        }
+        this.setState({selected:!this.state.selected});
       },
 
       onPanResponderMove: (e, gestureState) => {
+        if (!this.state.hasStartedMoving) {
+          Animated.spring(this.state.enter, {
+            toValue: .75,
+          }).start();
+          this.state.pan.setOffset({x: this.state.pan.x._value, 
+                                    y: this.state.pan.y._value});
+          this.state.pan.setValue({x: 0, y: 0});
+          this.setState({hasStartedMoving:true});
+        }
+
         Animated.event([
           null, {dx: this.state.pan.x, dy: this.state.pan.y},
         ])(e, gestureState);
@@ -80,6 +96,8 @@ class Card extends React.Component {
             toValue: {x: 0, y: toValue},
             friction: 4,
         }).start();
+
+        this.setState({hasStartedMoving:false});
       }
     });
   }
@@ -103,15 +121,24 @@ class Card extends React.Component {
      
     let activeStyle = {};
     if (!this.canPlay()) {
-      activeStyle = {color:'gray'}
+      activeStyle['color'] = 'gray';
     }
+
+    let selectedStyle = {};
+    if (this.state.selected) {
+      selectedStyle['backgroundColor'] = 'red';
+    } else {
+      selectedStyle['backgroundColor'] = 'white';      
+    }
+    
+
     // waiting for this PR to get merged to access adjustsFontSizeToFitWidth
     // for card text
     // card text can be cut off on iPhone 5 now
     // https://github.com/facebook/react-native/pull/4026
 
     return (
-      <Animated.View style={[cardStyles.container, animatedCardStyles]} 
+      <Animated.View style={[cardStyles.container, animatedCardStyles, selectedStyle]} 
        {...this._panResponder.panHandlers}>
         <View style={{flexDirection: 'row'}}>
           <Text style={[{fontSize: 11, flex:1}, activeStyle]} numberOfLines={1}>
