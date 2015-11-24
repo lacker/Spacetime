@@ -34,17 +34,18 @@ class Card extends React.Component {
       onMoveShouldSetPanResponderCapture: () => true,
 
       onPanResponderGrant: (e, gestureState) => {
+        this.setState({selected:!this.state.selected});
         if (this.state.selected &&
-            this.canPlay()) {
+            this.canPlay() &&
+            this.props.type == 'permanent') {
           let playAction = {
             type:'play', 
             cardId:this.props.id, 
             player:this.props.player,
           };
-          this.props.dispatch(playAction);
           this.props.socket.send(playAction);
+          this.props.dispatch(playAction);
         }
-        this.setState({selected:!this.state.selected});
       },
 
       onPanResponderMove: (e, gestureState) => {

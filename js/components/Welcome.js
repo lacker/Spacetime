@@ -17,7 +17,7 @@ class Welcome extends React.Component {
   render() {
     let welcomeString = 'Welcome to Spacetime';
     let actionButton =           
-          <Button style={[globalStyles.button,{backgroundColor: 'green'}]} onPress={() => {
+          <Button textStyle={{color: 'white'}} style={[globalStyles.button,{backgroundColor: 'green'}]} onPress={() => {
               this.props.dispatch({type:'setView', view:'register'});
             }}>
             Login
@@ -26,7 +26,7 @@ class Welcome extends React.Component {
     if (!this.props.anonymous) {
       welcomeString += ', ' +  this.props.player;
       actionButton = 
-          <Button style={[globalStyles.button,{backgroundColor: 'green', color: 'white'}]} onPress={() => {
+          <Button textStyle={{color: 'white'}} style={[globalStyles.button,{backgroundColor: 'green'}]} onPress={() => {
               let seekAction = {type:'seeking', player:this.props.player};
               this.props.dispatch(seekAction);
               this.props.socket.send(seekAction);

@@ -30,7 +30,7 @@ let styles = StyleSheet.create({
   },
   button: {
     width:buttonWidth,
-    height:40,
+    height:45,
     backgroundColor: 'white',
     borderWidth: 1,
     color: 'black',
