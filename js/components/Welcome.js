@@ -15,7 +15,7 @@ let Button = styles.Button;
 
 class Welcome extends React.Component {
   render() {
-    let welcomeString = 'Welcome to Spacetime';
+    let welcomeString = 'Welcome to Wizard Duel';
     let actionButton =           
           <Button textStyle={{color: 'white'}} style={[globalStyles.button,{backgroundColor: 'green'}]} onPress={() => {
               this.props.dispatch({type:'setView', view:'register'});
