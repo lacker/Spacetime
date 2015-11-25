@@ -23,10 +23,22 @@ let Card = require('./Card');
 let initialState = {log: List()};
 
 // Applies an effect, defined by a string.
-function reduceEffect(state, effect, targetId) {
+function reduceEffect(state, effect, action) {
   switch(effect.type) {
+  case 'destroyRandom':
+    let target = null;
+    if (effect.target == Card.TARGETS.SELF_PLAYER) {
+      target = action.player;  
+    } else if (effect.target == Card.TARGETS.OPPONENT_PLAYER) {
+      if (state.localPlayer == action.player) {
+        target = state.remotePlayer; 
+      } else {
+        target = state.localPlayer; 
+      }
+    }
+    return destroyRandom(state, target);
   case 'damage':
-    return damage(state, targetId, effect.amount);
+    return damage(state, action.targetId, effect.amount);
   default:
     throw 'unknown effect type: ' + effect.type;
   }
@@ -55,6 +67,24 @@ function damage(state, cardId, amount) {
       };
     }));
 }
+
+// destroy a random card in target's board
+function destroyRandom(state, target) {
+  let board = state.board.get(target);
+  let card = board.get(Math.floor(Math.random() * board.size));
+  if (!card) {
+    return state;
+  }
+  return clearDeadCards(updateCard(
+    state, card.id,
+    card => {
+      return {
+        ...card,
+        health: 0,
+      };
+    }));
+}
+
 
 function clearDeadCards(state) {
   return {
@@ -201,7 +231,7 @@ let reducers = {
     }
     
     // The card has an effect
-    return reduceEffect(state, card.effect, action.targetId);
+    return reduceEffect(state, card.effect, action);
   },
 
   // action contains:

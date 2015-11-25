@@ -17,6 +17,8 @@ let clamp = require('clamp');
 let styles = require('../styles');
 let { connect } = require('react-redux');
 
+let CardFactory = require('../Card');
+
 class Card extends React.Component {
 
   componentWillMount() {
@@ -35,16 +37,31 @@ class Card extends React.Component {
 
       onPanResponderGrant: (e, gestureState) => {
         this.setState({selected:!this.state.selected});
+        let playCard = false;
         if (this.state.selected &&
-            this.canPlay() &&
-            this.props.type == 'permanent') {
-          let playAction = {
-            type:'play', 
-            cardId:this.props.id, 
-            player:this.props.player,
-          };
-          this.props.socket.send(playAction);
-          this.props.dispatch(playAction);
+            this.canPlay()) {
+          if(this.props.type == 'permanent') {
+            playCard = true;
+          } else {
+            // if it's a non-permanent, only cards with single targets 
+            // cane be tapped twice to play
+            if (this.props.effect.target == CardFactory.TARGETS.OPPONENT_PLAYER ||
+                this.props.effect.target == CardFactory.TARGETS.SELF_PLAYER) {
+              playCard = true;
+            }
+          }
+
+          // play the card if legal
+          if (playCard) {
+            let playAction = {
+              type:'play', 
+              cardId:this.props.id, 
+              player:this.props.player,
+            };
+            this.props.socket.send(playAction);
+            this.props.dispatch(playAction);            
+          }
+
         }
       },
 

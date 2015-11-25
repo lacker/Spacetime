@@ -51,6 +51,14 @@ let CARDS = fromJS([
     },
     cost: 1,
   }, {
+    name: 'Wildfire',
+    type: 'effect',
+    effect: {
+      type: 'destroyRandom',
+      target: TARGETS.OPPONENT_PLAYER,
+    },
+    cost: 1,
+  }, {
     name: 'Banish',
     type: 'effect',
     effect: {
@@ -82,6 +90,10 @@ function makeText(effect) {
     text = "Destroy";
     text += makeTargetText(effect);
   }
+  if (effect.get('type') == 'destroyRandom') {
+    text = "Destroy one random permanent";
+    text += makeTargetText(effect);
+  }
   return text;
 }
 
@@ -93,6 +105,12 @@ function makeTargetText(effect) {
   }
   if (effect.get('target') == TARGETS.ANY_PERMANENT) {
     return " any permanent.";
+  }
+  if (effect.get('target') == TARGETS.SELF_PLAYER) {
+    return " from you.";
+  }
+  if (effect.get('target') == TARGETS.OPPONENT_PLAYER) {
+    return " from an opponent.";
   }
 }
 function random() {
@@ -109,6 +127,7 @@ function withName(name) {
 }
 
 module.exports = {
+  TARGETS,
   random,
   withName,
 };
