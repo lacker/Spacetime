@@ -24,21 +24,25 @@ let initialState = {log: List()};
 
 // Applies an effect, defined by a string.
 function reduceEffect(state, effect, action) {
-  switch(effect.type) {
-  case 'destroyRandom':
-    let target = null;
-    if (effect.target == Card.TARGETS.SELF_PLAYER) {
-      target = action.player;  
-    } else if (effect.target == Card.TARGETS.OPPONENT_PLAYER) {
-      if (state.localPlayer == action.player) {
-        target = state.remotePlayer; 
-      } else {
-        target = state.localPlayer; 
-      }
+  let target = null;
+  if (effect.target == Card.TARGETS.SELF_PLAYER) {
+    target = action.player;  
+  } else if (effect.target == Card.TARGETS.OPPONENT_PLAYER) {
+    if (state.localPlayer == action.player) {
+      target = state.remotePlayer; 
+    } else {
+      target = state.localPlayer; 
     }
+  }
+switch(effect.type) {
+  case 'destroyRandom':
     return destroyRandom(state, target);
   case 'damage':
-    return damage(state, action.targetId, effect.amount);
+    if (target) {
+      return damagePlayer(state, target, effect.amount);
+    } else {
+      return damagePermanent(state, action.targetId, effect.amount);
+    }
   default:
     throw 'unknown effect type: ' + effect.type;
   }
@@ -57,7 +61,19 @@ function beginTurn(state, player) {
   };
 }
 
-function damage(state, cardId, amount) {
+function damagePlayer(state, player, amount) {
+  state = {
+    ...state,
+    life: state.life.update(player, m => m - amount),
+  };
+  return {
+    ...state,
+    life: state.life
+  };
+}
+
+
+function damagePermanent(state, cardId, amount) {
   return clearDeadCards(updateCard(
     state, cardId,
     card => {
@@ -125,11 +141,11 @@ let reducers = {
   //   cardId: the id of the card that's attacking
   //   targetId: the id of the card that's getting attacked
   attackCard: (state, action) => {
-    let attack = state.board.get(action.player).find(
+    let damage = state.board.get(action.player).find(
       c => c.id == action.cardId).attack;
     let opponent = state.players.find(p => p !== action.player);
     // TODO: also damage the attacker
-    return damage(state, targetId, attack);
+    return damagePermanent(state, targetId, damage);
   },
 
   // action contains:
