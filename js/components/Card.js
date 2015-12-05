@@ -44,7 +44,7 @@ class Card extends React.Component {
             playCard = true;
           } else {
             // if it's a non-permanent, only cards with single targets 
-            // cane be tapped twice to play
+            // can be tapped twice to play
             if (this.props.effect.target == CardFactory.TARGETS.OPPONENT_PLAYER ||
                 this.props.effect.target == CardFactory.TARGETS.SELF_PLAYER) {
               playCard = true;
