@@ -67,8 +67,7 @@ function damagePlayer(state, player, amount) {
     life: state.life.update(player, m => m - amount),
   };
   return {
-    ...state,
-    life: state.life
+    ...state
   };
 }
 
@@ -100,7 +99,6 @@ function destroyRandom(state, target) {
       };
     }));
 }
-
 
 function clearDeadCards(state) {
   return {
