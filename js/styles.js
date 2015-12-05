@@ -5,6 +5,9 @@ let {
 
 let Device = require('react-native-device');
 
+let buttonWidth = 80;
+let padding = 5;
+
 let styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -25,22 +28,28 @@ let styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
   },
-
+  button: {
+    width:buttonWidth,
+    height:45,
+    backgroundColor: 'white',
+    borderWidth: 1,
+    color: 'black',
+    borderColor: 'black',
+    marginBottom: padding,
+    borderRadius: 2,
+  }
 });
 
-
-// this seemed like worth not rewriting
-// should do a PR to add Android I think
-// https://github.com/APSL/react-native-button
-let Button = require('apsl-react-native-button');
+let Button = require('react-native-button');
 let baseHeight = (Device.height)/6;
-let baseWidth = (Device.width-80)/7;
+let baseWidth = (Device.width-buttonWidth)/7.0;
 module.exports = {
                   styles:styles, 
                   Button:Button,
+                  buttonWidth:buttonWidth,
                   inPlayCardHeight: baseHeight,
                   cardHeight: baseHeight,
                   cardWidth: baseWidth,
-                  manaJewelSize: {width:25, height:25},
-                  padding: 5
+                  manaJewelSize: {width:18, height:18},
+                  padding: padding
                  };

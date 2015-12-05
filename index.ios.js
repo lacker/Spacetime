@@ -89,6 +89,7 @@ let App = connect(select)(React.createClass({
                       localLife={localLife} 
                      remoteMana={remoteMana} 
                       localMana={localMana} 
+                           turn={this.props.turn}
                          socket={socket}>
           </GameRoom>
         );

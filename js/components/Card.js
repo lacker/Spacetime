@@ -15,6 +15,9 @@ let {
 
 let clamp = require('clamp');
 let styles = require('../styles');
+let { connect } = require('react-redux');
+
+let CardFactory = require('../Card');
 
 class Card extends React.Component {
 
@@ -23,24 +26,56 @@ class Card extends React.Component {
     this.state = {
       pan: new Animated.ValueXY(),
       enter: new Animated.Value(1),
+      selected: false,
     }
 
     this._panResponder = PanResponder.create({
 
+      onStartShouldSetPanResponder: () => true,
       onMoveShouldSetResponderCapture: () => true,
       onMoveShouldSetPanResponderCapture: () => true,
 
       onPanResponderGrant: (e, gestureState) => {
-        Animated.spring(this.state.enter, {
-          toValue: .75,
-        }).start();
+        this.setState({selected:!this.state.selected});
+        let playCard = false;
+        if (this.state.selected &&
+            this.canPlay()) {
+          if(this.props.type == 'permanent') {
+            playCard = true;
+          } else {
+            // if it's a non-permanent, only cards with single targets 
+            // can be tapped twice to play
+            if (this.props.effect.target == CardFactory.TARGETS.OPPONENT_PLAYER ||
+                this.props.effect.target == CardFactory.TARGETS.SELF_PLAYER) {
+              playCard = true;
+            }
+          }
 
-        this.state.pan.setOffset({x: this.state.pan.x._value, 
-                                  y: this.state.pan.y._value});
-        this.state.pan.setValue({x: 0, y: 0});
+          // play the card if legal
+          if (playCard) {
+            let playAction = {
+              type:'play', 
+              cardId:this.props.id, 
+              player:this.props.player,
+            };
+            this.props.socket.send(playAction);
+            this.props.dispatch(playAction);            
+          }
+
+        }
       },
 
       onPanResponderMove: (e, gestureState) => {
+        if (!this.state.hasStartedMoving) {
+          Animated.spring(this.state.enter, {
+            toValue: .75,
+          }).start();
+          this.state.pan.setOffset({x: this.state.pan.x._value, 
+                                    y: this.state.pan.y._value});
+          this.state.pan.setValue({x: 0, y: 0});
+          this.setState({hasStartedMoving:true});
+        }
+
         Animated.event([
           null, {dx: this.state.pan.x, dy: this.state.pan.y},
         ])(e, gestureState);
@@ -50,8 +85,7 @@ class Card extends React.Component {
         let toValue = 0;         
         let distanceToBoard = styles.cardHeight + styles.cardHeight;
         if (Math.abs(this.state.pan.y._value) >= distanceToBoard) {
-          if (!this.props.inPlay && 
-              this.props.playerMana >= this.props.cost) {
+          if (this.canPlay() && this.props.type == 'permanent') {
             toValue = -distanceToBoard;
             let playAction = {
               type:'play', 
@@ -59,6 +93,7 @@ class Card extends React.Component {
               player:this.props.player,
             };
             this.props.socket.send(playAction);
+            this.props.dispatch(playAction);
           }
         }
 
@@ -79,8 +114,16 @@ class Card extends React.Component {
             toValue: {x: 0, y: toValue},
             friction: 4,
         }).start();
+
+        this.setState({hasStartedMoving:false});
       }
     });
+  }
+
+  canPlay() {
+    return !this.props.inPlay && 
+           this.props.player == this.props.turn &&
+           this.props.playerMana >= this.props.cost;
   }
 
   render() {
@@ -93,20 +136,38 @@ class Card extends React.Component {
     let [translateX, translateY] = [pan.x, pan.y];
     let scale = enter;
     let animatedCardStyles = {transform: [{translateX}, {translateY}, {scale}]};
- 
+     
+    let activeStyle = {};
+    if (!this.canPlay()) {
+      activeStyle['color'] = 'gray';
+    }
+
+    let selectedStyle = {};
+    if (this.state.selected) {
+      selectedStyle['backgroundColor'] = 'red';
+    } else {
+      selectedStyle['backgroundColor'] = 'white';      
+    }
+    
+
+    // waiting for this PR to get merged to access adjustsFontSizeToFitWidth
+    // for card text
+    // card text can be cut off on iPhone 5 now
+    // https://github.com/facebook/react-native/pull/4026
+
     return (
-      <Animated.View style={[cardStyles.container, animatedCardStyles]} 
+      <Animated.View style={[cardStyles.container, animatedCardStyles, selectedStyle]} 
        {...this._panResponder.panHandlers}>
         <View style={{flexDirection: 'row'}}>
-          <Text style={{flex:1}}>
+          <Text style={[{fontSize: 11, flex:1}, activeStyle]} numberOfLines={1}>
              {name}
           </Text>
           <Text style={{textAlign: 'right', backgroundColor: 'black', color:'white'}}>
            {this.props.cost}
           </Text>
         </View>
-        <View >
-          <Text numberOfLines={0}>
+        <View>
+          <Text style={[{fontSize: 10, flex:1}, activeStyle]} numberOfLines={4}>
              {this.props.text}
           </Text>
         </View>
@@ -148,4 +209,4 @@ let cardStyles = StyleSheet.create({
   }
 });
 
-module.exports = Card;
+module.exports = connect()(Card);

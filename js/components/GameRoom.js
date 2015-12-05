@@ -56,22 +56,25 @@ class GameRoom extends React.Component {
           <HandOfCards cards={this.props.hand} 
                       playerMana={this.props.localMana}
                       player={this.props.localPlayer} 
+                        turn={this.props.turn}
                       socket={this.props.socket}>
           </HandOfCards>
 
         </View>
 
         <View style={roomStyles.rightButtonArea}>
-            <Button onPress={() => {
-                if (this.props.turn == this.localPlayer) {
-                  let passAction = {type:'endTurn', 
-                                    player:this.props.localPlayer};
-                  this.props.socket.send(passAction);
-                }
-              }}>
+            <Button style={globalStyles.button} 
+            styleDisabled={{color: 'lightgray'}} 
+                 disabled={this.props.turn != this.props.localPlayer} 
+                  onPress={() => {
+                let passAction = {type:'endTurn', 
+                                  player:this.props.localPlayer};
+                this.props.dispatch(passAction);
+                this.props.socket.send(passAction);
+            }}>
               End Turn
             </Button>
-            <Button onPress={() => {
+            <Button style={globalStyles.button} onPress={() => {
               this.props.dispatch({type:'setView', view:'welcome'});
               }}>
               Resign
@@ -84,19 +87,23 @@ class GameRoom extends React.Component {
   }
 }
 
+
+let Device = require('react-native-device');
+
 let roomStyles = StyleSheet.create({
   roomContainer: {
     flex:1,
     backgroundColor:'yellow',
     flexDirection: 'row',
+    width: Device.width
   },
   gameBoard: {
     backgroundColor: 'purple',
-    height: styles.inPlayCardHeight * 2
+    height: styles.inPlayCardHeight * 2,
   },
   gameArea: {
-    flex:1,
     backgroundColor:'red',
+    width: Device.width - styles.buttonWidth - styles.padding*4
   },
   playerArea: {
     flex:0,
@@ -106,7 +113,6 @@ let roomStyles = StyleSheet.create({
     flexDirection: 'row',
   },
   rightButtonArea : {
-    width: 80,
     justifyContent: 'center',
   }
 });

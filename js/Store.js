@@ -23,10 +23,26 @@ let Card = require('./Card');
 let initialState = {log: List()};
 
 // Applies an effect, defined by a string.
-function reduceEffect(state, effect, targetId) {
-  switch(effect.type) {
+function reduceEffect(state, effect, action) {
+  let target = null;
+  if (effect.target == Card.TARGETS.SELF_PLAYER) {
+    target = action.player;  
+  } else if (effect.target == Card.TARGETS.OPPONENT_PLAYER) {
+    if (state.localPlayer == action.player) {
+      target = state.remotePlayer; 
+    } else {
+      target = state.localPlayer; 
+    }
+  }
+switch(effect.type) {
+  case 'destroyRandom':
+    return destroyRandom(state, target);
   case 'damage':
-    return damage(state, targetId, effect.amount);
+    if (target) {
+      return damagePlayer(state, target, effect.amount);
+    } else {
+      return damagePermanent(state, action.targetId, effect.amount);
+    }
   default:
     throw 'unknown effect type: ' + effect.type;
   }
@@ -45,13 +61,41 @@ function beginTurn(state, player) {
   };
 }
 
-function damage(state, cardId, amount) {
+function damagePlayer(state, player, amount) {
+  state = {
+    ...state,
+    life: state.life.update(player, m => m - amount),
+  };
+  return {
+    ...state
+  };
+}
+
+
+function damagePermanent(state, cardId, amount) {
   return clearDeadCards(updateCard(
     state, cardId,
     card => {
       return {
         ...card,
         health: card.health - amount,
+      };
+    }));
+}
+
+// destroy a random card in target's board
+function destroyRandom(state, target) {
+  let board = state.board.get(target);
+  let card = board.get(Math.floor(Math.random() * board.size));
+  if (!card) {
+    return state;
+  }
+  return clearDeadCards(updateCard(
+    state, card.id,
+    card => {
+      return {
+        ...card,
+        health: 0,
       };
     }));
 }
@@ -95,11 +139,11 @@ let reducers = {
   //   cardId: the id of the card that's attacking
   //   targetId: the id of the card that's getting attacked
   attackCard: (state, action) => {
-    let attack = state.board.get(action.player).find(
+    let damage = state.board.get(action.player).find(
       c => c.id == action.cardId).attack;
     let opponent = state.players.find(p => p !== action.player);
     // TODO: also damage the attacker
-    return damage(state, targetId, attack);
+    return damagePermanent(state, targetId, damage);
   },
 
   // action contains:
@@ -201,7 +245,7 @@ let reducers = {
     }
     
     // The card has an effect
-    return reduceEffect(state, card.effect, action.targetId);
+    return reduceEffect(state, card.effect, action);
   },
 
   // action contains:
